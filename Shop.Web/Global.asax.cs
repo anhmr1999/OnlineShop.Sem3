@@ -19,6 +19,7 @@ namespace Shop.Web
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+            Bootstrapper.Initialise();
         }
 
         protected void Application_PostAuthenticateRequest(Object sender, EventArgs e)

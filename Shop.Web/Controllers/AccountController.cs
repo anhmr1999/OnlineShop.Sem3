@@ -2,7 +2,7 @@
 using Shop.EntityFramework;
 using Shop.EntityFramework.Entities;
 using Shop.Web.Authentications;
-using Shop.Web.Common;
+using Shop.EntityFramework.Common;
 using Shop.Web.Models;
 using System;
 using System.Collections.Generic;

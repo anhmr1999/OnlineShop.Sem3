@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\CommonAction.cs" />
     <Compile Include="Entities\ActorOrSinger.cs" />
     <Compile Include="Entities\Album.cs" />
     <Compile Include="Entities\Bill.cs" />

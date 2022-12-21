@@ -1,5 +1,6 @@
 ﻿using Shop.EntityFramework;
 using Shop.EntityFramework.Entities;
+using Shop.Web.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,9 +20,10 @@ namespace Shop.Web.Authentications
 
             using (ShopDbContext dbContext = new ShopDbContext())
             {
+                var md5Password = password.ToMd5();
                 var user = (from us in dbContext.Users
                             where string.Compare(username, us.Username, StringComparison.OrdinalIgnoreCase) == 0
-                            && string.Compare(password, us.Password, StringComparison.OrdinalIgnoreCase) == 0
+                            && string.Compare(md5Password, us.Password, StringComparison.OrdinalIgnoreCase) == 0
                             && us.IsActive == true
                             select us).FirstOrDefault();
 

@@ -1,0 +1,103 @@
+﻿@model Shop.Web.Models.RegistrationModel
+@{
+    ViewBag.Title = "Registration";
+}
+
+<section class="breadcrumb-area breadcrumb-bg" data-background="/assets/img/bg/breadcrumb_bg.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb-content">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Registration</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- contact-area -->
+<section class="contact-area contact-bg" data-background="/assets/img/bg/contact_bg.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-8 col-lg-7">
+                <div class="contact-form-wrap">
+                    <div class="widget-title mb-50">
+                        <h5 class="title">Registration Form</h5>
+                    </div>
+                    <div class="contact-form">
+                        <form action="@Url.Action("Login", "Account", new {returnUrl=ViewBag.returnUrl})" method="post">
+                            <div class="row">
+                                <div class="col-6">
+                                    <input type="text" placeholder="Username" value="@Model.Username">
+                                    @Html.ValidationMessageFor(model => model.Username, "")
+                                </div>
+                                <div class="col-6">
+                                    <input type="email" placeholder="Email" value="@Model.Email">
+                                    @Html.ValidationMessageFor(model => model.Email, "")
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <input type="text" placeholder="Surname" value="@Model.SurName">
+                                    @Html.ValidationMessageFor(model => model.SurName, "")
+                                </div>
+                                <div class="col-6">
+                                    <input type="text" placeholder="Name" value="@Model.Name">
+                                    @Html.ValidationMessageFor(model => model.Name, "")
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <input type="password" placeholder="Password">
+                                    @Html.ValidationMessageFor(model => model.Password, "")
+                                </div>
+                                <div class="col-6">
+                                    <input type="password" placeholder="ConfirmPassword">
+                                    @Html.ValidationMessageFor(model => model.ConfirmPassword, "")
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 text-right">
+                                    <button type="submit" class="btn">Login</button>
+                                </div>
+                                <div class="col-12 text-right mt-2">
+                                    <a href="@Url.Action("Login", "Account")" style="color: white ">Already have an account?<b>Log in now</b></a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-5">
+                <div class="widget-title mb-50">
+                    <h5 class="title">Information</h5>
+                </div>
+                <div class="contact-info-wrap">
+                    <p><span>Find solutions :</span> to common problems, or get help from a support agent industry's standard .</p>
+                    <div class="contact-info-list">
+                        <ul>
+                            <li>
+                                <div class="icon"><i class="fas fa-map-marker-alt"></i></div>
+                                <p><span>Address :</span> W38 Park Road New York</p>
+                            </li>
+                            <li>
+                                <div class="icon"><i class="fas fa-phone-alt"></i></div>
+                                <p><span>Phone :</span> (09) 123 854 365</p>
+                            </li>
+                            <li>
+                                <div class="icon"><i class="fas fa-envelope"></i></div>
+                                <p><span>Email :</span> <a href="#" class="__cf_email__">email&#160;protected</a></p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- contact-area-end -->

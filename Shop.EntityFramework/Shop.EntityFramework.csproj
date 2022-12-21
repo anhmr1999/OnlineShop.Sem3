@@ -80,11 +80,20 @@
     <Compile Include="Infrastructures\Repository\ReadOnlyRepository.cs" />
     <Compile Include="Infrastructures\Repository\Repository.cs" />
     <Compile Include="Infrastructures\UserPrincipal.cs" />
+    <Compile Include="Migrations\202212211058454_initdatabase.cs" />
+    <Compile Include="Migrations\202212211058454_initdatabase.designer.cs">
+      <DependentUpon>202212211058454_initdatabase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ShopDbContext.cs" />
     <Compile Include="ShopDbContextInitializer.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202212211058454_initdatabase.resx">
+      <DependentUpon>202212211058454_initdatabase.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />

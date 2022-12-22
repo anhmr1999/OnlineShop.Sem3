@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewBag.Title = "Add";
+}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Action("Index","")">Admin</a></li>
+        <li class="breadcrumb-item active" aria-current="page"><a href="@Url.Action("Index","category")">Category</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Add</li>
+    </ol>
+</nav>
+<div class="card card-primary">
+    <!-- /.card-header -->
+    <div class="card-body">
+        <form class="">
+            <div class="row">
+                <div class="col-sm-6">
+                    <!-- text input -->
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" class="form-control" placeholder="Enter Name">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Code </label>
+                        <input type="text" class="form-control" placeholder="Enter Code">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <!-- textarea -->
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea class="form-control" rows="3" placeholder="Enter ..."></textarea>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Category For </label>
+                        <input type="text" class="form-control" placeholder="Enter Category for">
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-outline-primary">Submit</button>
+        </form>
+    </div>
+    <!-- /.card-body -->
+</div>
+

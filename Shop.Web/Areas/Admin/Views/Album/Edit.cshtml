@@ -1,0 +1,58 @@
+﻿
+@{
+    ViewBag.Title = "Edit";
+}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Action("Index","")">Admin</a></li>
+        <li class="breadcrumb-item active" aria-current="page"><a href="@Url.Action("Index","album")">Album</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Edit</li>
+    </ol>
+</nav>
+<div class="card card-primary">
+    <!-- /.card-header -->
+    <div class="card-body">
+        <form class="">
+            <div class="row">
+                <div class="col-sm-6">
+                    <!-- text input -->
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" class="form-control" placeholder="Enter Name">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Code </label>
+                        <input type="text" class="form-control" placeholder="Enter Code">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <!-- textarea -->
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea class="form-control" rows="3" placeholder="Enter ..."></textarea>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Release Date:</label>
+
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                            </div>
+                            <input type="date" class="form-control" data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask>
+                        </div>
+                        <!-- /.input group -->
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-outline-primary">Submit</button>
+        </form>
+    </div>
+    <!-- /.card-body -->
+</div>
+

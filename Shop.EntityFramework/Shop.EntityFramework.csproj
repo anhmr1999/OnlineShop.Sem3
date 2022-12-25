@@ -63,7 +63,7 @@
     <Compile Include="Entities\Producer.cs" />
     <Compile Include="Entities\Product.cs" />
     <Compile Include="Entities\Sale.cs" />
-    <Compile Include="Entities\SongOrTrainerOrGame.cs" />
+    <Compile Include="Entities\SongOrTrailerOrGame.cs" />
     <Compile Include="Entities\Supplier.cs" />
     <Compile Include="Infrastructures\Consts\AuthenticationCookieNameConsts.cs" />
     <Compile Include="Infrastructures\Entities\Auditing\Entity.cs" />
@@ -81,23 +81,22 @@
     <Compile Include="Infrastructures\Repository\ReadOnlyRepository.cs" />
     <Compile Include="Infrastructures\Repository\Repository.cs" />
     <Compile Include="Infrastructures\UserPrincipal.cs" />
-    <Compile Include="Migrations\202212211058454_initdatabase.cs" />
-    <Compile Include="Migrations\202212211058454_initdatabase.designer.cs">
-      <DependentUpon>202212211058454_initdatabase.cs</DependentUpon>
+    <Compile Include="Migrations\202212241346380_init.cs" />
+    <Compile Include="Migrations\202212241346380_init.designer.cs">
+      <DependentUpon>202212241346380_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ShopDbContext.cs" />
-    <Compile Include="ShopDbContextInitializer.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\202212211058454_initdatabase.resx">
-      <DependentUpon>202212211058454_initdatabase.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202212241346380_init.resx">
+      <DependentUpon>202212241346380_init.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

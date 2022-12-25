@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Shop.EntityFramework.Entities
 {
-    public class SongOrTrainerOrGame : FullAuditedEntity
+    public class SongOrTrailerOrGame : FullAuditedEntity
     {
         [Required]
         public string Code { get; set; }

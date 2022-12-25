@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class initdatabase : DbMigration
+    public partial class init : DbMigration
     {
         public override void Up()
         {
@@ -28,7 +28,7 @@
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
-                "dbo.SongOrTrainerOrGames",
+                "dbo.SongOrTrailerOrGames",
                 c => new
                     {
                         Id = c.Guid(nullable: false),
@@ -154,7 +154,7 @@
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Albums", t => t.AbumId, cascadeDelete: true)
-                .ForeignKey("dbo.SongOrTrainerOrGames", t => t.SongId, cascadeDelete: true)
+                .ForeignKey("dbo.SongOrTrailerOrGames", t => t.SongId, cascadeDelete: true)
                 .Index(t => t.AbumId)
                 .Index(t => t.SongId);
             
@@ -315,16 +315,16 @@
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
-                "dbo.SongOrTrainerOrGameActorOrSingers",
+                "dbo.SongOrTrailerOrGameActorOrSingers",
                 c => new
                     {
-                        SongOrTrainerOrGame_Id = c.Guid(nullable: false),
+                        SongOrTrailerOrGame_Id = c.Guid(nullable: false),
                         ActorOrSinger_Id = c.Guid(nullable: false),
                     })
-                .PrimaryKey(t => new { t.SongOrTrainerOrGame_Id, t.ActorOrSinger_Id })
-                .ForeignKey("dbo.SongOrTrainerOrGames", t => t.SongOrTrainerOrGame_Id, cascadeDelete: true)
+                .PrimaryKey(t => new { t.SongOrTrailerOrGame_Id, t.ActorOrSinger_Id })
+                .ForeignKey("dbo.SongOrTrailerOrGames", t => t.SongOrTrailerOrGame_Id, cascadeDelete: true)
                 .ForeignKey("dbo.ActorOrSingers", t => t.ActorOrSinger_Id, cascadeDelete: true)
-                .Index(t => t.SongOrTrainerOrGame_Id)
+                .Index(t => t.SongOrTrailerOrGame_Id)
                 .Index(t => t.ActorOrSinger_Id);
             
             CreateTable(
@@ -346,21 +346,21 @@
         {
             DropForeignKey("dbo.UserRoles", "Role_Id", "dbo.Roles");
             DropForeignKey("dbo.UserRoles", "User_Id", "dbo.Users");
-            DropForeignKey("dbo.SongOrTrainerOrGames", "ProducerId", "dbo.Producers");
+            DropForeignKey("dbo.SongOrTrailerOrGames", "ProducerId", "dbo.Producers");
             DropForeignKey("dbo.Products", "Producer_Id", "dbo.Producers");
             DropForeignKey("dbo.Products", "SupplierId", "dbo.Suppliers");
             DropForeignKey("dbo.BillDetailts", "ProductId", "dbo.Products");
             DropForeignKey("dbo.BillDetailts", "BillId", "dbo.Bills");
             DropForeignKey("dbo.Products", "AlbumId", "dbo.Albums");
-            DropForeignKey("dbo.AlbumDetails", "SongId", "dbo.SongOrTrainerOrGames");
+            DropForeignKey("dbo.AlbumDetails", "SongId", "dbo.SongOrTrailerOrGames");
             DropForeignKey("dbo.AlbumDetails", "AbumId", "dbo.Albums");
-            DropForeignKey("dbo.SongOrTrainerOrGames", "CategoryId", "dbo.Categories");
-            DropForeignKey("dbo.SongOrTrainerOrGameActorOrSingers", "ActorOrSinger_Id", "dbo.ActorOrSingers");
-            DropForeignKey("dbo.SongOrTrainerOrGameActorOrSingers", "SongOrTrainerOrGame_Id", "dbo.SongOrTrainerOrGames");
+            DropForeignKey("dbo.SongOrTrailerOrGames", "CategoryId", "dbo.Categories");
+            DropForeignKey("dbo.SongOrTrailerOrGameActorOrSingers", "ActorOrSinger_Id", "dbo.ActorOrSingers");
+            DropForeignKey("dbo.SongOrTrailerOrGameActorOrSingers", "SongOrTrailerOrGame_Id", "dbo.SongOrTrailerOrGames");
             DropIndex("dbo.UserRoles", new[] { "Role_Id" });
             DropIndex("dbo.UserRoles", new[] { "User_Id" });
-            DropIndex("dbo.SongOrTrainerOrGameActorOrSingers", new[] { "ActorOrSinger_Id" });
-            DropIndex("dbo.SongOrTrainerOrGameActorOrSingers", new[] { "SongOrTrainerOrGame_Id" });
+            DropIndex("dbo.SongOrTrailerOrGameActorOrSingers", new[] { "ActorOrSinger_Id" });
+            DropIndex("dbo.SongOrTrailerOrGameActorOrSingers", new[] { "SongOrTrailerOrGame_Id" });
             DropIndex("dbo.BillDetailts", new[] { "ProductId" });
             DropIndex("dbo.BillDetailts", new[] { "BillId" });
             DropIndex("dbo.AlbumDetails", new[] { "SongId" });
@@ -368,10 +368,10 @@
             DropIndex("dbo.Products", new[] { "Producer_Id" });
             DropIndex("dbo.Products", new[] { "SupplierId" });
             DropIndex("dbo.Products", new[] { "AlbumId" });
-            DropIndex("dbo.SongOrTrainerOrGames", new[] { "CategoryId" });
-            DropIndex("dbo.SongOrTrainerOrGames", new[] { "ProducerId" });
+            DropIndex("dbo.SongOrTrailerOrGames", new[] { "CategoryId" });
+            DropIndex("dbo.SongOrTrailerOrGames", new[] { "ProducerId" });
             DropTable("dbo.UserRoles");
-            DropTable("dbo.SongOrTrainerOrGameActorOrSingers");
+            DropTable("dbo.SongOrTrailerOrGameActorOrSingers");
             DropTable("dbo.Sales");
             DropTable("dbo.Users");
             DropTable("dbo.Roles");
@@ -385,7 +385,7 @@
             DropTable("dbo.Products");
             DropTable("dbo.Producers");
             DropTable("dbo.Categories");
-            DropTable("dbo.SongOrTrainerOrGames");
+            DropTable("dbo.SongOrTrailerOrGames");
             DropTable("dbo.ActorOrSingers");
         }
     }

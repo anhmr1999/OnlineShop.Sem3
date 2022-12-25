@@ -21,7 +21,7 @@ namespace Shop.EntityFramework
         public DbSet<Product> Products { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Sale> Sales { get; set; }
-        public DbSet<SongOrTrainerOrGame> SongOrTrainerOrGames { get; set; }
+        public DbSet<SongOrTrailerOrGame> SongOrTrailerOrGames { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<User> Users { get; set; }
 

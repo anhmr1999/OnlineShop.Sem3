@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -61,6 +62,9 @@ namespace Shop.EntityFramework.Infrastructures.Repository
 
         public T Insert(T entity)
         {
+            if (entity.Id == default)
+                entity.Id = Guid.NewGuid();
+
             if (typeof(T).GetProperties().Any(x => x.Name == nameof(IHasCreation.CreationTime)))
             {
                 typeof(T).GetProperties().FirstOrDefault(x => x.Name == nameof(IHasCreation.CreationTime)).SetValue(entity, DateTime.Now);
@@ -81,6 +85,11 @@ namespace Shop.EntityFramework.Infrastructures.Repository
                 Insert(item);
             }
             return true;
+        }
+
+        public void SaveChange()
+        {
+            _context.SaveChanges();
         }
 
         public bool Update(T entity)

@@ -27,7 +27,7 @@
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="#" class="nav-link">Contact</a>
                 </li>
-               </ul>
+            </ul>
 
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
@@ -187,7 +187,7 @@
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
-    with font-awesome or any other icon font library -->
+                        with font-awesome or any other icon font library -->
                         <li class="nav-item">
                             <a href="../widgets.html" class="nav-link">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -200,7 +200,7 @@
                             <a href="@Url.Action("Index", "category")" class="nav-link">
                                 <i class="nav-icon fas fa-copy"></i>
                                 <p>
-                                    Quản lý danh mục
+                                    Category
                                 </p>
                             </a>
                         </li>
@@ -208,37 +208,74 @@
                             <a href="@Url.Action("Index", "actorOrSinger")" class="nav-link">
                                 <i class="nav-icon fas fa-chart-pie"></i>
                                 <p>
-                                    Quản lý nghệ sĩ
+                                    Actor or Singer
                                 </p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="@Url.Action("Index", "album")" class="nav-link">
-                                <i class="nav-icon fas fa-tree"></i>
-                                <p>
-                                    Quản lý Album
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="@Url.Action("Index", "song")" class="nav-link">
+                            <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-edit"></i>
                                 <p>
-                                    Quản lý bài hát
+                                    Product
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
+                                    <a href="@Url.Action("Index", "song")" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Song</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
                                     <a href="@Url.Action("Index", "trailer")" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Quản lý trailer</p>
+                                        <p>Trailer</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="@Url.Action("Index", "game")" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Quản lý game</p>
+                                        <p>Game review</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "album")" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>
+                                            Music albums
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "product")" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>
+                                            Sale Product
+                                        </p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon far fa-image"></i>
+                                <p>
+                                    Partner
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "song")" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Supplier</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "trailer")" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Producer</p>
                                     </a>
                                 </li>
                             </ul>
@@ -247,23 +284,7 @@
                             <a href="@Url.Action("Index", "user")" class="nav-link">
                                 <i class="nav-icon fas fa-table"></i>
                                 <p>
-                                    Quản lý tài khoản
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="@Url.Action("Index", "supplier")" class="nav-link">
-                                <i class="nav-icon far fa-calendar-alt"></i>
-                                <p>
-                                    Quản lý nhà sản xuất
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="@Url.Action("Index", "provider")" class="nav-link">
-                                <i class="nav-icon far fa-image"></i>
-                                <p>
-                                    Quản lý nhà cung cấp
+                                    Account
                                 </p>
                             </a>
                         </li>
@@ -271,15 +292,7 @@
                             <a href="@Url.Action("Index", "role")" class="nav-link">
                                 <i class="nav-icon fas fa-columns"></i>
                                 <p>
-                                    Quản lý vai trò
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="@Url.Action("Index", "product")" class="nav-link">
-                                <i class="nav-icon far fa-envelope"></i>
-                                <p>
-                                    Quản lý sản phẩm
+                                    Role
                                 </p>
                             </a>
                         </li>
@@ -287,7 +300,7 @@
                             <a href="@Url.Action("Index", "order")" class="nav-link">
                                 <i class="nav-icon fas fa-book"></i>
                                 <p>
-                                    Quản lý hóa đơn
+                                    Bill
                                 </p>
                             </a>
                         </li>
@@ -296,7 +309,7 @@
                             <a href="@Url.Action("Index", "news")" class="nav-link">
                                 <i class="nav-icon far fa-plus-square"></i>
                                 <p>
-                                    Quản lý tin tức
+                                    News
                                 </p>
                             </a>
                         </li>
@@ -304,15 +317,15 @@
                             <a href="@Url.Action("Index", "dicount")" class="nav-link">
                                 <i class="nav-icon fas fa-ellipsis-h"></i>
                                 <p>
-                                    Quản lý khuyến mãi
+                                    Sale
                                 </p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="../widgets.html" class="nav-link">
+                            <a href="@Url.Action("Logout", "Account", new {Area = string.Empty})" class="nav-link">
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>
-                                    Widgets
+                                    Logout
                                 </p>
                             </a>
                         </li>
@@ -360,7 +373,6 @@
         <!-- /.control-sidebar -->
     </div>
     <!-- ./wrapper -->
-
     <!-- jQuery -->
     <script src="~/assets/manager/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
@@ -369,5 +381,7 @@
     <script src="~/assets/manager/dist/js/adminlte.min.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="~/assets/manager/dist/js/demo.js"></script>
+
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

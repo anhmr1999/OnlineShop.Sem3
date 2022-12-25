@@ -21,5 +21,7 @@ namespace Shop.EntityFramework.Infrastructures.Repository
         bool DeleteMany(IEnumerable<T> entities);
         bool DeleteMany(T[] entities);
         bool DeleteMany(Func<T, Boolean> predicate);
+
+        void SaveChange();
     }
 }

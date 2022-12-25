@@ -31,6 +31,6 @@ namespace Shop.EntityFramework.Entities
         [ForeignKey("AbumId")]
         public Album Album { get; set; }
         [ForeignKey("SongId")]
-        public SongOrTrainerOrGame Song { get; set; }
+        public SongOrTrailerOrGame Song { get; set; }
     }
 }

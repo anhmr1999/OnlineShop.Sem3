@@ -122,5 +122,15 @@ namespace Shop.Web.Controllers
 
             return View(registrationModel);
         }
+
+        public ActionResult LogOut()
+        {
+            HttpCookie cookie = new HttpCookie(AuthenticationCookieNameConsts.AuthenticationCookieName, "");
+            cookie.Expires = DateTime.Now.AddYears(-1);
+            Response.Cookies.Add(cookie);
+
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Login", "Account", null);
+        }
     }
 }

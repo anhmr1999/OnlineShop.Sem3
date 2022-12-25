@@ -18,6 +18,6 @@ namespace Shop.EntityFramework.Entities
         public bool? CateFor { get; set; } // null trainer, true song, false game
         public string Description { get; set; }
 
-        public ICollection<SongOrTrainerOrGame> SongOrTrainerOrGames { get; set; }
+        public ICollection<SongOrTrailerOrGame> SongOrTrailerOrGames { get; set; }
     }
 }

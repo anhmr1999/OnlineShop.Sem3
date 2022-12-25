@@ -1,6 +1,9 @@
-﻿
+﻿@using Shop.Web.Common
+@using Shop.EntityFramework.Entities
+@model CommonListResult<ActorOrSinger>
 @{
     ViewBag.Title = "Index";
+    var index = (Model.Filter.PageIndex - 1) * 10 + 1;
 }
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
@@ -10,53 +13,60 @@
 </nav>
 <!-- table -->
 <section class="card p-2">
-    <div class="d-flex justify-content-between mb-2">
-        <h2>Table</h2>
-        <a href="@Url.Action("Index","actorOrSinger/add")" class="btn btn-outline-primary pb-1">Thêm Nghệ sĩ</a>
-    </div>
+    <form method="get">
+        <input type="hidden" name="pageIndex" value="@Model.Filter.PageIndex" />
+        <div class="row">
+            <div class="col-md-3 form-group">
+                <input class="form-control" name="searchKey" placeholder="Search key..." value="@Model.Filter.SearchKey" />
+            </div>
+            <div class="col-md-3 form-group">
+                <button type="submit" class="btn btn-outline-primary">Search</button>
+            </div>
+            <div class="col-md-6 text-right">
+                <a href="@Url.Action("Add", "ActorOrSinger")" class="btn btn-outline-danger">New Actor or Single</a>
+            </div>
+        </div>
+    </form>
     <table class="table table-bordered">
         <thead>
             <tr>
                 <th scope="col">STT</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
-                <th style="width:150px" class="text-center">Action</th>
+                <th scope="col">Code</th>
+                <th scope="col">Name</th>
+                <th scope="col">Dob</th>
+                <th scope="col">Title</th>
+                <th style="width:220px" class="text-center">Action</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>mdo</td>
-                <td class="text-center"><a href="@Url.Action("Index", "actorOrSinger/edit")" class="btn btn-outline-primary">Edit</a></td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>fat</td>
-                <td class="text-center"><a href="@Url.Action("Index", "actorOrSinger/edit")" class="btn btn-outline-primary">Edit</a></td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>   
-                <td>twitter</td>
-                <td class="text-center"><a href="@Url.Action("Index", "actorOrSinger/edit")" class="btn btn-outline-primary">Edit</a></td>
-            </tr>
+            @foreach (var item in Model.List)
+            {
+                <tr>
+                    <th scope="row">@index</th>
+                    <td>@item.Code</td>
+                    <td>@item.Name</td>
+                    <td>@(item.Dob.HasValue ? item.Dob.Value.ToString("dd/MM/yyyy") : "Chưa rõ")</td>
+                    <td>@item.Title</td>
+                    <td class="text-center">
+                        <a href="@Url.Action("Edit", "ActorOrSinger", new {id = item.Id})" class="btn btn-outline-success">View</a>
+                        <a href="@Url.Action("Edit", "ActorOrSinger", new {id = item.Id})" class="btn btn-outline-primary">Edit</a>
+                        <a href="@Url.Action("Edit", "ActorOrSinger", new {id = item.Id})" class="btn btn-outline-danger">Delete</a>
+                    </td>
+                </tr>
+                index++;
+            }
         </tbody>
     </table>
     <nav aria-label="Page navigation example right ">
         <ul class="pagination justify-content-end">
-            <li class="page-item disabled">
+            <li class="page-item @(Model.Filter.PageIndex - 1 == 0 ? "disabled" : "")">
                 <a class="page-link" href="#" tabindex="-1">Previous</a>
             </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
+            @for (int i = 1; i <= Model.TotalPage; i++)
+            {
+                <li class="page-item @(Model.Filter.PageIndex == i ? "active" : "")"><a class="page-link" href="#" data-page="@i">@i</a></li>
+            }
+            <li class="page-item @(Model.Filter.PageIndex == Model.TotalPage ? "disabled" : "")">
                 <a class="page-link" href="#">Next</a>
             </li>
         </ul>

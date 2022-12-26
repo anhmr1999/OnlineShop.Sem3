@@ -13,5 +13,15 @@ namespace Shop.Web.Areas.Admin.Controllers
         {
             return View();
         }
+        // GET: Admin/User/Add
+        public ActionResult Add()
+        {
+            return View();
+        }
+        // GET: Admin/User/Edit
+        public ActionResult Edit()
+        {
+            return View();
+        }
     }
 }

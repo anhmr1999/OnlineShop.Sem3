@@ -13,7 +13,7 @@ namespace Shop.EntityFramework.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202212241346380_init"; }
+            get { return "202212260650376_init"; }
         }
         
         string IMigrationMetadata.Source

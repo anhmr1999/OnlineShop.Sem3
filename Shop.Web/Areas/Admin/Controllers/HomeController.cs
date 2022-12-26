@@ -11,6 +11,7 @@ namespace Shop.Web.Areas.Admin.Controllers
         // GET: Admin/Home
         public ActionResult Index()
         {
+            ViewData["key"] = "ggggg";
             return View();
         }
     }

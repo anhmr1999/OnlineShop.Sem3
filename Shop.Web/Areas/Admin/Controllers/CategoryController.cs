@@ -22,7 +22,8 @@ namespace Shop.Web.Areas.Admin.Controllers
         public ActionResult Index(CategoryAdminFilter filter)
         {
             var query = _categoryRepository.GetQueryable()
-                .Where(x => x.CateFor == filter.CateFor)
+                //.Where(x => x.CateFor == filter.CateFor)
+                .WhereIf(filter.CateFor!=true, x=> x.CateFor==filter.CateFor)
                 .WhereIf(!string.IsNullOrEmpty(filter.SearchKey), x => x.Code.ToLower().Contains(filter.SearchKey) || x.Name.ToLower().Contains(filter.SearchKey) || x.Description.ToLower().Contains(filter.SearchKey));
             var model = new CommonListResult<Category>();
             model.Filter = filter;

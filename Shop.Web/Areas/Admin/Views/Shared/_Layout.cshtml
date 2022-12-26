@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="~/assets/manager/plugins/fontawesome-free/css/all.min.css">
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="~/assets/manager/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="~/assets/manager/dist/css/adminlte.min.css">
 </head>
@@ -381,6 +383,13 @@
     <script src="~/assets/manager/dist/js/adminlte.min.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="~/assets/manager/dist/js/demo.js"></script>
+    <script src="~/assets/manager/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+    <script>
+        $("input[data-bootstrap-switch]").each(function () {
+            $(this).bootstrapSwitch('state', $(this).prop('checked'));
+        })
+
+    </script>
 
     @RenderSection("Scripts", required: false)
 </body>

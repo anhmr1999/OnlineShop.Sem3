@@ -2394,6 +2394,8 @@
     <Content Include="Areas\Admin\Views\Album\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Album\Add.cshtml" />
     <Content Include="Areas\Admin\Views\Album\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\User\Add.cshtml" />
+    <Content Include="Areas\Admin\Views\User\Edit.cshtml" />
     <None Include="packages.config" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Registration.cshtml" />

@@ -102,6 +102,14 @@ namespace Shop.Web.Areas.Admin.Controllers
             _actorRepository.Insert(actor);
             _actorRepository.SaveChange();
             return RedirectToAction("Index");
+
+        }
+        public ActionResult View(Guid id)
+        {
+            var actor = _actorRepository.Get(id);
+            if (actor == null)
+                return RedirectToAction("Index");
+            return Json(actor,JsonRequestBehavior.AllowGet);
         }
     }
 }

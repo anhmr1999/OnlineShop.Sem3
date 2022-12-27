@@ -1,4 +1,5 @@
 ﻿
+@model Shop.EntityFramework.Entities.Album
 @{
     ViewBag.Title = "Edit";
 }
@@ -12,31 +13,28 @@
 <div class="card card-primary">
     <!-- /.card-header -->
     <div class="card-body">
-        <form class="">
+        <form class="" method="post">
+            @Html.AntiForgeryToken()
             <div class="row">
                 <div class="col-sm-6">
                     <!-- text input -->
                     <div class="form-group">
                         <label>Name</label>
-                        <input type="text" class="form-control" placeholder="Enter Name">
+                        <input name="Name" type="text" class="form-control" placeholder="Enter Name" value="@Model.Name">
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                     </div>
-                </div>
-                <div class="col-sm-6">
+
                     <div class="form-group">
                         <label>Code </label>
-                        <input type="text" class="form-control" placeholder="Enter Code">
+                        <input type="text" name="Code" class="form-control" placeholder="Enter Code" value="@Model.Code">
+                        @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
                     </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6">
+
                     <!-- textarea -->
                     <div class="form-group">
                         <label>Description</label>
-                        <textarea class="form-control" rows="3" placeholder="Enter ..."></textarea>
+                        <textarea name="Description" class="form-control" rows="3" placeholder="Enter ...">@Model.Description</textarea>
                     </div>
-                </div>
-                <div class="col-sm-6">
                     <div class="form-group">
                         <label>Release Date:</label>
 
@@ -44,13 +42,19 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                             </div>
-                            <input type="date" class="form-control" data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask>
+                            <input name="ReleaseDate" value="" type="date" class="form-control" data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask>
                         </div>
                         <!-- /.input group -->
                     </div>
+                    <div>
+                        <div class="col-sm-12 text-right">
+                            <a class="btn btn-outline-danger" href="@Url.Action("Index", "Album")">Back to list</a>
+                            <button class="btn btn-outline-primary">Save</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <button class="btn btn-outline-primary">Submit</button>
+
         </form>
     </div>
     <!-- /.card-body -->

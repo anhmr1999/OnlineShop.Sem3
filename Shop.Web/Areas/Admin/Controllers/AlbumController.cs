@@ -28,20 +28,63 @@ namespace Shop.Web.Areas.Admin.Controllers
             model.List = query.OrderByDescending(x => x.CreationTime).PagedBy(filter).ToList();
             return View(model);
         }
-        // GET: Admin/Album
-        public ActionResult Index()
-        {
-            return View();
-        }
+     
         // GET: Admin/Album/add
         public ActionResult Add()
         {
-            return View();
+          return  View(new Album());
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Add(Album album)
+        {
+            if (!ModelState.IsValid)
+                return View(album);
+
+            if (_album.Any(x => x.Code.ToLower() == album.Code.ToLower()))
+            {
+                ModelState.AddModelError(nameof(Album.Code), $"code {album.Code} has been used");
+                return View(album);
+            }
+
+            album.Code = album.Code.ToLower();
+            _album.Insert(album);
+            _album.SaveChange();
+            return RedirectToAction("Index");
+
         }
         // GET: Admin/Album/edit
-        public ActionResult Edit()
+        public ActionResult Edit(Guid id)
         {
-            return View();
+            var album = _album.Get(id);
+            if (album == null)
+                return RedirectToAction("Index");
+            return View(album);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(Guid id, Album album)
+        {
+            if (!ModelState.IsValid)
+                return View(album);
+
+            if (_album.Any(x => x.Code.ToLower() == album.Code.ToLower() && x.Id != id))
+            {
+                ModelState.AddModelError(nameof(Album.Code), $"code {album.Code} has been used");
+                return View(album);
+            }
+            var cate = _album.Get(id);
+            if (cate == null)
+                return RedirectToAction("Index");
+
+            cate.Code = album.Code.ToLower();
+            cate.Name = album.Name;
+            cate.ReleaseDate = album.ReleaseDate;
+            cate.Description = album.Description;
+
+            _album.Update(cate);
+            _album.SaveChange();
+            return RedirectToAction("Index");
         }
     }
 }

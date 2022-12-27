@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace Shop.Web.Areas.Admin.Controllers
 {
@@ -23,7 +24,7 @@ namespace Shop.Web.Areas.Admin.Controllers
         {
             var query = _categoryRepository.GetQueryable()
                 //.Where(x => x.CateFor == filter.CateFor)
-                .WhereIf(filter.CateFor!=true, x=> x.CateFor==filter.CateFor)
+                .Where( x=> x.CateFor==filter.CateFor)
                 .WhereIf(!string.IsNullOrEmpty(filter.SearchKey), x => x.Code.ToLower().Contains(filter.SearchKey) || x.Name.ToLower().Contains(filter.SearchKey) || x.Description.ToLower().Contains(filter.SearchKey));
             var model = new CommonListResult<Category>();
             model.Filter = filter;
@@ -103,5 +104,15 @@ namespace Shop.Web.Areas.Admin.Controllers
             _categoryRepository.SaveChange();
             return RedirectToAction("Index");
         }
+
+        public ActionResult View(Guid id)
+        {
+           
+            var cate = _categoryRepository.Get(id);
+            if (cate == null)
+                return RedirectToAction("Index");
+            return Json(cate,JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

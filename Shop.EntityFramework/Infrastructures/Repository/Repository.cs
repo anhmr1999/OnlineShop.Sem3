@@ -21,7 +21,7 @@ namespace Shop.EntityFramework.Infrastructures.Repository
 
         public bool Delete(T entity)
         {
-            var removeEntity = _dbSet.FirstOrDefault(x => x == entity);
+            var removeEntity = _dbSet.FirstOrDefault(x => x.Id == entity.Id);
 
             if (removeEntity == null)
                 return false;

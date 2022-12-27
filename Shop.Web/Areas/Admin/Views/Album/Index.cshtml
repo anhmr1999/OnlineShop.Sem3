@@ -1,6 +1,9 @@
-﻿
+﻿@using Shop.Web.Common
+@using Shop.EntityFramework.Entities
+@model CommonListResult<Album>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Album";
+    var index = (Model.Filter.PageIndex - 1) * 10 + 1;
 }
 
 <nav aria-label="breadcrumb">
@@ -11,42 +14,49 @@
 </nav>
 <!-- table -->
 <section class="card p-2">
-    <div class="d-flex justify-content-between mb-2">
-        <h2>Table</h2>
-        <a href="@Url.Action("Index", "category/add")" class="btn btn-outline-primary">Thêm Album</a>
-    </div>
+    <form method="get">
+        <input type="hidden" name="pageIndex" value="" />
+        <div class="row">
+            <div class="col-md-3 form-group">
+                <input class="form-control" name="searchKey" placeholder="Search key..." value="" />
+            </div>
+            <div class="col-md-3 form-group">
+                <button type="submit" class="btn btn-outline-primary">Search</button>
+            </div>
+            <div class="col-md-3 text-right">
+                <a href="@Url.Action("Add", "Album")" class="btn btn-outline-danger">New Album</a>
+            </div>
+        </div>
+    </form>
     <table class="table table-bordered">
         <thead>
             <tr>
                 <th scope="col">STT</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
-                <th style="width:150px" class="text-center">Action</th>
+                <th scope="col">Code</th>
+                <th scope="col">Name</th>
+                <th scope="col">Realease Date</th>
+                <th scope="col">Description</th>
+                <th style="width:220px" class="text-center">Action</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>mdo</td>
-                <td class="text-center"><a href="@Url.Action("Index", "album/edit")" class="btn btn-outline-primary">Edit</a></td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>fat</td>
-                <td class="text-center"><a href="@Url.Action("Index", "album/edit")" class="btn btn-outline-primary">Edit</a></td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>twitter</td>
-                <td class="text-center"><a href="@Url.Action("Index", "album/edit")" class="btn btn-outline-primary">Edit</a></td>
-            </tr>
+            
+            @foreach (var item in Model.List)
+            {
+                <tr>
+                    <th scope="row">@index</th>
+                    <td>@item.Code</td>
+                    <td>@item.Name</td>
+                    <td>@(item.ReleaseDate.HasValue ? item.ReleaseDate.Value.ToString("dd/MM/yyyy") : "Chưa rõ")</td>
+                    <td>@item.Description</td>
+                    <td class="text-center">
+                        <a href="@Url.Action("View", "Album", new {id = item.Id})" class="btn btn-outline-success" data-toggle="modal" data-target="#exampleModalCenter">View</a>
+                        <a href="@Url.Action("Edit", "Album", new {id = item.Id})" class="btn btn-outline-primary">Edit</a>
+                        <a href="@Url.Action("Edit", "Album", new {id = item.Id})" class="btn btn-outline-danger">Delete</a>
+                    </td>
+                </tr>
+                index++;
+            }
         </tbody>
     </table>
     <nav aria-label="Page navigation example right ">

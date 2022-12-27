@@ -1,13 +1,13 @@
-﻿@model Shop.EntityFramework.Entities.Category
+﻿
 @{
-    ViewBag.Title = "Add";
+    ViewBag.Title = "Edit";
 }
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="@Url.Action("Index","Home")">Admin</a></li>
-        <li class="breadcrumb-item active" aria-current="page"><a href="@Url.Action("Index","Category")">Category</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Add</li>
+        <li class="breadcrumb-item active" aria-current="page"><a href="@Url.Action("Index","News")">News</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Edit</li>
     </ol>
 </nav>
 <div class="card card-primary">
@@ -16,44 +16,51 @@
         <div class="row">
             <div class="col-md-6">
                 <form method="post">
-                    @Html.AntiForgeryToken()
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label>Code <span style="color: red">*</span></label>
-                                <input type="text" class="form-control" placeholder="Enter Code" name="code" required value="@Model.Code">
-                                @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+                                <input type="text" class="form-control" placeholder="Enter Code" name="code" required value="">
+
                             </div>
                         </div>
                         <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Name <span style="color: red">*</span></label>
-                                <input type="text" class="form-control" placeholder="Enter Name" name="name" required value="@Model.Name">
-                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                <input type="text" class="form-control" placeholder="Enter Name" name="name" required value="">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-12">
+                            <!-- textarea -->
                             <div class="form-group">
-                                <label>Category For <span style="color: red">*</span></label>
-                                <select class="form-control" name="cateFor" required>
-                                    <option value="true" @(Model.CateFor == true ? "selected" : "")>-- For Song --</option>
-                                    <option value="false" @(Model.CateFor == false ? "selected" : "")>-- For Game --</option>
-                                    <option value="null" @(Model.CateFor == null ? "selected" : "")>-- For Trailer --</option>
-                                </select>
+                                <label>Sort Description</label>
+                                <input class="form-control" rows="3" placeholder="Enter ..." name="">
                             </div>
                         </div>
                         <div class="col-sm-12">
                             <!-- textarea -->
                             <div class="form-group">
                                 <label>Description</label>
-                                <textarea class="form-control" rows="3" placeholder="Enter ..." name="description">@Model.Description</textarea>
-                                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                <textarea class="form-control" rows="3" placeholder="Enter ..." name="description"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Is Global</label>
+                                <div><input type="checkbox" name="my-checkbox" checked data-bootstrap-switch></div>
                             </div>
                         </div>
                     </div>
+                    <div class="col-sm-12">
+                        <div>
+                            <label for="file">Choose Image</label>
+                        </div>
+                        <input id="file" type="file" />
+                    </div>
+
                     <div>
                         <div class="col-sm-12 text-right">
                             <a class="btn btn-outline-danger" href="@Url.Action("Index", "Category")">Back to list</a>
@@ -66,3 +73,4 @@
     </div>
     <!-- /.card-body -->
 </div>
+

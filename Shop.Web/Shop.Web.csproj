@@ -162,6 +162,7 @@
     <Compile Include="Common\ActionFilter.cs" />
     <Compile Include="Common\CommonAction.cs" />
     <Compile Include="Common\CommonFilter.cs" />
+    <Compile Include="Common\ObjectRequests\UserCoUObject.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AlbumController.cs" />
     <Compile Include="Controllers\HomeController.cs" />

@@ -1,6 +1,8 @@
-﻿
+﻿@using Shop.EntityFramework.Entities
+@model Shop.Web.Common.ObjectRequests.UserCoUObject
 @{
     ViewBag.Title = "Add";
+    List<Role> roles = (List<Role>)ViewBag.Roles;
 }
 
 <nav aria-label="breadcrumb">
@@ -13,65 +15,57 @@
 <div class="card card-primary">
     <!-- /.card-header -->
     <div class="card-body">
-        <form class="">
+        <form method="post">
+            @Html.AntiForgeryToken()
             <div class="row">
-                <div class="col-sm-6">
-                    <!-- text input -->
+                <div class="col-md-6">
                     <div class="form-group">
-                        <label>Username</label>
-                        <input type="text" class="form-control" placeholder="Enter Name">
+                        <label>Subname</label>
+                        <input type="text" class="form-control" name="surName" value="@Model.SurName" placeholder="Enter SurName">
                     </div>
-                </div>
-                <div class="col-sm-6">
                     <div class="form-group">
-                        <label>Subname </label>
-                        <input type="text" class="form-control" placeholder="Enter SurName">
+                        <label>Name  <span style="color: red">*</span></label>
+                        <input type="text" class="form-control" name="name" value="@Model.Name" placeholder="Enter Name">
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                     </div>
-                </div>
-                <div class="col-sm-6">
                     <div class="form-group">
-                        <label>Name</label>
-                        <input type="text" class="form-control" placeholder="Enter Name">
+                        <label>Email  <span style="color: red">*</span></label>
+                        <input type="text" class="form-control" name="email" value="@Model.Email" placeholder="Enter Category for">
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                     </div>
-                </div>
-                <div class="col-sm-6">
                     <div class="form-group">
-                        <label>Email</label>
-                        <input type="text" class="form-control" placeholder="Enter Category for">
+                        <label>Password  <span style="color: red">*</span></label>
+                        <input type="password" class="form-control" name="password" value="@Model.Password" placeholder="Enter Password">
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                     </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label>Password</label>
-                        <input type="password" class="form-control" placeholder="Enter Password">
-                    </div>
-                </div>
-                <div class="col-sm-6">
                     <div class="form-group">
                         <label>Phone Number</label>
-                        <input type="text" class="form-control" placeholder="Enter Phone Number">
+                        <input type="text" class="form-control" name="phone" value="@Model.Phone" placeholder="Enter Phone Number">
+                        @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
                     </div>
-                </div>  
-                <div class="col-sm-6">
                     <div class="form-group">
                         <label>Active</label>
-                          <div><input type="checkbox" name="my-checkbox" checked data-bootstrap-switch></div>
+                        <div><input type="checkbox" name="isActive" value="true" @(Model.IsActive ? "checked" : "") data-bootstrap-switch></div>
                     </div>
-                </div>
-                <div class="col-sm-6">
                     <div class="form-group">
                         <label>Roles</label>
-                        <select class="custom-select" id="inputGroupSelect02">
-                            <option selected>Choose...</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                        <select class="custom-select select2" name="role">
+                            <option value="">-- Role --</option>
+                            @foreach (var item in roles)
+                            {
+                                <option value="@item.Id">@item.RoleName</option>
+                            }
                         </select>
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                     </div>
                 </div>
-                
             </div>
-            <button class="btn btn-outline-primary">Submit</button>
+            <div class="row">
+                <div class="col-md-6 text-right">
+                    <a class="btn btn-outline-danger" href="@Url.Action("Index")">Back to list</a>
+                    <button type="submit" class="btn btn-outline-primary">Submit</button>
+                </div>
+            </div>
         </form>
     </div>
     <!-- /.card-body -->

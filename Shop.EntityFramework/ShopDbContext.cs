@@ -26,6 +26,8 @@ namespace Shop.EntityFramework
         public DbSet<User> Users { get; set; }
 
         public ShopDbContext() : base("shopConnection")
-        {}
+        {
+            this.Configuration.LazyLoadingEnabled = false;
+        }
     }
 }

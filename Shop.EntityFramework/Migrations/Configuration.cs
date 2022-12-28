@@ -40,12 +40,13 @@
             };
             user.Roles.Add(role);
             var permissionGrants = GetPermssionGrant(PermissionProvider.Permissions);
+            permissionGrants.Add(new PermissionGrant() { Id = Guid.NewGuid(), Name = PermissionName.Admin, ProviderName = "U", ProviderKey = user.Id.ToString() });
 
             context.Roles.Add(role);
             context.PermissionGrants.AddRange(permissionGrants);
             context.SaveChanges();
             context.Users.Add(user);
-            context.Categories.AddRange(new List<Category>() { 
+            context.Categories.AddRange(new List<Category>() {
                 new Category(){Id = Guid.NewGuid(), CateFor = null, Code = "action", Name = "Action film", CreationTime = DateTime.Now, Description = "Phim hành động là một thể loại phim trong đó nhân vật chính bị đẩy vào một loạt các sự kiện thường liên quan đến bạo lực và chiến công thể chất. Thể loại này có xu hướng kể về một anh hùng chủ yếu là tháo vát đấu tranh chống lại những khó khăn đáng kinh ngạc, bao gồm các tình huống nguy hiểm đến tính mạng, một kẻ ác nguy hiểm hoặc một cuộc truy đuổi thường kết thúc bằng chiến thắng cho anh hùng."},
                 new Category(){Id = Guid.NewGuid(), CateFor = null, Code = "romance", Name = "Romance film", CreationTime = DateTime.Now, Description = "Romance films or movies involve romantic love stories recorded in visual media for broadcast in theatres or on television that focus on passion, emotion, and the affectionate romantic involvement of the main characters. Typically their journey through dating, courtship or marriage is featured. These films make the search for romantic love the main plot focus. Occasionally, romance lovers face obstacles such as finances, physical illness, various forms of discrimination, psychological restraints or family resistance. As in all quite strong, deep and close romantic relationships, the tensions of day-to-day life, temptations (of infidelity), and differences in compatibility enter into the plots of romantic films."},
                 new Category(){Id = Guid.NewGuid(), CateFor = null, Code = "horror", Name = "Horror film", CreationTime = DateTime.Now, Description = "Horror is a film genre that seeks to elicit fear or disgust in its audience for entertainment purposes."},
@@ -63,7 +64,7 @@
             var result = new List<PermissionGrant>();
             foreach (var item in permissions)
             {
-                result.Add(new PermissionGrant() { Id = Guid.NewGuid(), Name = item.Name, ProviderKey = "R", ProviderName = "manager" });
+                result.Add(new PermissionGrant() { Id = Guid.NewGuid(), Name = item.Name, ProviderName = "R", ProviderKey = "manager" });
                 if (item.Permissions != null && item.Permissions.Count > 0)
                     result.AddRange(GetPermssionGrant(item.Permissions));
             }

@@ -10,4 +10,8 @@ namespace Shop.Web.Common
         public bool? CateFor { get; set; }
     }
 
+    public class UserAdminFilter : CommonFilter
+    {
+        public bool? IsAdmin { get; set; }
+    }
 }

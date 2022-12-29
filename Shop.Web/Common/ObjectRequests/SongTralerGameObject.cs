@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace Shop.Web.Common.ObjectRequests
 {
@@ -15,7 +16,7 @@ namespace Shop.Web.Common.ObjectRequests
         public string Code { get; set; }
         [Required(ErrorMessage = "Name is not empty!")]
         public string Name { get; set; }
-        public SongTrailerGameTypeEnum Type { get; set; }
+        public string Image { get; set; }
         public Guid? ProducerId { get; set; }
         [Required(ErrorMessage = "Category is not empty!")]
         public Guid CategoryId { get; set; }
@@ -25,6 +26,7 @@ namespace Shop.Web.Common.ObjectRequests
         public string ActorOrSingers { get; set; } // danh sách diễn viên
         public bool AllowDownloadFree { get; set; }
         [Required(ErrorMessage = "Description is not empty!")]
+        [AllowHtml]
         public string Description { get; set; }
     }
 }

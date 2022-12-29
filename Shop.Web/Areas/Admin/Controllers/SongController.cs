@@ -6,9 +6,11 @@ using Shop.Web.Common.ObjectRequests;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using static System.Net.WebRequestMethods;
 
 namespace Shop.Web.Areas.Admin.Controllers
 {
@@ -18,17 +20,20 @@ namespace Shop.Web.Areas.Admin.Controllers
         private readonly IRepository<Producer> _producerRepository;
         private readonly IRepository<Category> _categoryRepository;
         private readonly IRepository<ActorOrSinger> _actorRepository;
+        private readonly IRepository<SongAndSinger> _songAndSingerRepository;
 
         public SongController(
             IRepository<SongOrTrailerOrGame> songRepository, 
             IRepository<Producer> producerRepository, 
             IRepository<Category> categoryRepository, 
-            IRepository<ActorOrSinger> actorRepository)
+            IRepository<ActorOrSinger> actorRepository,
+            IRepository<SongAndSinger> songAndSingerRepository)
         {
             _songRepository = songRepository;
             _producerRepository = producerRepository;
             _categoryRepository = categoryRepository;
             _actorRepository = actorRepository;
+            _songAndSingerRepository = songAndSingerRepository;
         }
 
         // GET: Admin/Song
@@ -58,6 +63,7 @@ namespace Shop.Web.Areas.Admin.Controllers
         {
             ViewBag.Producers = _producerRepository.GetQueryable().ToList();
             ViewBag.Categories = _categoryRepository.GetList(x => x.CateFor == true);
+            ViewBag.Singers = _actorRepository.GetQueryable().ToList();
             return View(new SongTralerGameObject());
         }
 
@@ -67,6 +73,8 @@ namespace Shop.Web.Areas.Admin.Controllers
         {
             ViewBag.Producers = _producerRepository.GetQueryable().ToList();
             ViewBag.Categories = _categoryRepository.GetList(x => x.CateFor == true);
+            ViewBag.Singers = _actorRepository.GetQueryable().ToList();
+            var file = Request.Files.Get("img");
             if (!ModelState.IsValid)
                 return View(songDto);
 
@@ -75,6 +83,21 @@ namespace Shop.Web.Areas.Admin.Controllers
                 ModelState.AddModelError(nameof(SongTralerGameObject.ActorOrSingers), "Actor or Singer is not empty");
                 return View(songDto);
             }
+            
+            if (file == null || file.ContentLength == 0)
+            {
+                ModelState.AddModelError(nameof(SongTralerGameObject.Image), "Image is not empty");
+                return View(songDto);
+            }
+
+            if (string.IsNullOrEmpty(songDto.ActorOrSingers) || songDto.ActorOrSingers.Replace(" ", string.Empty).TrimEnd(',').Split(',').Length == 0)
+            {
+                ModelState.AddModelError(nameof(SongTralerGameObject.ActorOrSingers), "Actor or Singer is not empty");
+                return View(songDto);
+            }
+
+            var fileName = songDto.Code + "_" + file.FileName;
+            file.SaveAs(Path.Combine(Server.MapPath("~/assets/img"), fileName));
 
             var song = new SongOrTrailerOrGame();
             song.ManufactureDate = songDto.ManufactureDate;
@@ -85,24 +108,13 @@ namespace Shop.Web.Areas.Admin.Controllers
             song.AllowDownloadFree = songDto.AllowDownloadFree;
             song.ProducerId = songDto.ProducerId;
             song.CategoryId = songDto.CategoryId;
-            song.ActorOrSingers = new List<ActorOrSinger>();
-            foreach (var item in songDto.ActorOrSingers.Replace(" ", string.Empty).Split(','))
-            {
-                var actor = _actorRepository.Get(Guid.Parse(item));
-                if (actor != null)
-                {
-                    song.ActorOrSingers.Add(actor);
-                }
-            }
+            song.Image = "/assets/img/" + fileName;
 
-            if (song.ActorOrSingers.Count == 0)
-            {
-                ModelState.AddModelError(nameof(SongTralerGameObject.ActorOrSingers), "Actor or Singer is not empty");
-                return View(songDto);
-            }
-
-            _songRepository.Insert(song);
+            song = _songRepository.Insert(song);
             _songRepository.SaveChange();
+            var singers = songDto.ActorOrSingers.Replace(" ", string.Empty).TrimEnd(',').Split(',').ToList().Select(x => new SongAndSinger() { SingerId = Guid.Parse(x), SongId = song.Id });
+            _songAndSingerRepository.InsertMany(singers);
+            _songAndSingerRepository.SaveChange();
             return RedirectToAction("Index");
         }
 
@@ -110,6 +122,7 @@ namespace Shop.Web.Areas.Admin.Controllers
         {
             ViewBag.Producers = _producerRepository.GetQueryable().ToList();
             ViewBag.Categories = _categoryRepository.GetList(x => x.CateFor == true);
+            ViewBag.Singers = _actorRepository.GetQueryable().ToList();
             return View(new SongTralerGameObject());
         }
 
@@ -119,6 +132,9 @@ namespace Shop.Web.Areas.Admin.Controllers
         {
             ViewBag.Producers = _producerRepository.GetQueryable().ToList();
             ViewBag.Categories = _categoryRepository.GetList(x => x.CateFor == true);
+            ViewBag.Singers = _actorRepository.GetQueryable().ToList();
+
+            var file = Request.Files.Get("img");
             if (!ModelState.IsValid)
                 return View(songDto);
 
@@ -132,6 +148,22 @@ namespace Shop.Web.Areas.Admin.Controllers
             if(song == null)
                 return RedirectToAction("Index");
 
+            if (string.IsNullOrEmpty(songDto.ActorOrSingers) || songDto.ActorOrSingers.Replace(" ", string.Empty).TrimEnd(',').Split(',').Length == 0)
+            {
+                ModelState.AddModelError(nameof(SongTralerGameObject.ActorOrSingers), "Actor or Singer is not empty");
+                return View(songDto);
+            }
+
+            if(file != null && file.ContentLength > 0)
+            {
+                if (System.IO.File.Exists(song.Image))
+                    System.IO.File.Delete(song.Image);
+
+                var fileName = songDto.Code + "_" + file.FileName;
+                file.SaveAs(Path.Combine(Server.MapPath("~/assets/img"), fileName));
+                song.Image = "/assets/img/" + fileName;
+            }
+
             song.ManufactureDate = songDto.ManufactureDate;
             song.PremiereDate = songDto.PremiereDate;
             song.Code = songDto.Code;
@@ -140,24 +172,15 @@ namespace Shop.Web.Areas.Admin.Controllers
             song.AllowDownloadFree = songDto.AllowDownloadFree;
             song.ProducerId = songDto.ProducerId;
             song.CategoryId = songDto.CategoryId;
-            song.ActorOrSingers = new List<ActorOrSinger>();
-            foreach (var item in songDto.ActorOrSingers.Replace(" ", string.Empty).Split(','))
-            {
-                var actor = _actorRepository.Get(Guid.Parse(item));
-                if (actor != null)
-                {
-                    song.ActorOrSingers.Add(actor);
-                }
-            }
-
-            if (song.ActorOrSingers.Count == 0)
-            {
-                ModelState.AddModelError(nameof(SongTralerGameObject.ActorOrSingers), "Actor or Singer is not empty");
-                return View(songDto);
-            }
 
             _songRepository.Update(song);
             _songRepository.SaveChange();
+            var singers = songDto.ActorOrSingers.Replace(" ", string.Empty).TrimEnd(',').Split(',').ToList().Select(x => new SongAndSinger() { SingerId = Guid.Parse(x), SongId = song.Id });
+            var oldSingers = _songAndSingerRepository.GetList(x => x.SongId == id);
+            _songAndSingerRepository.DeleteMany(oldSingers);
+            _songAndSingerRepository.SaveChange();
+            _songAndSingerRepository.InsertMany(singers);
+            _songAndSingerRepository.SaveChange();
             return RedirectToAction("Index");
         }
     }

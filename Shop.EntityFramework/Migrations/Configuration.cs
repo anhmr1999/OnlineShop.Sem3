@@ -27,8 +27,7 @@
                 Phone = "0123456789",
                 Password = "1q2w3E*".ToMd5(),
                 IsActive = true,
-                CreationTime = DateTime.Now,
-                Roles = new List<Role>()
+                CreationTime = DateTime.Now
             };
             var role = new Role()
             {
@@ -38,13 +37,11 @@
                 IsDefault = false,
                 CreationTime = DateTime.Now
             };
-            user.Roles.Add(role);
             var permissionGrants = GetPermssionGrant(PermissionProvider.Permissions);
             permissionGrants.Add(new PermissionGrant() { Id = Guid.NewGuid(), Name = PermissionName.Admin, ProviderName = "U", ProviderKey = user.Id.ToString() });
 
             context.Roles.Add(role);
             context.PermissionGrants.AddRange(permissionGrants);
-            context.SaveChanges();
             context.Users.Add(user);
             context.Categories.AddRange(new List<Category>() {
                 new Category(){Id = Guid.NewGuid(), CateFor = null, Code = "action", Name = "Action film", CreationTime = DateTime.Now, Description = "Phim hành động là một thể loại phim trong đó nhân vật chính bị đẩy vào một loạt các sự kiện thường liên quan đến bạo lực và chiến công thể chất. Thể loại này có xu hướng kể về một anh hùng chủ yếu là tháo vát đấu tranh chống lại những khó khăn đáng kinh ngạc, bao gồm các tình huống nguy hiểm đến tính mạng, một kẻ ác nguy hiểm hoặc một cuộc truy đuổi thường kết thúc bằng chiến thắng cho anh hùng."},
@@ -56,6 +53,7 @@
                 new Category(){Id = Guid.NewGuid(), CateFor = true, Code = "rock-and-roll", Name = "Rock and roll music", CreationTime = DateTime.Now, Description = "Rock and roll (often written as rock & roll, rock 'n' roll, or rock 'n roll) is a genre of popular music that evolved in the United States during the late 1940s and early 1950s. It originated from African-American music such as jazz, rhythm and blues, boogie woogie, gospel, as well as country music. While rock and roll's formative elements can be heard in blues records from the 1920s and in country records of the 1930s, the genre did not acquire its name until 1954."},
                 new Category(){Id = Guid.NewGuid(), CateFor = true, Code = "edm", Name = "Electronic dance music (EDM)", CreationTime = DateTime.Now, Description = "Electronic dance music (EDM), also known as dance music, club music, or simply dance, is a broad range of percussive electronic music genres made largely for nightclubs, raves, and festivals. It is generally produced for playback by DJs who create seamless selections of tracks, called a DJ mix, by segueing from one recording to another. EDM producers also perform their music live in a concert or festival setting in what is sometimes called a live PA."},
             });
+            context.UserRoles.Add(new UserRole() { RoleId = role.Id, UserId = user.Id });
             context.SaveChanges();
         }
 

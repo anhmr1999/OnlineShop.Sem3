@@ -25,7 +25,8 @@ namespace Shop.EntityFramework.Entities
         public DateTime? ManufactureDate { get; set; } // ngày sản xuất
         public DateTime? PremiereDate { get; set; } // ngày công chiếu
         [Required]
-        public ICollection<ActorOrSinger> ActorOrSingers { get; set; } // danh sách diễn viên
+        public ICollection<SongAndSinger> ActorOrSingers { get; set; } // danh sách diễn viên
+        public ICollection<AlbumDetails> Albums { get; set; } // danh sách diễn viên
         public bool AllowDownloadFree { get; set; }
         [Required]
         public string Description { get; set; }

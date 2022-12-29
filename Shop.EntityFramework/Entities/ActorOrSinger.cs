@@ -18,6 +18,6 @@ namespace Shop.EntityFramework.Entities
         [Required]
         public string Title { get; set; } // Chức danh
         public string Description { get; set; }
-        public ICollection<SongOrTrailerOrGame> SongOrTrailerOrGames { get; set; }
+        public ICollection<SongAndSinger> SongOrTrailerOrGames { get; set; }
     }
 }

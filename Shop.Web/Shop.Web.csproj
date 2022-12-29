@@ -248,6 +248,7 @@
     <Content Include="assets\img\images\services_img02.jpg" />
     <Content Include="assets\img\images\title_shape.png" />
     <Content Include="assets\img\logo\logo.png" />
+    <Content Include="assets\img\no-image.jpg" />
     <Content Include="assets\img\poster\movie_details_img.jpg" />
     <Content Include="assets\img\poster\s_ucm_poster01.jpg" />
     <Content Include="assets\img\poster\s_ucm_poster02.jpg" />

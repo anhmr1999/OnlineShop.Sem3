@@ -86,7 +86,7 @@ namespace Shop.Web.Areas.Admin.Controllers
                 Phone = userObj.Phone,
                 IsActive = userObj.IsActive,
                 Password = userObj.Password.ToMd5(),
-                Roles = new List<Role>()
+                Roles = new List<UserRole>()
             };
             if (userObj.RoleId.HasValue)
             {
@@ -96,7 +96,7 @@ namespace Shop.Web.Areas.Admin.Controllers
                     ModelState.AddModelError(nameof(UserCoUObject.RoleId), "Role is not correct");
                     return View(userObj);
                 }
-                user.Roles.Add(role);
+                user.Roles.Add(new UserRole() { RoleId = role.Id, UserId = user.Id});
             }
             _userRepository.Insert(user);
             _userRepository.SaveChange();
@@ -120,7 +120,7 @@ namespace Shop.Web.Areas.Admin.Controllers
                 Phone = user.Phone,
                 Email = user.Email,
                 IsActive = user.IsActive,
-                RoleId = user.Roles.FirstOrDefault()?.Id,
+                RoleId = user.Roles.FirstOrDefault()?.RoleId,
                 Password = "●●●●●●●●●●"
             };
             ViewBag.Roles = _roleRepository.GetQueryable().ToList();
@@ -146,7 +146,7 @@ namespace Shop.Web.Areas.Admin.Controllers
                 return View(userObj);
             }
 
-            var user = _userRepository.Get(id);
+            var user = _userRepository.GetQueryable().Include(x => x.Roles).FirstOrDefault(x => x.Id == id);
             if (user == null)
                 return RedirectToAction("Index");
 
@@ -156,17 +156,15 @@ namespace Shop.Web.Areas.Admin.Controllers
             user.Username = userObj.Email;
             user.Phone = userObj.Phone;
             user.IsActive = userObj.IsActive;
-            user.Password = userObj.Password.ToMd5();
-            user.Roles.Clear();
-            if (userObj.RoleId.HasValue)
+            if (user.Roles == null)
+                user.Roles = new List<UserRole>();
+            else
             {
-                var role = _roleRepository.Get(userObj.RoleId.Value);
-                if (role == null)
+                if(userObj.RoleId.HasValue && !user.Roles.Any(x => x.RoleId == userObj.RoleId))
                 {
-                    ModelState.AddModelError(nameof(UserCoUObject.RoleId), "Role is not correct");
-                    return View(userObj);
+                    user.Roles.Clear();
+                    user.Roles.Add(new UserRole() { RoleId = userObj.RoleId.Value, UserId = id});
                 }
-                user.Roles.Add(role);
             }
             _userRepository.Update(user);
             _userRepository.SaveChange();

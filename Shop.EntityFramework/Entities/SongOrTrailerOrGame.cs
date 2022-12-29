@@ -17,7 +17,9 @@ namespace Shop.EntityFramework.Entities
         public string Code { get; set; }
         [Required]
         public string Name { get; set; }
-        public SongTrainerGameTypeEnum Type  { get; set; }
+        [Required]
+        public string Image { get; set; }
+        public SongTrailerGameTypeEnum Type  { get; set; }
         public Guid? ProducerId { get; set; }
         public Guid CategoryId { get; set; }
         public DateTime? ManufactureDate { get; set; } // ngày sản xuất

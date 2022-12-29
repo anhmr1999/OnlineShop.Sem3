@@ -34,6 +34,7 @@
                         Id = c.Guid(nullable: false),
                         Code = c.String(nullable: false),
                         Name = c.String(nullable: false),
+                        Image = c.String(nullable: false),
                         Type = c.Int(nullable: false),
                         ProducerId = c.Guid(),
                         CategoryId = c.Guid(nullable: false),

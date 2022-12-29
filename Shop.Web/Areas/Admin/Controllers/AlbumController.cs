@@ -11,15 +11,16 @@ namespace Shop.Web.Areas.Admin.Controllers
 {
     public class AlbumController : Controller
     {
-        private readonly IRepository<Album> _album;
-        public AlbumController(IRepository<Album> album)
+        private readonly IRepository<Album> _albumRepository;
+        public AlbumController(IRepository<Album> albumRepository)
         {
-            _album= album;
+            _albumRepository = albumRepository;
         }
-        // Filter
+
+        // GET: Admin/Album
         public ActionResult Index(CommonFilter filter)
         {
-            var query = _album.GetQueryable()
+            var query = _albumRepository.GetQueryable()
                 .WhereIf(!string.IsNullOrEmpty(filter.SearchKey), x => x.Code.ToLower().Contains(filter.SearchKey.ToLower()) || x.Name.ToLower().Contains(filter.SearchKey));
             var model = new CommonListResult<Album>();
             model.Filter = filter;
@@ -28,16 +29,13 @@ namespace Shop.Web.Areas.Admin.Controllers
             model.List = query.OrderByDescending(x => x.CreationTime).PagedBy(filter).ToList();
             return View(model);
         }
-        // GET: Admin/Album
-        public ActionResult Index()
-        {
-            return View();
-        }
+
         // GET: Admin/Album/add
         public ActionResult Add()
         {
             return View();
         }
+
         // GET: Admin/Album/edit
         public ActionResult Edit()
         {

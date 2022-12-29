@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace Shop.EntityFramework.Infrastructures.Enums
 {
-    public enum SongTrainerGameTypeEnum
+    public enum SongTrailerGameTypeEnum
     {
         Song,
-        TrainerSong,
         TrainerGame,
         TrainerFilm,
         Game,

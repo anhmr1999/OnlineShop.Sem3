@@ -11,6 +11,7 @@ namespace Shop.Web.Common.ObjectRequests
         public Guid? Id { get; set; }
         public string SurName { get; set; }
         [Required(ErrorMessage = "Name cannot be empty!")]
+        public string Image { get; set; }
         public string Name { get; set; }
         [Required(ErrorMessage = "Email cannot be empty!")]
         public string Email { get; set; }

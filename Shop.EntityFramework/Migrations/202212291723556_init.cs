@@ -28,12 +28,26 @@
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
+                "dbo.SongAndSingers",
+                c => new
+                    {
+                        SongId = c.Guid(nullable: false),
+                        SingerId = c.Guid(nullable: false),
+                    })
+                .PrimaryKey(t => new { t.SongId, t.SingerId })
+                .ForeignKey("dbo.ActorOrSingers", t => t.SingerId, cascadeDelete: true)
+                .ForeignKey("dbo.SongOrTrailerOrGames", t => t.SongId, cascadeDelete: true)
+                .Index(t => t.SongId)
+                .Index(t => t.SingerId);
+            
+            CreateTable(
                 "dbo.SongOrTrailerOrGames",
                 c => new
                     {
                         Id = c.Guid(nullable: false),
                         Code = c.String(nullable: false),
                         Name = c.String(nullable: false),
+                        Image = c.String(nullable: false),
                         Type = c.Int(nullable: false),
                         ProducerId = c.Guid(),
                         CategoryId = c.Guid(nullable: false),
@@ -56,33 +70,27 @@
                 .Index(t => t.CategoryId);
             
             CreateTable(
-                "dbo.Categories",
+                "dbo.AlbumDetails",
                 c => new
                     {
-                        Id = c.Guid(nullable: false),
-                        Code = c.String(nullable: false),
-                        Name = c.String(nullable: false),
-                        CateFor = c.Boolean(),
-                        Description = c.String(),
-                        CreationTime = c.DateTime(nullable: false),
-                        CreationUser = c.Guid(),
-                        LastModifiedTime = c.DateTime(),
-                        LastModifiedUser = c.Guid(),
-                        IsDeleted = c.Boolean(nullable: false),
-                        DeletedTime = c.DateTime(),
-                        DeletedUser = c.Guid(),
+                        AbumId = c.Guid(nullable: false),
+                        SongId = c.Guid(nullable: false),
                     })
-                .PrimaryKey(t => t.Id);
+                .PrimaryKey(t => new { t.AbumId, t.SongId })
+                .ForeignKey("dbo.Albums", t => t.AbumId, cascadeDelete: true)
+                .ForeignKey("dbo.SongOrTrailerOrGames", t => t.SongId, cascadeDelete: true)
+                .Index(t => t.AbumId)
+                .Index(t => t.SongId);
             
             CreateTable(
-                "dbo.Producers",
+                "dbo.Albums",
                 c => new
                     {
                         Id = c.Guid(nullable: false),
                         Code = c.String(nullable: false),
                         Name = c.String(nullable: false),
-                        FoundingDate = c.DateTime(nullable: false),
-                        Introduce = c.String(nullable: false),
+                        ReleaseDate = c.DateTime(),
+                        Description = c.String(),
                         CreationTime = c.DateTime(nullable: false),
                         CreationUser = c.Guid(),
                         LastModifiedTime = c.DateTime(),
@@ -108,55 +116,12 @@
                         IsDeleted = c.Boolean(nullable: false),
                         DeletedTime = c.DateTime(),
                         DeletedUser = c.Guid(),
-                        Producer_Id = c.Guid(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Albums", t => t.AlbumId, cascadeDelete: true)
                 .ForeignKey("dbo.Suppliers", t => t.SupplierId, cascadeDelete: true)
-                .ForeignKey("dbo.Producers", t => t.Producer_Id)
                 .Index(t => t.AlbumId)
-                .Index(t => t.SupplierId)
-                .Index(t => t.Producer_Id);
-            
-            CreateTable(
-                "dbo.Albums",
-                c => new
-                    {
-                        Id = c.Guid(nullable: false),
-                        Code = c.String(nullable: false),
-                        Name = c.String(nullable: false),
-                        ReleaseDate = c.DateTime(),
-                        Description = c.String(),
-                        CreationTime = c.DateTime(nullable: false),
-                        CreationUser = c.Guid(),
-                        LastModifiedTime = c.DateTime(),
-                        LastModifiedUser = c.Guid(),
-                        IsDeleted = c.Boolean(nullable: false),
-                        DeletedTime = c.DateTime(),
-                        DeletedUser = c.Guid(),
-                    })
-                .PrimaryKey(t => t.Id);
-            
-            CreateTable(
-                "dbo.AlbumDetails",
-                c => new
-                    {
-                        Id = c.Guid(nullable: false),
-                        AbumId = c.Guid(nullable: false),
-                        SongId = c.Guid(nullable: false),
-                        CreationTime = c.DateTime(nullable: false),
-                        CreationUser = c.Guid(),
-                        LastModifiedTime = c.DateTime(),
-                        LastModifiedUser = c.Guid(),
-                        IsDeleted = c.Boolean(nullable: false),
-                        DeletedTime = c.DateTime(),
-                        DeletedUser = c.Guid(),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Albums", t => t.AbumId, cascadeDelete: true)
-                .ForeignKey("dbo.SongOrTrailerOrGames", t => t.SongId, cascadeDelete: true)
-                .Index(t => t.AbumId)
-                .Index(t => t.SongId);
+                .Index(t => t.SupplierId);
             
             CreateTable(
                 "dbo.BillDetailts",
@@ -167,13 +132,6 @@
                         ProductId = c.Guid(nullable: false),
                         Quantity = c.Int(nullable: false),
                         Price = c.Double(nullable: false),
-                        CreationTime = c.DateTime(nullable: false),
-                        CreationUser = c.Guid(),
-                        LastModifiedTime = c.DateTime(),
-                        LastModifiedUser = c.Guid(),
-                        IsDeleted = c.Boolean(nullable: false),
-                        DeletedTime = c.DateTime(),
-                        DeletedUser = c.Guid(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Bills", t => t.BillId, cascadeDelete: true)
@@ -210,6 +168,44 @@
                         Code = c.String(nullable: false),
                         Name = c.String(nullable: false),
                         Description = c.String(),
+                        CreationTime = c.DateTime(nullable: false),
+                        CreationUser = c.Guid(),
+                        LastModifiedTime = c.DateTime(),
+                        LastModifiedUser = c.Guid(),
+                        IsDeleted = c.Boolean(nullable: false),
+                        DeletedTime = c.DateTime(),
+                        DeletedUser = c.Guid(),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.Categories",
+                c => new
+                    {
+                        Id = c.Guid(nullable: false),
+                        Code = c.String(nullable: false),
+                        Name = c.String(nullable: false),
+                        CateFor = c.Boolean(),
+                        Description = c.String(),
+                        CreationTime = c.DateTime(nullable: false),
+                        CreationUser = c.Guid(),
+                        LastModifiedTime = c.DateTime(),
+                        LastModifiedUser = c.Guid(),
+                        IsDeleted = c.Boolean(nullable: false),
+                        DeletedTime = c.DateTime(),
+                        DeletedUser = c.Guid(),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.Producers",
+                c => new
+                    {
+                        Id = c.Guid(nullable: false),
+                        Code = c.String(nullable: false),
+                        Name = c.String(nullable: false),
+                        FoundingDate = c.DateTime(nullable: false),
+                        Introduce = c.String(nullable: false),
                         CreationTime = c.DateTime(nullable: false),
                         CreationUser = c.Guid(),
                         LastModifiedTime = c.DateTime(),
@@ -271,6 +267,19 @@
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
+                "dbo.UserRoles",
+                c => new
+                    {
+                        RoleId = c.Guid(nullable: false),
+                        UserId = c.Guid(nullable: false),
+                    })
+                .PrimaryKey(t => new { t.RoleId, t.UserId })
+                .ForeignKey("dbo.Roles", t => t.RoleId, cascadeDelete: true)
+                .ForeignKey("dbo.Users", t => t.UserId, cascadeDelete: true)
+                .Index(t => t.RoleId)
+                .Index(t => t.UserId);
+            
+            CreateTable(
                 "dbo.Users",
                 c => new
                     {
@@ -314,78 +323,50 @@
                     })
                 .PrimaryKey(t => t.Id);
             
-            CreateTable(
-                "dbo.SongOrTrailerOrGameActorOrSingers",
-                c => new
-                    {
-                        SongOrTrailerOrGame_Id = c.Guid(nullable: false),
-                        ActorOrSinger_Id = c.Guid(nullable: false),
-                    })
-                .PrimaryKey(t => new { t.SongOrTrailerOrGame_Id, t.ActorOrSinger_Id })
-                .ForeignKey("dbo.SongOrTrailerOrGames", t => t.SongOrTrailerOrGame_Id, cascadeDelete: true)
-                .ForeignKey("dbo.ActorOrSingers", t => t.ActorOrSinger_Id, cascadeDelete: true)
-                .Index(t => t.SongOrTrailerOrGame_Id)
-                .Index(t => t.ActorOrSinger_Id);
-            
-            CreateTable(
-                "dbo.UserRoles",
-                c => new
-                    {
-                        User_Id = c.Guid(nullable: false),
-                        Role_Id = c.Guid(nullable: false),
-                    })
-                .PrimaryKey(t => new { t.User_Id, t.Role_Id })
-                .ForeignKey("dbo.Users", t => t.User_Id, cascadeDelete: true)
-                .ForeignKey("dbo.Roles", t => t.Role_Id, cascadeDelete: true)
-                .Index(t => t.User_Id)
-                .Index(t => t.Role_Id);
-            
         }
         
         public override void Down()
         {
-            DropForeignKey("dbo.UserRoles", "Role_Id", "dbo.Roles");
-            DropForeignKey("dbo.UserRoles", "User_Id", "dbo.Users");
+            DropForeignKey("dbo.UserRoles", "UserId", "dbo.Users");
+            DropForeignKey("dbo.UserRoles", "RoleId", "dbo.Roles");
             DropForeignKey("dbo.SongOrTrailerOrGames", "ProducerId", "dbo.Producers");
-            DropForeignKey("dbo.Products", "Producer_Id", "dbo.Producers");
+            DropForeignKey("dbo.SongOrTrailerOrGames", "CategoryId", "dbo.Categories");
+            DropForeignKey("dbo.AlbumDetails", "SongId", "dbo.SongOrTrailerOrGames");
+            DropForeignKey("dbo.AlbumDetails", "AbumId", "dbo.Albums");
             DropForeignKey("dbo.Products", "SupplierId", "dbo.Suppliers");
             DropForeignKey("dbo.BillDetailts", "ProductId", "dbo.Products");
             DropForeignKey("dbo.BillDetailts", "BillId", "dbo.Bills");
             DropForeignKey("dbo.Products", "AlbumId", "dbo.Albums");
-            DropForeignKey("dbo.AlbumDetails", "SongId", "dbo.SongOrTrailerOrGames");
-            DropForeignKey("dbo.AlbumDetails", "AbumId", "dbo.Albums");
-            DropForeignKey("dbo.SongOrTrailerOrGames", "CategoryId", "dbo.Categories");
-            DropForeignKey("dbo.SongOrTrailerOrGameActorOrSingers", "ActorOrSinger_Id", "dbo.ActorOrSingers");
-            DropForeignKey("dbo.SongOrTrailerOrGameActorOrSingers", "SongOrTrailerOrGame_Id", "dbo.SongOrTrailerOrGames");
-            DropIndex("dbo.UserRoles", new[] { "Role_Id" });
-            DropIndex("dbo.UserRoles", new[] { "User_Id" });
-            DropIndex("dbo.SongOrTrailerOrGameActorOrSingers", new[] { "ActorOrSinger_Id" });
-            DropIndex("dbo.SongOrTrailerOrGameActorOrSingers", new[] { "SongOrTrailerOrGame_Id" });
+            DropForeignKey("dbo.SongAndSingers", "SongId", "dbo.SongOrTrailerOrGames");
+            DropForeignKey("dbo.SongAndSingers", "SingerId", "dbo.ActorOrSingers");
+            DropIndex("dbo.UserRoles", new[] { "UserId" });
+            DropIndex("dbo.UserRoles", new[] { "RoleId" });
             DropIndex("dbo.BillDetailts", new[] { "ProductId" });
             DropIndex("dbo.BillDetailts", new[] { "BillId" });
-            DropIndex("dbo.AlbumDetails", new[] { "SongId" });
-            DropIndex("dbo.AlbumDetails", new[] { "AbumId" });
-            DropIndex("dbo.Products", new[] { "Producer_Id" });
             DropIndex("dbo.Products", new[] { "SupplierId" });
             DropIndex("dbo.Products", new[] { "AlbumId" });
+            DropIndex("dbo.AlbumDetails", new[] { "SongId" });
+            DropIndex("dbo.AlbumDetails", new[] { "AbumId" });
             DropIndex("dbo.SongOrTrailerOrGames", new[] { "CategoryId" });
             DropIndex("dbo.SongOrTrailerOrGames", new[] { "ProducerId" });
-            DropTable("dbo.UserRoles");
-            DropTable("dbo.SongOrTrailerOrGameActorOrSingers");
+            DropIndex("dbo.SongAndSingers", new[] { "SingerId" });
+            DropIndex("dbo.SongAndSingers", new[] { "SongId" });
             DropTable("dbo.Sales");
             DropTable("dbo.Users");
+            DropTable("dbo.UserRoles");
             DropTable("dbo.Roles");
             DropTable("dbo.PermissionGrants");
             DropTable("dbo.News");
+            DropTable("dbo.Producers");
+            DropTable("dbo.Categories");
             DropTable("dbo.Suppliers");
             DropTable("dbo.Bills");
             DropTable("dbo.BillDetailts");
-            DropTable("dbo.AlbumDetails");
-            DropTable("dbo.Albums");
             DropTable("dbo.Products");
-            DropTable("dbo.Producers");
-            DropTable("dbo.Categories");
+            DropTable("dbo.Albums");
+            DropTable("dbo.AlbumDetails");
             DropTable("dbo.SongOrTrailerOrGames");
+            DropTable("dbo.SongAndSingers");
             DropTable("dbo.ActorOrSingers");
         }
     }

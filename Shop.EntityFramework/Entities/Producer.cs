@@ -18,7 +18,5 @@ namespace Shop.EntityFramework.Entities
         public DateTime FoundingDate { get; set; } // ngày thành lập
         [Required]
         public string Introduce { get; set; } // giới thiệu công ty
-
-        public ICollection<Product> Products { get; set; }
     }
 }

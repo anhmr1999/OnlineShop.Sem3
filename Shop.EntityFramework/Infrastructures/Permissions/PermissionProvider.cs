@@ -133,5 +133,7 @@ namespace Shop.EntityFramework.Infrastructures.Permissions
         public static string SaleAdd = "Sale.Add";
         public static string SaleEdit = "Sale.Edit";
         public static string SaleDelete = "Sale.Delete";
+
+        public static string Admin = "admin";
     }
 }

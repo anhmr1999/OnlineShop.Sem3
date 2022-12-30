@@ -21,14 +21,9 @@ namespace Shop.EntityFramework.Infrastructures.Repository
 
         public bool Delete(T entity)
         {
-            var removeEntity = _dbSet.FirstOrDefault(x => x.Id == entity.Id);
-
-            if (removeEntity == null)
-                return false;
-
             if(typeof(T).GetProperties().Any(x => x.Name == nameof(IHasDeleted.IsDeleted)))
             {
-                typeof(T).GetProperties().FirstOrDefault(x => x.Name == nameof(IHasDeleted.IsDeleted)).SetValue(entity, false);
+                typeof(T).GetProperties().FirstOrDefault(x => x.Name == nameof(IHasDeleted.IsDeleted)).SetValue(entity, true);
                 typeof(T).GetProperties().FirstOrDefault(x => x.Name == nameof(IHasDeleted.DeletedTime)).SetValue(entity, DateTime.Now);
                 typeof(T).GetProperties().FirstOrDefault(x => x.Name == nameof(IHasDeleted.DeletedUser)).SetValue(entity, _principal.CurrentUserId);
             }

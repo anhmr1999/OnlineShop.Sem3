@@ -151,6 +151,8 @@
     <Compile Include="Areas\Admin\Controllers\AlbumController.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SongController.cs" />
     <Compile Include="Areas\Admin\Controllers\NewsController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProducerController.cs" />
     <Compile Include="Areas\Admin\Controllers\SupplierController.cs" />
@@ -165,6 +167,8 @@
     <Compile Include="Common\ActionFilter.cs" />
     <Compile Include="Common\CommonAction.cs" />
     <Compile Include="Common\CommonFilter.cs" />
+    <Compile Include="Common\ObjectRequests\SongTralerGameObject.cs" />
+    <Compile Include="Common\ObjectRequests\UserCoUObject.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AlbumController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -247,6 +251,7 @@
     <Content Include="assets\img\images\services_img02.jpg" />
     <Content Include="assets\img\images\title_shape.png" />
     <Content Include="assets\img\logo\logo.png" />
+    <Content Include="assets\img\no-image.jpg" />
     <Content Include="assets\img\poster\movie_details_img.jpg" />
     <Content Include="assets\img\poster\s_ucm_poster01.jpg" />
     <Content Include="assets\img\poster\s_ucm_poster02.jpg" />
@@ -2223,6 +2228,7 @@
     <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Areas\Admin\Views\Product\" />
     <Folder Include="Views\Admin\" />
   </ItemGroup>
   <ItemGroup>
@@ -2399,15 +2405,6 @@
     <Content Include="Areas\Admin\Views\Album\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\User\Add.cshtml" />
     <Content Include="Areas\Admin\Views\User\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\Supplier\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Supplier\Add.cshtml" />
-    <Content Include="Areas\Admin\Views\Supplier\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\Producer\Add.cshtml" />
-    <Content Include="Areas\Admin\Views\Producer\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\Producer\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\News\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\News\Add.cshtml" />
-    <Content Include="Areas\Admin\Views\News\Edit.cshtml" />
     <None Include="packages.config" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Registration.cshtml" />

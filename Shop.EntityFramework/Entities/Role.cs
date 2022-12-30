@@ -12,6 +12,6 @@ namespace Shop.EntityFramework.Entities
         public string RoleName { get; set; }
         public bool IsDefault { get; set; }
         public bool IsStatic { get; set; }
-        public ICollection<User> Users { get; set; }
+        public ICollection<UserRole> Users { get; set; }
     }
 }

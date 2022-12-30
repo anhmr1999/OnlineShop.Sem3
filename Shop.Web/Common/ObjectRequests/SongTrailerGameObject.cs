@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace Shop.Web.Common.ObjectRequests
 {
-    public class SongTralerGameObject
+    public class SongTrailerGameObject
     {
         [Required(ErrorMessage = "Code is not empty!")]
         public string Code { get; set; }
@@ -23,7 +23,7 @@ namespace Shop.Web.Common.ObjectRequests
         public DateTime? ManufactureDate { get; set; } // ngày sản xuất
         public DateTime? PremiereDate { get; set; } // ngày công chiếu
         [Required(ErrorMessage = "Actor or singner is not empty!")]
-        public string ActorOrSingers { get; set; } // danh sách diễn viên
+        public Guid[] ActorOrSingers { get; set; } // danh sách diễn viên
         public bool AllowDownloadFree { get; set; }
         [Required(ErrorMessage = "Description is not empty!")]
         [AllowHtml]

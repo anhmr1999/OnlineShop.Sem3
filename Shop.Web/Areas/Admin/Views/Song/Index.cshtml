@@ -77,7 +77,7 @@
                     <td>@item.Code</td>
                     <td>@item.Name</td>
                     <td>@item.Category.Name</td>
-                    <td>@item.Producer?.Name</td>
+                    <td>@(item.Producer?.Name)</td>
                     <td>@(item.PremiereDate.HasValue ? item.PremiereDate.Value.ToString("dd/MM/yyyy") : "")</td>
                     <td>@(item.AllowDownloadFree ? "Allow" : "Not Allowed")</td>
                     <td class="text-center">

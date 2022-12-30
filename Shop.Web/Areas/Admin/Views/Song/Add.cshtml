@@ -2,7 +2,7 @@
 @using Shop.EntityFramework.Entities
 @using Shop.EntityFramework.Infrastructures.Enums
 @using Shop.Web.Common.ObjectRequests
-@model SongTralerGameObject
+@model SongTrailerGameObject
 @{
     ViewBag.Title = "Song";
     List<Category> categories = (List<Category>)ViewBag.Categories;
@@ -80,11 +80,11 @@
                     </div>
                     <div class="form-group">
                         <label>Producer</label>
-                        <select class="form-control select2" name="actorOrSingers" multiple>
+                        <select class="form-control select2" name="actorOrSingers[]" multiple="multiple">
                             <option value="">-- Choose Producer --</option>
                             @foreach (var item in singers)
                             {
-                                <option value="@item.Id" @(!string.IsNullOrEmpty(Model.ActorOrSingers) && Model.ActorOrSingers.Contains(item.Id.ToString()) ? "selected" : "")>@item.Name</option>
+                                <option value="@item.Id" @(Model.ActorOrSingers != null && Model.ActorOrSingers.Contains(item.Id) ? "selected" : "")>@item.Name</option>
                             }
                         </select>
                     </div>

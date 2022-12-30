@@ -1,6 +1,7 @@
 ﻿using Shop.EntityFramework;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Security;
@@ -26,14 +27,14 @@ namespace Shop.Web.Authentications
 
             using (ShopDbContext dbContext = new ShopDbContext())
             {
-                var selectedUser = (from us in dbContext.Users.Include("Roles")
+                var selectedUser = (from us in dbContext.Users.Include(x => x.Roles.Select(r => r.Role))
                                     where string.Compare(us.Username, username, StringComparison.OrdinalIgnoreCase) == 0
                                     select us).FirstOrDefault();
 
 
                 if (selectedUser != null)
                 {
-                    userRoles = new[] { selectedUser.Roles.Select(r => r.RoleName).ToString() };
+                    userRoles = new[] { selectedUser.Roles.Select(r => r.Role.RoleName).ToString() };
                 }
 
                 return userRoles.ToArray();

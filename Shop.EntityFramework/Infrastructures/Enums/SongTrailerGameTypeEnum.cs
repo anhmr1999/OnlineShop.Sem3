@@ -9,8 +9,7 @@ namespace Shop.EntityFramework.Infrastructures.Enums
     public enum SongTrailerGameTypeEnum
     {
         Song,
-        TrainerGame,
-        TrainerFilm,
+        TrailerFilm,
         Game,
     }
 }

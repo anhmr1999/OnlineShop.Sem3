@@ -48,7 +48,7 @@ namespace Shop.Web.Authentications
                 {
                     return null;
                 }
-                var roles = user.Roles.Select(x => x.RoleId.ToString()).ToArray();
+                var roles = user.Roles.Select(x => x.Role.RoleName).ToArray();
                 var permissions = dbContext.PermissionGrants
                     .Where(x => (roles.Contains(x.ProviderKey) && x.ProviderName == "R") || (x.ProviderKey == user.Id.ToString() && x.ProviderName == "U")).ToList();
                 var selectedUser = new ShopMembershipUser(user, permissions);

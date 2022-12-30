@@ -39,7 +39,7 @@ namespace Shop.EntityFramework
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<UserRole>().HasKey(x => new { x.RoleId, x.UserId });
             modelBuilder.Entity<SongAndSinger>().HasKey(x => new { x.SongId, x.SingerId });
-            modelBuilder.Entity<AlbumDetails>().HasKey(x => new { x.AbumId, x.SongId });
+            modelBuilder.Entity<AlbumDetails>().HasKey(x => new { x.AlbumId, x.SongId });
         }
     }
 }

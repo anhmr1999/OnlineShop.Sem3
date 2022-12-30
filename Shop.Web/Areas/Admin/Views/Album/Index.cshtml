@@ -2,7 +2,7 @@
 @using Shop.EntityFramework.Entities
 @model CommonListResult<Album>
 @{
-    ViewBag.Title = "Album";
+    ViewBag.Title = "Index";
     var index = (Model.Filter.PageIndex - 1) * 10 + 1;
 }
 
@@ -15,15 +15,15 @@
 <!-- table -->
 <section class="card p-2">
     <form method="get">
-        <input type="hidden" name="pageIndex" value="" />
+        <input type="hidden" name="pageIndex" value="@Model.Filter.PageIndex" />
         <div class="row">
             <div class="col-md-3 form-group">
-                <input class="form-control" name="searchKey" placeholder="Search key..." value="" />
+                <input class="form-control" name="searchKey" placeholder="Search key..." value="@Model.Filter.SearchKey" />
             </div>
-            <div class="col-md-3 form-group">
+            <div class="col-md-5 form-group">
                 <button type="submit" class="btn btn-outline-primary">Search</button>
             </div>
-            <div class="col-md-6 text-right">
+            <div class="col-md-4 text-right">
                 <a href="@Url.Action("Add", "Album")" class="btn btn-outline-danger">New Album</a>
             </div>
         </div>
@@ -34,25 +34,24 @@
                 <th scope="col">STT</th>
                 <th scope="col">Code</th>
                 <th scope="col">Name</th>
-                <th scope="col">Realease Date</th>
-                <th scope="col">Description</th>
+                <th scope="col">Release Date</th>
+                <th scope="col">Total Song</th>
                 <th style="width:220px" class="text-center">Action</th>
             </tr>
         </thead>
         <tbody>
-            
             @foreach (var item in Model.List)
             {
                 <tr>
                     <th scope="row">@index</th>
                     <td>@item.Code</td>
                     <td>@item.Name</td>
-                    <td>@(item.ReleaseDate.HasValue ? item.ReleaseDate.Value.ToString("dd/MM/yyyy") : "Chưa rõ")</td>
-                    <td>@item.Description</td>
+                    <td>@(item.ReleaseDate?.ToString("dd/MM/yyyy"))</td>
+                    <td>@item.Songs.Count()</td>
                     <td class="text-center">
-                        <a href="@Url.Action("View", "Album", new {id = item.Id})" class="btn btn-outline-success" data-toggle="modal" data-target="#exampleModalCenter">View</a>
-                        <a href="@Url.Action("Edit", "Album", new {id = item.Id})" class="btn btn-outline-primary">Edit</a>
-                        <a href="@Url.Action("Edit", "Album", new {id = item.Id})" class="btn btn-outline-danger">Delete</a>
+                        <a href="@Url.Action("View", "Album", new {id=@item.Id})" class="btn btn-outline-success">View</a>
+                        <a href="@Url.Action("Edit", "Album", new {id=@item.Id})" class="btn btn-outline-primary">Edit</a>
+                        <a href="@Url.Action("Delete", "Album", new {id=@item.Id})" class="btn btn-outline-danger">Delete</a>
                     </td>
                 </tr>
                 index++;
@@ -61,13 +60,14 @@
     </table>
     <nav aria-label="Page navigation example right ">
         <ul class="pagination justify-content-end">
-            <li class="page-item disabled">
+            <li class="page-item @(Model.Filter.PageIndex - 1 == 0 ? "disabled" : "")">
                 <a class="page-link" href="#" tabindex="-1">Previous</a>
             </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
+            @for (int i = 1; i <= Model.TotalPage; i++)
+            {
+                <li class="page-item @(Model.Filter.PageIndex == i ? "active" : "")"><a class="page-link" href="#" data-page="@i">@i</a></li>
+            }
+            <li class="page-item @(Model.Filter.PageIndex == Model.TotalPage ? "disabled" : "")">
                 <a class="page-link" href="#">Next</a>
             </li>
         </ul>

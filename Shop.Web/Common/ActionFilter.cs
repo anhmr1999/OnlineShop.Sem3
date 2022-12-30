@@ -15,7 +15,7 @@ namespace Shop.Web.Common
         public bool? IsAdmin { get; set; }
     }
 
-    public class SongTrailerGameFilter : CommonFilter
+    public class SongTrailerGameAdminFilter : CommonFilter
     {
         public Guid? CategoryId { get; set; }
         public Guid? ProducerId { get; set; }

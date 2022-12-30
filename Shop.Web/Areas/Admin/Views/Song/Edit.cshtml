@@ -1,11 +1,13 @@
 ﻿@using Shop.Web.Common
 @using Shop.EntityFramework.Entities
 @using Shop.EntityFramework.Infrastructures.Enums
-@model SongOrTrailerOrGame
+@using Shop.Web.Common.ObjectRequests
+@model SongTrailerGameObject
 @{
     ViewBag.Title = "Song";
     List<Category> categories = (List<Category>)ViewBag.Categories;
     List<Producer> producers = (List<Producer>)ViewBag.Producers;
+    List<ActorOrSinger> singers = (List<ActorOrSinger>)ViewBag.Singers;
 }
 
 
@@ -19,19 +21,117 @@
 <div class="card card-primary">
     <!-- /.card-header -->
     <div class="card-body">
-        <div class="row">
-            <div class="col-md-6">
-                <form method="post">
-                    @Html.AntiForgeryToken()
-                    <div>
-                        <div class="col-sm-12 text-right">
-                            <a class="btn btn-outline-danger" href="@Url.Action("Index", "Song")">Back to list</a>
-                            <button class="btn btn-outline-primary">Save</button>
+        <form method="post" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Code <span style="color: red">*</span></label>
+                        <input class="form-control" name="code" value="@Model.Code" placeholder="Enter code" required />
+                        @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        <label>Name <span style="color: red">*</span></label>
+                        <input class="form-control" name="name" value="@Model.Name" placeholder="Enter name" required />
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        <label>Manufacture Date</label>
+                        <input class="form-control datemask" name="manufactureDate" value="@Model.ManufactureDate" placeholder="Enter manufacture date" />
+                    </div>
+                    <div class="form-group">
+                        <label>Premiere Date</label>
+                        <input class="form-control datemask" name="premiereDate" value="@Model.PremiereDate" placeholder="Enter manufacture date" />
+                    </div>
+                    <div class="form-group">
+                        <label>Category <span style="color: red">*</span></label>
+                        <select class="form-control select2" name="categoryId">
+                            <option value="">-- Choose Category --</option>
+                            @foreach (var item in categories)
+                            {
+                                <option value="@item.Id" @(item.Id == Model.CategoryId ? "selected" : "")>@item.Name</option>
+                            }
+                        </select>
+                        @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        <label>Producer</label>
+                        <select class="form-control select2" name="producerId">
+                            <option value="">-- Choose Producer --</option>
+                            @foreach (var item in producers)
+                            {
+                                <option value="@item.Id" @(item.Id == Model.ProducerId ? "selected" : "")>@item.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="checkbox" name="allowDownloadFree" value="true" @(Model.AllowDownloadFree ? "checked" : "") data-bootstrap-switch>
+                        <label>Allow Free Download ?</label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Image <span style="color: red">*</span></label>
+                        <input type="file" name="img" class="form-control" />
+                        @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
+                        <div style="margin-top: 1rem">
+                            <img src="@(string.IsNullOrEmpty(Model.Image) ? "/assets/img/no-image.jpg" : Model.Image)" style="width: 100%; max-width: 300px; height: auto; border: 1px solid #00000036; border-radius: 5px; overflow: hidden" />
                         </div>
                     </div>
-                </form>
+                    <div class="form-group">
+                        <label>Producer</label>
+                        <select class="form-control select2" name="actorOrSingers[]" multiple="multiple">
+                            <option value="">-- Choose Producer --</option>
+                            @foreach (var item in singers)
+                            {
+                                <option value="@item.Id" @(Model.ActorOrSingers != null && Model.ActorOrSingers.Contains(item.Id) ? "selected" : "")>@item.Name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <label>Description</label>
+                    <textarea class="form-control" id="summernote" name="description">@Model.Description</textarea>
+                </div>
             </div>
-        </div>
+            <div class="row">
+                <div class="col-sm-12 text-right">
+                    <a class="btn btn-outline-danger" href="@Url.Action("Index", "Song")">Back to list</a>
+                    <button class="btn btn-outline-primary">Save</button>
+                </div>
+            </div>
+        </form>
     </div>
     <!-- /.card-body -->
 </div>
+
+
+@section Styles{
+    <!-- Select2 -->
+    <link rel="stylesheet" href="/assets/manager/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="/assets/manager/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+    <!-- summernote -->
+    <link rel="stylesheet" href="/assets/manager/plugins/summernote/summernote-bs4.min.css">
+}
+
+@section Scripts{
+    <!-- Select2 -->
+    <script src="/assets/manager/plugins/select2/js/select2.full.min.js"></script>
+    <!-- InputMask -->
+    <script src="/assets/manager/plugins/moment/moment.min.js"></script>
+    <script src="/assets/manager/plugins/inputmask/jquery.inputmask.min.js"></script>
+    <!-- Summernote -->
+    <script src="/assets/manager/plugins/summernote/summernote-bs4.min.js"></script>
+
+    <script>
+        $(function () {
+            //Initialize Select2 Elements
+            $('.select2').select2();
+
+            //Datemask dd/mm/yyyy
+            $('.datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' });
+
+            $('#summernote').summernote({ height: 200, });
+        })
+    </script>
+}

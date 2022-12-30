@@ -4,6 +4,7 @@ using Shop.Web.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data.Entity;
 using System.Web;
 using System.Web.Security;
 
@@ -40,14 +41,14 @@ namespace Shop.Web.Authentications
         {
             using (ShopDbContext dbContext = new ShopDbContext())
             {
-                var user = dbContext.Users.Include(nameof(User.Roles))
+                var user = dbContext.Users.Include(x => x.Roles.Select(r => r.Role))
                     .FirstOrDefault(x => string.Compare(username, x.Username, StringComparison.OrdinalIgnoreCase) == 0);
 
                 if (user == null)
                 {
                     return null;
                 }
-                var roles = user.Roles.Select(x => x.Id.ToString()).ToArray();
+                var roles = user.Roles.Select(x => x.RoleId.ToString()).ToArray();
                 var permissions = dbContext.PermissionGrants
                     .Where(x => (roles.Contains(x.ProviderKey) && x.ProviderName == "R") || (x.ProviderKey == user.Id.ToString() && x.ProviderName == "U")).ToList();
                 var selectedUser = new ShopMembershipUser(user, permissions);

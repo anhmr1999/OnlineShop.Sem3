@@ -56,7 +56,7 @@
                     <td>@item.SurName</td>
                     <td>@item.Name</td>
                     <td>@item.Email</td>
-                    <td>@string.Join(", ", item.Roles.Select(x => x.RoleName))</td>
+                    <td>@string.Join(", ", item.Roles.Select(x => x.Role.RoleName))</td>
                     <td>
                         <a href="@Url.Action("ChangeStatus", "User", new { enable = !item.IsActive })" class="btn btn-danger">@(item.IsActive ? "Active" : "Non-Active")</a>
                     </td>

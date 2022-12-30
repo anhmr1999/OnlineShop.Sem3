@@ -31,7 +31,7 @@ namespace Shop.Web.Areas.Admin.Controllers
         // GET: Admin/User
         public ActionResult Index(UserAdminFilter filter)
         {
-            var query = _userRepository.GetQueryable().Include(x => x.Roles)
+            var query = _userRepository.GetQueryable().Include(x => x.Roles.Select(r => r.Role))
                 .WhereIf(!string.IsNullOrEmpty(filter.SearchKey), x => x.Name.ToLower().Contains(filter.SearchKey.ToLower()) || x.SurName.ToLower().Contains(filter.SearchKey.ToLower())
                         || x.Phone.ToLower().Contains(filter.SearchKey.ToLower()) || x.Phone.ToLower().Contains(filter.SearchKey.ToLower()));
 
@@ -156,16 +156,22 @@ namespace Shop.Web.Areas.Admin.Controllers
             user.Username = userObj.Email;
             user.Phone = userObj.Phone;
             user.IsActive = userObj.IsActive;
-            if (user.Roles == null)
-                user.Roles = new List<UserRole>();
+
+            if (user.Roles != null)
+            {
+                if(!userObj.RoleId.HasValue || !user.Roles.Any(x => x.RoleId == userObj.RoleId))
+                {
+                    user.Roles.Remove(user.Roles.FirstOrDefault());
+                    if (userObj.RoleId.HasValue)
+                        user.Roles.Add(new UserRole() { UserId = id, RoleId = userObj.RoleId.Value });
+                }    
+            }
             else
             {
-                if(userObj.RoleId.HasValue && !user.Roles.Any(x => x.RoleId == userObj.RoleId))
-                {
-                    user.Roles.Clear();
-                    user.Roles.Add(new UserRole() { RoleId = userObj.RoleId.Value, UserId = id});
-                }
-            }
+                if(userObj.RoleId.HasValue)
+                    user.Roles = new List<UserRole>() { new UserRole() { UserId = id, RoleId = userObj.RoleId.Value } };
+            }    
+
             _userRepository.Update(user);
             _userRepository.SaveChange();
             return RedirectToAction("Index");

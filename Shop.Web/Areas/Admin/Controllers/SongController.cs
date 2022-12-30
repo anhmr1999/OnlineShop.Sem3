@@ -20,20 +20,17 @@ namespace Shop.Web.Areas.Admin.Controllers
         private readonly IRepository<Producer> _producerRepository;
         private readonly IRepository<Category> _categoryRepository;
         private readonly IRepository<ActorOrSinger> _actorRepository;
-        private readonly IRepository<SongAndSinger> _songAndSingerRepository;
 
         public SongController(
             IRepository<SongOrTrailerOrGame> songRepository, 
             IRepository<Producer> producerRepository, 
             IRepository<Category> categoryRepository, 
-            IRepository<ActorOrSinger> actorRepository,
-            IRepository<SongAndSinger> songAndSingerRepository)
+            IRepository<ActorOrSinger> actorRepository)
         {
             _songRepository = songRepository;
             _producerRepository = producerRepository;
             _categoryRepository = categoryRepository;
             _actorRepository = actorRepository;
-            _songAndSingerRepository = songAndSingerRepository;
         }
 
         // GET: Admin/Song
@@ -64,12 +61,12 @@ namespace Shop.Web.Areas.Admin.Controllers
             ViewBag.Producers = _producerRepository.GetQueryable().ToList();
             ViewBag.Categories = _categoryRepository.GetList(x => x.CateFor == true);
             ViewBag.Singers = _actorRepository.GetQueryable().ToList();
-            return View(new SongTralerGameObject());
+            return View(new SongTrailerGameObject());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Add(SongTralerGameObject songDto)
+        public ActionResult Add(SongTrailerGameObject songDto)
         {
             ViewBag.Producers = _producerRepository.GetQueryable().ToList();
             ViewBag.Categories = _categoryRepository.GetList(x => x.CateFor == true);
@@ -78,21 +75,15 @@ namespace Shop.Web.Areas.Admin.Controllers
             if (!ModelState.IsValid)
                 return View(songDto);
 
-            if (string.IsNullOrEmpty(songDto.ActorOrSingers))
-            {
-                ModelState.AddModelError(nameof(SongTralerGameObject.ActorOrSingers), "Actor or Singer is not empty");
-                return View(songDto);
-            }
-            
             if (file == null || file.ContentLength == 0)
             {
-                ModelState.AddModelError(nameof(SongTralerGameObject.Image), "Image is not empty");
+                ModelState.AddModelError(nameof(SongTrailerGameObject.Image), "Image is not empty");
                 return View(songDto);
             }
 
-            if (string.IsNullOrEmpty(songDto.ActorOrSingers) || songDto.ActorOrSingers.Replace(" ", string.Empty).TrimEnd(',').Split(',').Length == 0)
+            if (songDto.ActorOrSingers.Length == 0)
             {
-                ModelState.AddModelError(nameof(SongTralerGameObject.ActorOrSingers), "Actor or Singer is not empty");
+                ModelState.AddModelError(nameof(SongTrailerGameObject.ActorOrSingers), "Actor or Singer is not empty");
                 return View(songDto);
             }
 
@@ -109,26 +100,42 @@ namespace Shop.Web.Areas.Admin.Controllers
             song.ProducerId = songDto.ProducerId;
             song.CategoryId = songDto.CategoryId;
             song.Image = "/assets/img/" + fileName;
+            song.ActorOrSingers = songDto.ActorOrSingers.Select(x => new SongAndSinger() { SingerId = x, SongId = song.Id }).ToList();
 
             song = _songRepository.Insert(song);
             _songRepository.SaveChange();
-            var singers = songDto.ActorOrSingers.Replace(" ", string.Empty).TrimEnd(',').Split(',').ToList().Select(x => new SongAndSinger() { SingerId = Guid.Parse(x), SongId = song.Id });
-            _songAndSingerRepository.InsertMany(singers);
-            _songAndSingerRepository.SaveChange();
             return RedirectToAction("Index");
         }
 
         public ActionResult Edit(Guid id)
         {
+            var song = _songRepository.GetQueryable()
+                .Include(x => x.ActorOrSingers).FirstOrDefault(x => x.Id == id);
+            if (song == null)
+                return RedirectToAction("Index");
+
             ViewBag.Producers = _producerRepository.GetQueryable().ToList();
             ViewBag.Categories = _categoryRepository.GetList(x => x.CateFor == true);
             ViewBag.Singers = _actorRepository.GetQueryable().ToList();
-            return View(new SongTralerGameObject());
+            SongTrailerGameObject model = new SongTrailerGameObject()
+            {
+                ActorOrSingers = song.ActorOrSingers.Select(x => x.SingerId).ToArray(),
+                Code= song.Code,
+                Name= song.Name,
+                ManufactureDate= song.ManufactureDate,
+                PremiereDate = song.PremiereDate,
+                Description= song.Description,
+                AllowDownloadFree= song.AllowDownloadFree,
+                ProducerId= song.ProducerId,
+                CategoryId = song.CategoryId,
+                Image = song.Image
+            };
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Guid id, SongTralerGameObject songDto)
+        public ActionResult Edit(Guid id, SongTrailerGameObject songDto)
         {
             ViewBag.Producers = _producerRepository.GetQueryable().ToList();
             ViewBag.Categories = _categoryRepository.GetList(x => x.CateFor == true);
@@ -138,23 +145,18 @@ namespace Shop.Web.Areas.Admin.Controllers
             if (!ModelState.IsValid)
                 return View(songDto);
 
-            if (string.IsNullOrEmpty(songDto.ActorOrSingers))
-            {
-                ModelState.AddModelError(nameof(SongTralerGameObject.ActorOrSingers), "Actor or Singer is not empty");
-                return View(songDto);
-            }
-
-            var song = _songRepository.Get(id);
-            if(song == null)
+            var song = _songRepository.GetQueryable()
+                .Include(x => x.ActorOrSingers).FirstOrDefault(x => x.Id == id);
+            if (song == null)
                 return RedirectToAction("Index");
 
-            if (string.IsNullOrEmpty(songDto.ActorOrSingers) || songDto.ActorOrSingers.Replace(" ", string.Empty).TrimEnd(',').Split(',').Length == 0)
+            if (songDto.ActorOrSingers.Length == 0)
             {
-                ModelState.AddModelError(nameof(SongTralerGameObject.ActorOrSingers), "Actor or Singer is not empty");
+                ModelState.AddModelError(nameof(SongTrailerGameObject.ActorOrSingers), "Actor or Singer is not empty");
                 return View(songDto);
             }
 
-            if(file != null && file.ContentLength > 0)
+            if (file != null && file.ContentLength > 0)
             {
                 if (System.IO.File.Exists(song.Image))
                     System.IO.File.Delete(song.Image);
@@ -173,14 +175,27 @@ namespace Shop.Web.Areas.Admin.Controllers
             song.ProducerId = songDto.ProducerId;
             song.CategoryId = songDto.CategoryId;
 
+            if(song.ActorOrSingers != null)
+            {
+                var removeSingers = new List<SongAndSinger>();
+
+                //remove
+                foreach (var item in song.ActorOrSingers)
+                    if (!songDto.ActorOrSingers.Contains(item.SingerId))
+                        removeSingers.Add(item);
+                foreach (var item in removeSingers)
+                    song.ActorOrSingers.Remove(item);
+
+                foreach (var item in songDto.ActorOrSingers)
+                {
+                    if (!song.ActorOrSingers.Any(x => x.SingerId == item))
+                        song.ActorOrSingers.Add(new SongAndSinger() { SingerId = item, SongId = song.Id });
+                }
+            } else
+                song.ActorOrSingers = songDto.ActorOrSingers.Select(x => new SongAndSinger() { SingerId = x, SongId = song.Id }).ToList();
+
             _songRepository.Update(song);
             _songRepository.SaveChange();
-            var singers = songDto.ActorOrSingers.Replace(" ", string.Empty).TrimEnd(',').Split(',').ToList().Select(x => new SongAndSinger() { SingerId = Guid.Parse(x), SongId = song.Id });
-            var oldSingers = _songAndSingerRepository.GetList(x => x.SongId == id);
-            _songAndSingerRepository.DeleteMany(oldSingers);
-            _songAndSingerRepository.SaveChange();
-            _songAndSingerRepository.InsertMany(singers);
-            _songAndSingerRepository.SaveChange();
             return RedirectToAction("Index");
         }
     }

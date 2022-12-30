@@ -1,6 +1,7 @@
 ﻿using Shop.EntityFramework.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Security;
 
 namespace Shop.Web.Authentications
@@ -18,7 +19,7 @@ namespace Shop.Web.Authentications
             Id = user.Id;
             SurName = user.SurName;
             Name = user.Name;
-            Roles = user.Roles;
+            Roles = user.Roles.Select(x => x.Role).ToList();
             Permissions = permissions;
         }
     }

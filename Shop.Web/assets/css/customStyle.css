@@ -1,0 +1,26 @@
+﻿.AddToCart {
+    display: inline-block;
+    cursor: pointer;
+    user-select: none;
+    padding: 12px;
+}
+
+.cart_image {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+}
+
+.cart_wrapCart {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 10px;
+    margin-bottom:12px;
+}
+.cart_inputQuantity{
+    background-color:#ccc;
+    font-size:20px;
+    font-weight:600;
+    height:40px;
+    width:100px;
+    border-radius:5px;
+}

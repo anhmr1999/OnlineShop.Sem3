@@ -232,7 +232,7 @@
             localStorage.setItem(name, JSON.stringify(obj))
         }
         const getStorage = (name) => {
-            if (!name) return {};
+            if (!name) return [];
             return JSON.parse(localStorage.getItem(name))
         }
         $(".AddToCart").click((e) => {

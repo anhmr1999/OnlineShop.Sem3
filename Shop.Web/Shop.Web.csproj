@@ -199,6 +199,7 @@
     <Content Include="assets\css\responsive.css" />
     <Content Include="assets\css\slick.css" />
     <Content Include="assets\css\style.css" />
+    <Content Include="assets\css\customStyle.css" />
     <Content Include="assets\fonts\download.svg" />
     <Content Include="assets\fonts\fa-brands-400.svg" />
     <Content Include="assets\fonts\fa-regular-400.svg" />

@@ -38,7 +38,7 @@ namespace Shop.Web.Areas.Admin.Controllers
         // GET: Admin/Album/edit
         public ActionResult Edit(Guid id)
         {
-            var album = _album.Get(id);
+            var album = _albumRepository.Get(id);
             if (album == null)
                 return RedirectToAction("Index");
             return View(album);
@@ -50,12 +50,12 @@ namespace Shop.Web.Areas.Admin.Controllers
             if (!ModelState.IsValid)
                 return View(album);
 
-            if (_album.Any(x => x.Code.ToLower() == album.Code.ToLower() && x.Id != id))
+            if (_albumRepository.Any(x => x.Code.ToLower() == album.Code.ToLower() && x.Id != id))
             {
                 ModelState.AddModelError(nameof(Album.Code), $"code {album.Code} has been used");
                 return View(album);
             }
-            var cate = _album.Get(id);
+            var cate = _albumRepository.Get(id);
             if (cate == null)
                 return RedirectToAction("Index");
 
@@ -64,8 +64,8 @@ namespace Shop.Web.Areas.Admin.Controllers
             cate.ReleaseDate = album.ReleaseDate;
             cate.Description = album.Description;
 
-            _album.Update(cate);
-            _album.SaveChange();
+            _albumRepository.Update(cate);
+            _albumRepository.SaveChange();
             return RedirectToAction("Index");
         }
     }

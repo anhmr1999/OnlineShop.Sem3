@@ -1,33 +1,32 @@
 ﻿using Shop.EntityFramework.Entities;
 using Shop.EntityFramework.Infrastructures.Enums;
 using Shop.EntityFramework.Infrastructures.Repository;
-using Shop.Web.Common;
 using Shop.Web.Common.ObjectRequests;
+using Shop.Web.Common;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.IO;
 using System.Linq;
+using System.Data.Entity;
 using System.Web;
 using System.Web.Mvc;
-using static System.Net.WebRequestMethods;
 
 namespace Shop.Web.Areas.Admin.Controllers
 {
-    public class SongController : Controller
+    public class GameController : Controller
     {
-        private readonly IRepository<SongOrTrailerOrGame> _songRepository;
+        private readonly IRepository<SongOrTrailerOrGame> _gameRepository;
         private readonly IRepository<Producer> _producerRepository;
         private readonly IRepository<Category> _categoryRepository;
         private readonly IRepository<ActorOrSinger> _actorRepository;
 
-        public SongController(
-            IRepository<SongOrTrailerOrGame> songRepository, 
-            IRepository<Producer> producerRepository, 
-            IRepository<Category> categoryRepository, 
+        public GameController(
+            IRepository<SongOrTrailerOrGame> gameRepository,
+            IRepository<Producer> producerRepository,
+            IRepository<Category> categoryRepository,
             IRepository<ActorOrSinger> actorRepository)
         {
-            _songRepository = songRepository;
+            _gameRepository = gameRepository;
             _producerRepository = producerRepository;
             _categoryRepository = categoryRepository;
             _actorRepository = actorRepository;
@@ -36,9 +35,9 @@ namespace Shop.Web.Areas.Admin.Controllers
         // GET: Admin/Song
         public ActionResult Index(SongTrailerGameAdminFilter filter)
         {
-            var query = _songRepository.GetQueryable()
+            var query = _gameRepository.GetQueryable()
                 .Include(x => x.Category).Include(x => x.Producer)
-                .Where(x => x.Type == SongTrailerGameTypeEnum.Song)
+                .Where(x => x.Type == SongTrailerGameTypeEnum.TrailerFilm)
                 .WhereIf(!string.IsNullOrEmpty(filter.SearchKey), x => x.Code.ToLower().Contains(filter.SearchKey.ToLower()) || x.Name.ToLower().Contains(filter.SearchKey.ToLower()))
                 .WhereIf(filter.AllowDownloadFree.HasValue, x => x.AllowDownloadFree == filter.AllowDownloadFree)
                 .WhereIf(filter.ProducerId.HasValue, x => x.ProducerId == filter.ProducerId)
@@ -52,163 +51,164 @@ namespace Shop.Web.Areas.Admin.Controllers
                 TotalPage = (int)Math.Ceiling((decimal)total / 10)
             };
             ViewBag.Producers = _producerRepository.GetQueryable().ToList();
-            ViewBag.Categories = _categoryRepository.GetList(x => x.CateFor == true);
+            ViewBag.Categories = _categoryRepository.GetList(x => x.CateFor == false);
             return View(model);
         }
 
         public ActionResult Add()
         {
             ViewBag.Producers = _producerRepository.GetQueryable().ToList();
-            ViewBag.Categories = _categoryRepository.GetList(x => x.CateFor == true);
+            ViewBag.Categories = _categoryRepository.GetList(x => x.CateFor == false);
             ViewBag.Singers = _actorRepository.GetQueryable().ToList();
             return View(new SongTrailerGameObject());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Add(SongTrailerGameObject songDto)
+        public ActionResult Add(SongTrailerGameObject trailerDto)
         {
             ViewBag.Producers = _producerRepository.GetQueryable().ToList();
-            ViewBag.Categories = _categoryRepository.GetList(x => x.CateFor == true);
+            ViewBag.Categories = _categoryRepository.GetList(x => x.CateFor == false);
             ViewBag.Singers = _actorRepository.GetQueryable().ToList();
             var file = Request.Files.Get("img");
             if (!ModelState.IsValid)
-                return View(songDto);
+                return View(trailerDto);
 
             if (file == null || file.ContentLength == 0)
             {
                 ModelState.AddModelError(nameof(SongTrailerGameObject.Image), "Image is not empty");
-                return View(songDto);
+                return View(trailerDto);
             }
 
-            if (songDto.ActorOrSingers.Length == 0)
+            if (trailerDto.ActorOrSingers.Length == 0)
             {
                 ModelState.AddModelError(nameof(SongTrailerGameObject.ActorOrSingers), "Actor or Singer is not empty");
-                return View(songDto);
+                return View(trailerDto);
             }
 
-            if (_songRepository.Any(x => x.Code == songDto.Code.ToLower()))
+            if (_gameRepository.Any(x => x.Code == trailerDto.Code.ToLower()))
             {
                 ModelState.AddModelError(nameof(SongTrailerGameObject.Code), "Code already used");
-                return View(songDto);
+                return View(trailerDto);
             }
 
-            var fileName = songDto.Code + "_" + file.FileName;
+            var fileName = trailerDto.Code + "_" + file.FileName;
             file.SaveAs(Path.Combine(Server.MapPath("~/assets/img"), fileName));
 
-            var song = new SongOrTrailerOrGame();
-            song.ManufactureDate = songDto.ManufactureDate;
-            song.PremiereDate = songDto.PremiereDate;
-            song.Code = songDto.Code.ToLower();
-            song.Name = songDto.Name;
-            song.Type = SongTrailerGameTypeEnum.Song;
-            song.Description = songDto.Description;
-            song.AllowDownloadFree = songDto.AllowDownloadFree;
-            song.ProducerId = songDto.ProducerId;
-            song.CategoryId = songDto.CategoryId;
-            song.Image = "/assets/img/" + fileName;
-            song.ActorOrSingers = songDto.ActorOrSingers.Select(x => new SongAndSinger() { SingerId = x, SongId = song.Id }).ToList();
+            var game = new SongOrTrailerOrGame();
+            game.ManufactureDate = trailerDto.ManufactureDate;
+            game.PremiereDate = trailerDto.PremiereDate;
+            game.Code = trailerDto.Code;
+            game.Name = trailerDto.Name;
+            game.Type = SongTrailerGameTypeEnum.TrailerFilm;
+            game.Description = trailerDto.Description;
+            game.AllowDownloadFree = trailerDto.AllowDownloadFree;
+            game.ProducerId = trailerDto.ProducerId;
+            game.CategoryId = trailerDto.CategoryId;
+            game.Image = "/assets/img/" + fileName;
+            game.ActorOrSingers = trailerDto.ActorOrSingers.Select(x => new SongAndSinger() { SingerId = x, SongId = game.Id }).ToList();
 
-            song = _songRepository.Insert(song);
-            _songRepository.SaveChange();
+            game = _gameRepository.Insert(game);
+            _gameRepository.SaveChange();
             return RedirectToAction("Index");
         }
 
         public ActionResult Edit(Guid id)
         {
-            var song = _songRepository.GetQueryable()
+            var game = _gameRepository.GetQueryable()
                 .Include(x => x.ActorOrSingers).FirstOrDefault(x => x.Id == id);
-            if (song == null)
+            if (game == null)
                 return RedirectToAction("Index");
 
             ViewBag.Producers = _producerRepository.GetQueryable().ToList();
-            ViewBag.Categories = _categoryRepository.GetList(x => x.CateFor == true);
+            ViewBag.Categories = _categoryRepository.GetList(x => x.CateFor == false);
             ViewBag.Singers = _actorRepository.GetQueryable().ToList();
             SongTrailerGameObject model = new SongTrailerGameObject()
             {
-                ActorOrSingers = song.ActorOrSingers.Select(x => x.SingerId).ToArray(),
-                Code= song.Code,
-                Name= song.Name,
-                ManufactureDate= song.ManufactureDate,
-                PremiereDate = song.PremiereDate,
-                Description= song.Description,
-                AllowDownloadFree= song.AllowDownloadFree,
-                ProducerId= song.ProducerId,
-                CategoryId = song.CategoryId,
-                Image = song.Image
+                ActorOrSingers = game.ActorOrSingers.Select(x => x.SingerId).ToArray(),
+                Code = game.Code,
+                Name = game.Name,
+                ManufactureDate = game.ManufactureDate,
+                PremiereDate = game.PremiereDate,
+                Description = game.Description,
+                AllowDownloadFree = game.AllowDownloadFree,
+                ProducerId = game.ProducerId,
+                CategoryId = game.CategoryId,
+                Image = game.Image
             };
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Guid id, SongTrailerGameObject songDto)
+        public ActionResult Edit(Guid id, SongTrailerGameObject trailerDto)
         {
             ViewBag.Producers = _producerRepository.GetQueryable().ToList();
-            ViewBag.Categories = _categoryRepository.GetList(x => x.CateFor == true);
+            ViewBag.Categories = _categoryRepository.GetList(x => x.CateFor == false);
             ViewBag.Singers = _actorRepository.GetQueryable().ToList();
 
             var file = Request.Files.Get("img");
             if (!ModelState.IsValid)
-                return View(songDto);
+                return View(trailerDto);
 
-            var song = _songRepository.GetQueryable()
+            var game = _gameRepository.GetQueryable()
                 .Include(x => x.ActorOrSingers).FirstOrDefault(x => x.Id == id);
-            if (song == null)
+            if (game == null)
                 return RedirectToAction("Index");
 
-            if (songDto.ActorOrSingers.Length == 0)
+            if (trailerDto.ActorOrSingers.Length == 0)
             {
                 ModelState.AddModelError(nameof(SongTrailerGameObject.ActorOrSingers), "Actor or Singer is not empty");
-                return View(songDto);
+                return View(trailerDto);
             }
 
-            if (_songRepository.Any(x => x.Code == songDto.Code.ToLower() && x.Id != id))
+            if (_gameRepository.Any(x => x.Code == trailerDto.Code.ToLower() && x.Id != id))
             {
                 ModelState.AddModelError(nameof(SongTrailerGameObject.Code), "Code already used");
-                return View(songDto);
+                return View(trailerDto);
             }
 
             if (file != null && file.ContentLength > 0)
             {
-                if (System.IO.File.Exists(song.Image))
-                    System.IO.File.Delete(song.Image);
+                if (System.IO.File.Exists(game.Image))
+                    System.IO.File.Delete(game.Image);
 
-                var fileName = songDto.Code + "_" + file.FileName;
+                var fileName = trailerDto.Code + "_" + file.FileName;
                 file.SaveAs(Path.Combine(Server.MapPath("~/assets/img"), fileName));
-                song.Image = "/assets/img/" + fileName;
+                game.Image = "/assets/img/" + fileName;
             }
 
-            song.ManufactureDate = songDto.ManufactureDate;
-            song.PremiereDate = songDto.PremiereDate;
-            song.Code = songDto.Code.ToLower();
-            song.Name = songDto.Name;
-            song.Description = songDto.Description;
-            song.AllowDownloadFree = songDto.AllowDownloadFree;
-            song.ProducerId = songDto.ProducerId;
-            song.CategoryId = songDto.CategoryId;
+            game.ManufactureDate = trailerDto.ManufactureDate;
+            game.PremiereDate = trailerDto.PremiereDate;
+            game.Code = trailerDto.Code;
+            game.Name = trailerDto.Name;
+            game.Description = trailerDto.Description;
+            game.AllowDownloadFree = trailerDto.AllowDownloadFree;
+            game.ProducerId = trailerDto.ProducerId;
+            game.CategoryId = trailerDto.CategoryId;
 
-            if(song.ActorOrSingers != null)
+            if (game.ActorOrSingers != null)
             {
                 var removeSingers = new List<SongAndSinger>();
 
                 //remove
-                foreach (var item in song.ActorOrSingers)
-                    if (!songDto.ActorOrSingers.Contains(item.SingerId))
+                foreach (var item in game.ActorOrSingers)
+                    if (!trailerDto.ActorOrSingers.Contains(item.SingerId))
                         removeSingers.Add(item);
                 foreach (var item in removeSingers)
-                    song.ActorOrSingers.Remove(item);
+                    game.ActorOrSingers.Remove(item);
 
-                foreach (var item in songDto.ActorOrSingers)
+                foreach (var item in trailerDto.ActorOrSingers)
                 {
-                    if (!song.ActorOrSingers.Any(x => x.SingerId == item))
-                        song.ActorOrSingers.Add(new SongAndSinger() { SingerId = item, SongId = song.Id });
+                    if (!game.ActorOrSingers.Any(x => x.SingerId == item))
+                        game.ActorOrSingers.Add(new SongAndSinger() { SingerId = item, SongId = game.Id });
                 }
-            } else
-                song.ActorOrSingers = songDto.ActorOrSingers.Select(x => new SongAndSinger() { SingerId = x, SongId = song.Id }).ToList();
+            }
+            else
+                game.ActorOrSingers = trailerDto.ActorOrSingers.Select(x => new SongAndSinger() { SingerId = x, SongId = game.Id }).ToList();
 
-            _songRepository.Update(song);
-            _songRepository.SaveChange();
+            _gameRepository.Update(game);
+            _gameRepository.SaveChange();
             return RedirectToAction("Index");
         }
     }

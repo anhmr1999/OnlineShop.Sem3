@@ -150,9 +150,11 @@
     <Compile Include="Areas\Admin\Controllers\ActorOrSingerController.cs" />
     <Compile Include="Areas\Admin\Controllers\AlbumController.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
+    <Compile Include="Areas\Admin\Controllers\GameController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
     <Compile Include="Areas\Admin\Controllers\SongController.cs" />
+    <Compile Include="Areas\Admin\Controllers\TrailerController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Authentications\AuthenticationModel.cs" />
     <Compile Include="Authentications\CurrentPrincipal.cs" />
@@ -164,6 +166,7 @@
     <Compile Include="Common\ActionFilter.cs" />
     <Compile Include="Common\CommonAction.cs" />
     <Compile Include="Common\CommonFilter.cs" />
+    <Compile Include="Common\ObjectRequests\AlbumObject.cs" />
     <Compile Include="Common\ObjectRequests\SongTrailerGameObject.cs" />
     <Compile Include="Common\ObjectRequests\UserCoUObject.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -2405,6 +2408,12 @@
     <Content Include="Areas\Admin\Views\Song\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Song\Add.cshtml" />
     <Content Include="Areas\Admin\Views\Song\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Trailer\Add.cshtml" />
+    <Content Include="Areas\Admin\Views\Trailer\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Trailer\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Game\Add.cshtml" />
+    <Content Include="Areas\Admin\Views\Game\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Game\Index.cshtml" />
     <None Include="packages.config" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Registration.cshtml" />

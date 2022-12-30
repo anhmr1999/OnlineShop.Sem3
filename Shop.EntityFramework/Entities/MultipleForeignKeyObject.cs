@@ -37,11 +37,11 @@ namespace Shop.EntityFramework.Entities
     public class AlbumDetails
     {
         [Required]
-        public Guid AbumId { get; set; }
+        public Guid AlbumId { get; set; }
         [Required]
         public Guid SongId { get; set; }
 
-        [ForeignKey("AbumId")]
+        [ForeignKey("AlbumId")]
         public Album Album { get; set; }
         [ForeignKey("SongId")]
         public SongOrTrailerOrGame Song { get; set; }

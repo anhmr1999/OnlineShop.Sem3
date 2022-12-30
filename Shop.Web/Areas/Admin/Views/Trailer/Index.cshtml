@@ -3,7 +3,7 @@
 @using Shop.EntityFramework.Infrastructures.Enums
 @model CommonListResult<SongOrTrailerOrGame>
 @{
-    ViewBag.Title = "Song";
+    ViewBag.Title = "Trailer";
     List<Category> categories = (List<Category>)ViewBag.Categories;
     List<Producer> producers = (List<Producer>)ViewBag.Producers;
     var filter = (SongTrailerGameAdminFilter)Model.Filter;
@@ -14,7 +14,7 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="@Url.Action("Index","")">Admin</a></li>
         <li class="breadcrumb-item" aria-current="page">Product</li>
-        <li class="breadcrumb-item active" aria-current="page">Song</li>
+        <li class="breadcrumb-item active" aria-current="page">Trailer</li>
     </ol>
 </nav>
 <!-- table -->
@@ -52,7 +52,7 @@
             </div>
             <div class="col-md-2 text-right">
                 <button type="submit" class="btn btn-outline-primary">Search</button>
-                <a href="@Url.Action("Add", "Song")" class="btn btn-outline-danger">New Song</a>
+                <a href="@Url.Action("Add", "Trailer")" class="btn btn-outline-danger">New Trailer</a>
             </div>
         </div>
     </form>
@@ -81,9 +81,9 @@
                     <td>@(item.PremiereDate.HasValue ? item.PremiereDate.Value.ToString("dd/MM/yyyy") : "")</td>
                     <td>@(item.AllowDownloadFree ? "Allow" : "Not Allowed")</td>
                     <td class="text-center">
-                        <a href="@Url.Action("View", "Song", new {id=@item.Id})" class="btn btn-outline-success">View</a>
-                        <a href="@Url.Action("Edit", "Song", new {id=@item.Id})" class="btn btn-outline-primary">Edit</a>
-                        <a href="@Url.Action("Delete", "Song", new {id=@item.Id})" class="btn btn-outline-danger">Delete</a>
+                        <a href="@Url.Action("View", "Trailer", new {id=@item.Id})" class="btn btn-outline-success">View</a>
+                        <a href="@Url.Action("Edit", "Trailer", new {id=@item.Id})" class="btn btn-outline-primary">Edit</a>
+                        <a href="@Url.Action("Delete", "Trailer", new {id=@item.Id})" class="btn btn-outline-danger">Delete</a>
                     </td>
                 </tr>
                 index++;

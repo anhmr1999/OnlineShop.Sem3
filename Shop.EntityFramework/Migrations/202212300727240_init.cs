@@ -73,13 +73,13 @@
                 "dbo.AlbumDetails",
                 c => new
                     {
-                        AbumId = c.Guid(nullable: false),
+                        AlbumId = c.Guid(nullable: false),
                         SongId = c.Guid(nullable: false),
                     })
-                .PrimaryKey(t => new { t.AbumId, t.SongId })
-                .ForeignKey("dbo.Albums", t => t.AbumId, cascadeDelete: true)
+                .PrimaryKey(t => new { t.AlbumId, t.SongId })
+                .ForeignKey("dbo.Albums", t => t.AlbumId, cascadeDelete: true)
                 .ForeignKey("dbo.SongOrTrailerOrGames", t => t.SongId, cascadeDelete: true)
-                .Index(t => t.AbumId)
+                .Index(t => t.AlbumId)
                 .Index(t => t.SongId);
             
             CreateTable(
@@ -332,7 +332,7 @@
             DropForeignKey("dbo.SongOrTrailerOrGames", "ProducerId", "dbo.Producers");
             DropForeignKey("dbo.SongOrTrailerOrGames", "CategoryId", "dbo.Categories");
             DropForeignKey("dbo.AlbumDetails", "SongId", "dbo.SongOrTrailerOrGames");
-            DropForeignKey("dbo.AlbumDetails", "AbumId", "dbo.Albums");
+            DropForeignKey("dbo.AlbumDetails", "AlbumId", "dbo.Albums");
             DropForeignKey("dbo.Products", "SupplierId", "dbo.Suppliers");
             DropForeignKey("dbo.BillDetailts", "ProductId", "dbo.Products");
             DropForeignKey("dbo.BillDetailts", "BillId", "dbo.Bills");
@@ -346,7 +346,7 @@
             DropIndex("dbo.Products", new[] { "SupplierId" });
             DropIndex("dbo.Products", new[] { "AlbumId" });
             DropIndex("dbo.AlbumDetails", new[] { "SongId" });
-            DropIndex("dbo.AlbumDetails", new[] { "AbumId" });
+            DropIndex("dbo.AlbumDetails", new[] { "AlbumId" });
             DropIndex("dbo.SongOrTrailerOrGames", new[] { "CategoryId" });
             DropIndex("dbo.SongOrTrailerOrGames", new[] { "ProducerId" });
             DropIndex("dbo.SongAndSingers", new[] { "SingerId" });

@@ -65,6 +65,7 @@
     <Compile Include="Entities\Sale.cs" />
     <Compile Include="Entities\SongOrTrailerOrGame.cs" />
     <Compile Include="Entities\Supplier.cs" />
+    <Compile Include="Entities\MultipleForeignKeyObject.cs" />
     <Compile Include="Infrastructures\Consts\AuthenticationCookieNameConsts.cs" />
     <Compile Include="Infrastructures\Entities\Auditing\Entity.cs" />
     <Compile Include="Infrastructures\Entities\Auditing\FullAuditedEntity.cs" />
@@ -72,7 +73,7 @@
     <Compile Include="Infrastructures\Entities\Auditing\IHasCreation.cs" />
     <Compile Include="Infrastructures\Entities\Auditing\IHasModified.cs" />
     <Compile Include="Infrastructures\Enums\BillStatusEnum.cs" />
-    <Compile Include="Infrastructures\Enums\SongTrainerGameTypeEnum.cs" />
+    <Compile Include="Infrastructures\Enums\SongTrailerGameTypeEnum.cs" />
     <Compile Include="Infrastructures\ICurrentPrincipal.cs" />
     <Compile Include="Infrastructures\Permissions\Permission.cs" />
     <Compile Include="Infrastructures\Permissions\PermissionProvider.cs" />
@@ -81,9 +82,9 @@
     <Compile Include="Infrastructures\Repository\ReadOnlyRepository.cs" />
     <Compile Include="Infrastructures\Repository\Repository.cs" />
     <Compile Include="Infrastructures\UserPrincipal.cs" />
-    <Compile Include="Migrations\202212260650376_init.cs" />
-    <Compile Include="Migrations\202212260650376_init.designer.cs">
-      <DependentUpon>202212260650376_init.cs</DependentUpon>
+    <Compile Include="Migrations\202301030759413_init.cs" />
+    <Compile Include="Migrations\202301030759413_init.designer.cs">
+      <DependentUpon>202301030759413_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -94,8 +95,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202212260650376_init.resx">
-      <DependentUpon>202212260650376_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202301030759413_init.resx">
+      <DependentUpon>202301030759413_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

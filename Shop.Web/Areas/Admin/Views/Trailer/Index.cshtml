@@ -1,0 +1,108 @@
+﻿@using Shop.Web.Common
+@using Shop.EntityFramework.Entities
+@using Shop.EntityFramework.Infrastructures.Enums
+@model CommonListResult<SongOrTrailerOrGame>
+@{
+    ViewBag.Title = "Trailer";
+    List<Category> categories = (List<Category>)ViewBag.Categories;
+    List<Producer> producers = (List<Producer>)ViewBag.Producers;
+    var filter = (SongTrailerGameAdminFilter)Model.Filter;
+    var index = (Model.Filter.PageIndex - 1) * 10 + 1;
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Action("Index","")">Admin</a></li>
+        <li class="breadcrumb-item" aria-current="page">Product</li>
+        <li class="breadcrumb-item active" aria-current="page">Trailer</li>
+    </ol>
+</nav>
+<!-- table -->
+<section class="card p-2">
+    <form method="get">
+        <input type="hidden" name="pageIndex" value="@Model.Filter.PageIndex" />
+        <div class="row">
+            <div class="col-md-3 form-group">
+                <input class="form-control" name="searchKey" placeholder="Search key..." value="@Model.Filter.SearchKey" />
+            </div>
+            <div class="col-md-2 form-group">
+                <select class="form-control" name="allowDownloadFree">
+                    <option value="">-- All --</option>
+                    <option value="true" @(filter.AllowDownloadFree == true ? "selected" : "") )>Allow download free </option>
+                    <option value="false" @(filter.AllowDownloadFree == false ? "selected" : "") )>Download is not allowed</option>
+                </select>
+            </div>
+            <div class="col-md-2 form-group">
+                <select class="form-control" name="categoryId">
+                    <option value="">-- All --</option>
+                    @foreach (var item in categories)
+                    {
+                        <option value="@item.Id" @(item.Id == filter.CategoryId ? "selected" : ""))>@item.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-3 form-group">
+                <select class="form-control" name="producerId">
+                    <option value="">-- All --</option>
+                    @foreach (var item in producers)
+                    {
+                        <option value="@item.Id" @(item.Id == filter.ProducerId ? "selected" : "") )>@item.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-2 text-right">
+                <button type="submit" class="btn btn-outline-primary">Search</button>
+                <a href="@Url.Action("Add", "Trailer")" class="btn btn-outline-danger">New Trailer</a>
+            </div>
+        </div>
+    </form>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Code</th>
+                <th scope="col">Name</th>
+                <th scope="col">Category</th>
+                <th scope="col">Producer</th>
+                <th scope="col">Premiere Date</th>
+                <th scope="col">Dowload free</th>
+                <th style="width:220px" class="text-center"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.List)
+            {
+                <tr>
+                    <th scope="row">@index</th>
+                    <td>@item.Code</td>
+                    <td>@item.Name</td>
+                    <td>@item.Category.Name</td>
+                    <td>@(item.Producer?.Name)</td>
+                    <td>@(item.PremiereDate.HasValue ? item.PremiereDate.Value.ToString("dd/MM/yyyy") : "")</td>
+                    <td>@(item.AllowDownloadFree ? "Allow" : "Not Allowed")</td>
+                    <td class="text-center">
+                        <a href="@Url.Action("View", "Trailer", new {id=@item.Id})" class="btn btn-outline-success">View</a>
+                        <a href="@Url.Action("Edit", "Trailer", new {id=@item.Id})" class="btn btn-outline-primary">Edit</a>
+                        <a href="@Url.Action("Delete", "Trailer", new {id=@item.Id})" class="btn btn-outline-danger">Delete</a>
+                    </td>
+                </tr>
+                index++;
+            }
+        </tbody>
+    </table>
+    <nav aria-label="Page navigation example right ">
+        <ul class="pagination justify-content-end">
+            <li class="page-item @(Model.Filter.PageIndex - 1 == 0 ? "disabled" : "")">
+                <a class="page-link" href="#" tabindex="-1">Previous</a>
+            </li>
+            @for (int i = 1; i <= Model.TotalPage; i++)
+            {
+                <li class="page-item @(Model.Filter.PageIndex == i ? "active" : "")"><a class="page-link" href="#" data-page="@i">@i</a></li>
+            }
+            <li class="page-item @(Model.Filter.PageIndex == Model.TotalPage ? "disabled" : "")">
+                <a class="page-link" href="#">Next</a>
+            </li>
+        </ul>
+    </nav>
+</section>
+

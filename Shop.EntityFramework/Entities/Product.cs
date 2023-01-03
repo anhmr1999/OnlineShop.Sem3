@@ -12,6 +12,11 @@ namespace Shop.EntityFramework.Entities
 {
     public class Product : FullAuditedEntity
     {
+        [Required(ErrorMessage = "Code is not empty")]
+        public string Code { get; set; }
+        [Required(ErrorMessage = "Code is not empty")]
+        public string Name { get; set; }
+
         public Guid AlbumId { get; set; }
         [Required]
         public double Price { get; set; }

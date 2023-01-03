@@ -1,6 +1,7 @@
 ﻿using Shop.EntityFramework.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Security;
 
 namespace Shop.Web.Authentications
@@ -13,12 +14,12 @@ namespace Shop.Web.Authentications
         public ICollection<Role> Roles { get; set; }
         public ICollection<PermissionGrant> Permissions { get; set; }
 
-        public ShopMembershipUser(User user, ICollection<PermissionGrant> permissions) : base (nameof(ShopMembershipUser), user.Username, user.Id, user.Email, string.Empty, string.Empty, true, false, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now)
+        public ShopMembershipUser(User user, ICollection<PermissionGrant> permissions) : base ("ShopMembershipProvider", user.Username, user.Id, user.Email, string.Empty, string.Empty, true, false, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now)
         {
             Id = user.Id;
             SurName = user.SurName;
             Name = user.Name;
-            Roles = user.Roles;
+            Roles = user.Roles.Select(x => x.Role).ToList();
             Permissions = permissions;
         }
     }

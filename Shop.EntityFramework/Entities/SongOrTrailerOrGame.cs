@@ -17,13 +17,16 @@ namespace Shop.EntityFramework.Entities
         public string Code { get; set; }
         [Required]
         public string Name { get; set; }
-        public SongTrainerGameTypeEnum Type  { get; set; }
+        [Required]
+        public string Image { get; set; }
+        public SongTrailerGameTypeEnum Type  { get; set; }
         public Guid? ProducerId { get; set; }
         public Guid CategoryId { get; set; }
         public DateTime? ManufactureDate { get; set; } // ngày sản xuất
         public DateTime? PremiereDate { get; set; } // ngày công chiếu
         [Required]
-        public ICollection<ActorOrSinger> ActorOrSingers { get; set; } // danh sách diễn viên
+        public ICollection<SongAndSinger> ActorOrSingers { get; set; } // danh sách diễn viên
+        public ICollection<AlbumDetails> Albums { get; set; } // danh sách diễn viên
         public bool AllowDownloadFree { get; set; }
         [Required]
         public string Description { get; set; }

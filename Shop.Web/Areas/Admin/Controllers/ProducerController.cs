@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Shop.EntityFramework.Entities;
+using Shop.EntityFramework.Infrastructures.Repository;
+using Shop.Web.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,20 +11,76 @@ namespace Shop.Web.Areas.Admin.Controllers
 {
     public class ProducerController : Controller
     {
-        // GET: Admin/Producer
-        public ActionResult Index()
+        private readonly IRepository<Producer> _producerRepository;
+
+        public ProducerController(IRepository<Producer> producerRepository)
         {
-            return View();
+            _producerRepository = producerRepository;
         }
 
-        public ActionResult Edit()
+        // GET: Admin/Producer
+        public ActionResult Index(CommonFilter filter)
         {
-            return View();
+            var query = _producerRepository.GetQueryable()
+                .WhereIf(!string.IsNullOrEmpty(filter.SearchKey), x => x.Code.ToLower().Contains(filter.SearchKey.ToLower()) || x.Name.ToLower().Contains(filter.SearchKey.ToLower()));
+
+            var model = new CommonListResult<Producer>()
+            {
+                Filter= filter,
+                List = query.OrderByDescending(x => x.CreationTime).PagedBy(filter).ToList(),
+                TotalCount= query.Count(),
+                TotalPage = (int) Math.Ceiling((decimal)query.Count()/10)
+            };
+            return View(model);
         }
 
         public ActionResult Add()
         {
-            return View();
+            return View(new Producer() { FoundingDate = DateTime.Now});
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Add(Producer producer)
+        {
+            if(!ModelState.IsValid)
+                return View(producer);
+
+            _producerRepository.Insert(producer);
+            _producerRepository.SaveChange();
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult Edit(Guid id)
+        {
+            var producer = _producerRepository.Get(id);
+            if (producer == null)
+                return RedirectToAction("Index");
+
+            return View(producer);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(Guid id, Producer producerDto)
+        {
+            if (!ModelState.IsValid)
+                return View(producerDto);
+
+            var producer = _producerRepository.Get(id);
+            if (producer == null)
+                return RedirectToAction("Index");
+
+            if(_producerRepository.Any(x => x.Id != id && x.Code == producerDto.Code))
+                return View(producerDto);
+
+            producer.Code = producerDto.Code;
+            producer.Name = producerDto.Name;
+            producer.FoundingDate = producerDto.FoundingDate;
+            producer.Introduce = producerDto.Introduce;
+            _producerRepository.Update(producer);
+            _producerRepository.SaveChange();
+            return RedirectToAction("Index");
         }
     }
 }

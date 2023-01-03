@@ -67,7 +67,24 @@
                                 </div>
                                 <div class="header-action d-none d-md-block">
                                     <ul>
-                                        <li class="header-btn"><a href="@Url.Action("Login", "Account")" class="btn">Sign In</a></li>
+                                        @if (User.Identity.IsAuthenticated)
+                                        {
+                                            <li class="header-btn">
+                                                <a href="#" class="btn" style="padding: 10px 15px;">
+                                                    <i class="fa fa-shopping-cart" aria-hidden="true" style="margin: 0 !important"></i>
+                                                </a>
+                                            </li>
+                                            <li class="header-btn">
+                                                <a href="#" class="btn" style="padding: 10px 15px;">
+                                                    <i class="fa fa-user" aria-hidden="true" style="margin: 0 !important"></i>
+                                                </a>
+                                            </li>
+                                            <li class="header-btn"><a href="@Url.Action("LogOut", "Account")" class="btn">Sign Out</a></li>
+                                        }
+                                        else
+                                        {
+                                            <li class="header-btn"><a href="@Url.Action("Login", "Account")" class="btn">Sign In</a></li>
+                                        }
                                     </ul>
                                 </div>
                             </nav>
@@ -121,8 +138,6 @@
         @RenderBody()
     </main>
     <!-- main-area-end -->
-
-
     <!-- footer-area -->
     <footer>
         <div class="footer-top-wrap">
@@ -200,7 +215,6 @@
         </div>
     </footer>
     <!-- footer-area-end -->
-
     <!-- JS here -->
     <script src="~/assets/js/vendor/jquery-3.6.0.min.js"></script>
     <script src="~/assets/js/popper.min.js"></script>

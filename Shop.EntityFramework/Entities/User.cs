@@ -21,6 +21,6 @@ namespace Shop.EntityFramework.Entities
         [Required]
         public string Password { get; set; }
         public bool IsActive { get; set; }
-        public ICollection<Role> Roles { get; set; }
+        public ICollection<UserRole> Roles { get; set; }
     }
 }

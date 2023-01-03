@@ -23,7 +23,7 @@ namespace Shop.EntityFramework.Entities
         public ICollection<BillDetailt> Details { get; set; }
     }
 
-    public class BillDetailt : FullAuditedEntity
+    public class BillDetailt : Entity
     {
         public Guid BillId { get; set; }
         public Guid ProductId { get; set; }

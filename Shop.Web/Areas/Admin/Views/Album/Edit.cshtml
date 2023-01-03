@@ -32,7 +32,7 @@
                     </div>
                     <div class="form-group">
                         <label>Release Date:</label>
-                        <input class="form-control datemask" name="releaseDate" value="@(Model.ReleaseDate?.ToString("dd/MM/yyyy"))">
+                        <input class="form-control" type="date" name="releaseDate" value="@(Model.ReleaseDate?.ToString("yyyy-MM-dd"))">
                     </div>
                     <div class="form-group">
                         <label>Songs <span style="color: red">*</span>:</label>

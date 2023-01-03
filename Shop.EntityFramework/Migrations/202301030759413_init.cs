@@ -106,6 +106,8 @@
                 c => new
                     {
                         Id = c.Guid(nullable: false),
+                        Code = c.String(nullable: false),
+                        Name = c.String(nullable: false),
                         AlbumId = c.Guid(nullable: false),
                         Price = c.Double(nullable: false),
                         SupplierId = c.Guid(nullable: false),
@@ -204,7 +206,7 @@
                         Id = c.Guid(nullable: false),
                         Code = c.String(nullable: false),
                         Name = c.String(nullable: false),
-                        FoundingDate = c.DateTime(nullable: false),
+                        FoundingDate = c.DateTime(),
                         Introduce = c.String(nullable: false),
                         CreationTime = c.DateTime(nullable: false),
                         CreationUser = c.Guid(),

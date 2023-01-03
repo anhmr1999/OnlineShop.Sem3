@@ -21,4 +21,9 @@ namespace Shop.Web.Common
         public Guid? ProducerId { get; set; }
         public bool? AllowDownloadFree { get; set; }
     }
+
+    public class ProductAdminFilter : CommonFilter
+    {
+        public Guid? SupplierId { get; set; }
+    }
 }

@@ -1,0 +1,73 @@
+﻿@using Shop.Web.Common
+@using Shop.EntityFramework.Entities
+@model CommonListResult<Producer>
+@{
+    ViewBag.Title = "Producer";
+    var index = (Model.Filter.PageIndex - 1) * 10 + 1;
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Action("Index","")">Admin</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Producer</li>
+    </ol>
+</nav>
+<!-- table -->
+<section class="card p-2">
+    <form method="get">
+        <input type="hidden" name="pageIndex" value="@Model.Filter.PageIndex" />
+        <div class="row">
+            <div class="col-md-5 form-group">
+                <input class="form-control" name="searchKey" placeholder="Search key..." value="@Model.Filter.SearchKey" />
+            </div>
+            <div class="col-md-4 form-group">
+                <button type="submit" class="btn btn-outline-primary">Search</button>
+            </div>
+            <div class="col-md-3 text-right">
+                <a href="@Url.Action("Add", "Producer")" class="btn btn-outline-danger">New Producer</a>
+            </div>
+        </div>
+    </form>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Code</th>
+                <th scope="col">Name</th>
+                <th scope="col">Founding Date</th>
+                <th style="width:220px" class="text-center"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.List)
+            {
+                <tr>
+                    <th scope="row">@index</th>
+                    <td>@item.Code</td>
+                    <td>@item.Name</td>
+                    <td>@(item.FoundingDate?.ToString("dd/MM/yyyy"))</td>
+                    <td class="text-center">
+                        <a href="@Url.Action("View", "Producer", new {id=@item.Id})" class="btn btn-outline-success">View</a>
+                        <a href="@Url.Action("Edit", "Producer", new {id=@item.Id})" class="btn btn-outline-primary">Edit</a>
+                        <a href="@Url.Action("Delete", "Producer", new {id=@item.Id})" class="btn btn-outline-danger">Delete</a>
+                    </td>
+                </tr>
+                index++;
+            }
+        </tbody>
+    </table>
+    <nav aria-label="Page navigation example right ">
+        <ul class="pagination justify-content-end">
+            <li class="page-item @(Model.Filter.PageIndex - 1 == 0 ? "disabled" : "")">
+                <a class="page-link" href="#" tabindex="-1">Previous</a>
+            </li>
+            @for (int i = 1; i <= Model.TotalPage; i++)
+            {
+                <li class="page-item @(Model.Filter.PageIndex == i ? "active" : "")"><a class="page-link" href="#" data-page="@i">@i</a></li>
+            }
+            <li class="page-item @(Model.Filter.PageIndex == Model.TotalPage ? "disabled" : "")">
+                <a class="page-link" href="#">Next</a>
+            </li>
+        </ul>
+    </nav>
+</section>

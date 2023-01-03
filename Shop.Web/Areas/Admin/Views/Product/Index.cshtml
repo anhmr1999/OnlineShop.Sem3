@@ -1,0 +1,109 @@
+﻿@using Shop.Web.Common
+@using Shop.EntityFramework.Entities
+@model CommonListResult<Product>
+@{
+    ViewBag.Title = "Product";
+    var suppliers = (List<Supplier>)ViewBag.Suppliers;
+    var index = (Model.Filter.PageIndex - 1) * 10 + 1;
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Action("Index","")">Admin</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Category</li>
+    </ol>
+</nav>
+<!-- table -->
+<section class="card p-2">
+    <form method="get">
+        <input type="hidden" name="pageIndex" value="@Model.Filter.PageIndex" />
+        <div class="row">
+            <div class="col-md-3 form-group">
+                <input class="form-control" name="searchKey" placeholder="Search key..." value="@Model.Filter.SearchKey" />
+            </div>
+            <div class="col-md-3 form-group">
+                <select class="form-control select2" name="supplierId">
+                    <option value="">-- Supplier --</option>
+                    @foreach (var item in suppliers)
+                    {
+                        <option value="@item.Id" @(item.Id == ((ProductAdminFilter)Model.Filter).SupplierId ? "selected" : "")>@item.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-3 form-group">
+                <button type="submit" class="btn btn-outline-primary">Search</button>
+            </div>
+            <div class="col-md-3 text-right">
+                <a href="@Url.Action("Add", "Product")" class="btn btn-outline-danger">New Product</a>
+            </div>
+        </div>
+    </form>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Album</th>
+                <th scope="col">Price</th>
+                <th scope="col">Supplier</th>
+                <th style="width:220px" class="text-center"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.List)
+            {
+                <tr>
+                    <th scope="row">@index</th>
+                    <td>@item.Code - @item.Name </td>
+                    <td>@item.Album.Name</td>
+                    <td>@item.Price $</td>
+                    <td>@item.Supplier.Name</td>
+                    <td class="text-center">
+                        <a href="@Url.Action("View", "Product", new {id=@item.Id})" class="btn btn-outline-success">View</a>
+                        <a href="@Url.Action("Edit", "Product", new {id=@item.Id})" class="btn btn-outline-primary">Edit</a>
+                        <a href="@Url.Action("Delete", "Product", new {id=@item.Id})" class="btn btn-outline-danger">Delete</a>
+                    </td>
+                </tr>
+                index++;
+            }
+        </tbody>
+    </table>
+    <nav aria-label="Page navigation example right ">
+        <ul class="pagination justify-content-end">
+            <li class="page-item @(Model.Filter.PageIndex - 1 == 0 ? "disabled" : "")">
+                <a class="page-link" href="#" tabindex="-1">Previous</a>
+            </li>
+            @for (int i = 1; i <= Model.TotalPage; i++)
+            {
+                <li class="page-item @(Model.Filter.PageIndex == i ? "active" : "")"><a class="page-link" href="#" data-page="@i">@i</a></li>
+            }
+            <li class="page-item @(Model.Filter.PageIndex == Model.TotalPage ? "disabled" : "")">
+                <a class="page-link" href="#">Next</a>
+            </li>
+        </ul>
+    </nav>
+</section>
+
+@section Styles{
+    <!-- Select2 -->
+    <link rel="stylesheet" href="/assets/manager/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="/assets/manager/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+}
+
+@section Scripts{
+    <!-- Select2 -->
+    <script src="/assets/manager/plugins/select2/js/select2.full.min.js"></script>
+    <!-- InputMask -->
+    <script src="/assets/manager/plugins/moment/moment.min.js"></script>
+    <script src="/assets/manager/plugins/inputmask/jquery.inputmask.min.js"></script>
+
+    <script>
+        $(function () {
+            //Initialize Select2 Elements
+            $('.select2').select2();
+
+            //Datemask dd/mm/yyyy
+            $('.datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' });
+        })
+    </script>
+}

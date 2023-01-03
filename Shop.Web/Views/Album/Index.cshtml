@@ -42,7 +42,7 @@
                         </div>
                         <div class="bottom">
                             <ul>
-                                <li><span class="quality">hd</span></li>
+                                <li><span data-id="id-1" data-name="Ablum Son Tung Mtp" class="quality AddToCart">Add to cart</span></li>
                                 <li>
                                     <span class="duration"><i class="far fa-clock"></i> 128 min</span>
                                     <span class="rating"><i class="fas fa-thumbs-up"></i> 3.5</span>
@@ -64,7 +64,7 @@
                         </div>
                         <div class="bottom">
                             <ul>
-                                <li><span class="quality">4k</span></li>
+                                <li><span data-id="id-2" data-name="Ablum Chi Pu"  class="quality AddToCart">Add to cart</span></li>
                                 <li>
                                     <span class="duration"><i class="far fa-clock"></i> 128 min</span>
                                     <span class="rating"><i class="fas fa-thumbs-up"></i> 3.5</span>
@@ -225,4 +225,32 @@
     </div>
 </section>
 
+@section Scripts{ 
+    <script>
+        const saveStorage = (name,obj) => {
+            if (!obj) return;
+            localStorage.setItem(name, JSON.stringify(obj))
+        }
+        const getStorage = (name) => {
+            if (!name) return [];
+            return JSON.parse(localStorage.getItem(name))
+        }
+        $(".AddToCart").click((e) => {
+            var id = e.target.dataset.id
+            var name = e.target.dataset.name
+            const cartList = getStorage("cart")
+            if (!cartList || cartList.length === 0) {
+                saveStorage("cart", [{ id, name, quantity: 1 }])
+                return;
+            }
+            const index = cartList.findIndex(cart => cart.id === id)
+            if (index === -1) {
+                saveStorage("cart", [...cartList, { id, name, quantity: 1 }])
+                return;
+            }
+            cartList[index].quantity = cartList[index].quantity+1
+            saveStorage("cart", [...cartList])
+        })   
+    </script>
+    }
 

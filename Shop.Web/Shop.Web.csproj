@@ -149,14 +149,20 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\ActorOrSingerController.cs" />
     <Compile Include="Areas\Admin\Controllers\AlbumController.cs" />
+    <Compile Include="Areas\Admin\Controllers\BillController.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\GameController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
+    <Compile Include="Areas\Admin\Controllers\RoleController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SaleController.cs" />
     <Compile Include="Areas\Admin\Controllers\SongController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProducerController.cs" />
     <Compile Include="Areas\Admin\Controllers\SupplierController.cs" />
     <Compile Include="Areas\Admin\Controllers\TrailerController.cs" />
+    <Compile Include="Areas\Admin\Controllers\NewsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ProducerController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SupplierController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Authentications\AuthenticationModel.cs" />
     <Compile Include="Authentications\CurrentPrincipal.cs" />
@@ -173,6 +179,7 @@
     <Compile Include="Common\ObjectRequests\UserCoUObject.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AlbumController.cs" />
+    <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MusicController.cs" />
     <Compile Include="Controllers\TrailerFilmController.cs" />
@@ -197,6 +204,7 @@
     <Content Include="assets\css\responsive.css" />
     <Content Include="assets\css\slick.css" />
     <Content Include="assets\css\style.css" />
+    <Content Include="assets\css\customStyle.css" />
     <Content Include="assets\fonts\download.svg" />
     <Content Include="assets\fonts\fa-brands-400.svg" />
     <Content Include="assets\fonts\fa-regular-400.svg" />
@@ -2422,6 +2430,13 @@
     <Content Include="Areas\Admin\Views\Producer\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Producer\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Product\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Bill\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Sale\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Sale\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Sale\Add.cshtml" />
+    <Content Include="Areas\Admin\Views\Role\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Role\Add.cshtml" />
+    <Content Include="Areas\Admin\Views\Role\Edit.cshtml" />
     <None Include="packages.config" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Registration.cshtml" />
@@ -2429,6 +2444,7 @@
     <Content Include="Views\TrailerFilm\Index.cshtml" />
     <Content Include="Views\Music\View.cshtml" />
     <Content Include="Views\Album\Index.cshtml" />
+    <Content Include="Views\Cart\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Shop.EntityFramework\Shop.EntityFramework.csproj">

@@ -1,0 +1,76 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Action("Index","")">Admin</a></li>
+        <li class="breadcrumb-item" aria-current="page">Role</li>
+    </ol>
+</nav>
+
+<section>
+    <form method="get">
+        <input type="hidden" name="pageIndex" value="" />
+        <div class="row">
+            <div class="col-md-3 form-group">
+                <input class="form-control" name="searchKey" placeholder="Search key..." value="" />
+            </div>
+            <div class="col-md-2 form-group">
+                <select class="form-control" name="allowDownloadFree">
+                    <option value="">-- All --</option>
+                    <option value="true">Allow download free </option>
+                    <option value="false">Download is not allowed</option>
+                </select>
+            </div>
+            <div class="col-md-2 form-group">
+                <select class="form-control" name="categoryId">
+                    <option value="">-- All --</option>
+
+                    <option>item</option>
+                </select>
+            </div>
+            <div class="col-md-3 form-group">
+                <select class="form-control" name="producerId">
+                    <option value="">-- All --</option>
+
+                    <option value="">Name</option>
+                </select>
+            </div>
+            <div class="col-md-2 text-right">
+                <button type="submit" class="btn btn-outline-primary">Search</button>
+                <a href="@Url.Action("Add", "Sale")" class="btn btn-outline-danger">New Role</a>
+            </div>
+        </div>
+    </form>
+</section>
+
+<section>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Role Name</th>
+                <th scope="col">Is Default</th>
+                <th scope="col">Is Static</th>
+                <th style="width:220px" class="text-center"></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <th scope="row">1</th>
+                <td>code</td>
+                <td>Name</td>
+                <td>Category.Name</td>
+                <td class="text-center">
+                    <a href="@Url.Action("View", "Role")" class="btn btn-outline-success">View</a>
+                    <a href="@Url.Action("Edit", "Role")" class="btn btn-outline-primary">Edit</a>
+                    <a href="@Url.Action("Delete", "Role")" class="btn btn-outline-danger">Delete</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+

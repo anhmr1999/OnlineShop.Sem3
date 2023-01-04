@@ -1,6 +1,7 @@
-﻿
+﻿@model Shop.Web.Common.CommonListResult<Shop.EntityFramework.Entities.Role>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Role";
+    var index = (Model.Filter.PageIndex - 1) * 10 + 1;
 }
 
 <nav aria-label="breadcrumb">
@@ -17,60 +18,58 @@
             <div class="col-md-3 form-group">
                 <input class="form-control" name="searchKey" placeholder="Search key..." value="" />
             </div>
-            <div class="col-md-2 form-group">
-                <select class="form-control" name="allowDownloadFree">
-                    <option value="">-- All --</option>
-                    <option value="true">Allow download free </option>
-                    <option value="false">Download is not allowed</option>
-                </select>
-            </div>
-            <div class="col-md-2 form-group">
-                <select class="form-control" name="categoryId">
-                    <option value="">-- All --</option>
-
-                    <option>item</option>
-                </select>
-            </div>
-            <div class="col-md-3 form-group">
-                <select class="form-control" name="producerId">
-                    <option value="">-- All --</option>
-
-                    <option value="">Name</option>
-                </select>
-            </div>
-            <div class="col-md-2 text-right">
+            <div class="col-md-6 form-group">
                 <button type="submit" class="btn btn-outline-primary">Search</button>
-                <a href="@Url.Action("Add", "Sale")" class="btn btn-outline-danger">New Role</a>
+            </div>
+            <div class="col-md-3 text-right">
+                <a href="@Url.Action("Add", "Role")" class="btn btn-outline-danger">New Role</a>
             </div>
         </div>
     </form>
-</section>
-
-<section>
     <table class="table table-bordered">
         <thead>
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Role Name</th>
                 <th scope="col">Is Default</th>
-                <th scope="col">Is Static</th>
+                <th scope="col">Type</th>
                 <th style="width:220px" class="text-center"></th>
             </tr>
         </thead>
         <tbody>
 
-            <tr>
-                <th scope="row">1</th>
-                <td>code</td>
-                <td>Name</td>
-                <td>Category.Name</td>
-                <td class="text-center">
-                    <a href="@Url.Action("View", "Role")" class="btn btn-outline-success">View</a>
-                    <a href="@Url.Action("Edit", "Role")" class="btn btn-outline-primary">Edit</a>
-                    <a href="@Url.Action("Delete", "Role")" class="btn btn-outline-danger">Delete</a>
-                </td>
-            </tr>
+
+            @foreach (var item in Model.List)
+            {
+                <tr>
+                    <th scope="row">@index</th>
+                    <td>@item.RoleName</td>
+                    <td>@(item.IsDefault ? "Default" : "Non-Default")</td>
+                    <td>@Html.Raw(item.IsStatic ? "<span class=\"btn btn-success\">Static</span>" : "<span class=\"btn btn-danger\">Non-Static</span>")</td>
+                    <td class="text-center">
+                        <a href="@Url.Action("View", "Role")" class="btn btn-outline-success">View</a>
+                        <a href="@Url.Action("Edit", "Role", new {id = item.Id})" class="btn btn-outline-primary">Edit</a>
+                        <a href="@Url.Action("Delete", "Role")" class="btn btn-outline-danger">Delete</a>
+                    </td>
+                </tr>
+                index++;
+            }
+
         </tbody>
     </table>
+    <nav aria-label="Page navigation example right ">
+        <ul class="pagination justify-content-end">
+            <li class="page-item @(Model.Filter.PageIndex - 1 == 0 ? "disabled" : "")">
+                <a class="page-link" href="#" tabindex="-1">Previous</a>
+            </li>
+            @for (int i = 1; i <= Model.TotalPage; i++)
+            {
+                <li class="page-item @(Model.Filter.PageIndex == i ? "active" : "")"><a class="page-link" href="#" data-page="@i">@i</a></li>
+            }
+            <li class="page-item @(Model.Filter.PageIndex == Model.TotalPage ? "disabled" : "")">
+                <a class="page-link" href="#">Next</a>
+            </li>
+        </ul>
+    </nav>
 </section>
 

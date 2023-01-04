@@ -4,7 +4,7 @@
 @{
 
     ViewBag.Title = "Add";
- 
+    var products = (List<Shop.EntityFramework.Entities.Product>)ViewBag.Products;
 }
 
 <nav aria-label="breadcrumb">
@@ -25,7 +25,7 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <label>Percent <span style="color: red">*</span></label>
+                                <label>Percent </label>
                                 <input type="text" class="form-control" placeholder="Enter Percent" name="percent" required value="@Model.Percent">
                                 @Html.ValidationMessageFor(model => model.Percent, "", new { @class = "text-danger" })
                             </div>
@@ -41,7 +41,7 @@
 
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <label>Price <span style="color: red">*</span></label>
+                                <label>Price </label>
                                 <input type="text" class="form-control" placeholder="Enter Price" name="price" required value="@Model.Price">
                                 @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
                             </div>
@@ -69,10 +69,15 @@
                             </div>
                         </div>
                         <div class="col-sm-12">
-                            <select class="form-control select2" multiple="multiple" name="Products[]" required>
-                                <option value="">-- Song --</option>
-                      
-                            </select>
+                            <div class="form-group">
+                                <label>Product</label>
+                                <select class="form-control select2" multiple="multiple" name="products[]" required>
+                                    @foreach (var item in products)
+                                    {
+                                        <option value="@item.Id" @(!string.IsNullOrEmpty(Model.Products) && Model.Products.Contains(item.Id.ToString()) ? "selected" : "")>-- @item.Name --</option>
+                                    }
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div>
@@ -87,3 +92,21 @@
     </div>
     <!-- /.card-body -->
 </div>
+
+@section Styles{
+    <!-- Select2 -->
+    <link rel="stylesheet" href="/assets/manager/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="/assets/manager/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+}
+
+@section Scripts{
+    <!-- Select2 -->
+    <script src="/assets/manager/plugins/select2/js/select2.full.min.js"></script>
+
+    <script>
+        $(function () {
+            //Initialize Select2 Elements
+            $('.select2').select2();
+        })
+    </script>
+}

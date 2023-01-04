@@ -16,12 +16,12 @@ namespace Shop.Web.Areas.Admin.Controllers
     public class SaleController : Controller
     {
         private readonly IRepository<Sale> _saleRepository;
-        private readonly IRepository<Album> _album;
+        private readonly IRepository<Product> _productRepotory;
 
-        public SaleController(IRepository<Sale> saleRepository, IRepository<Album> album)
+        public SaleController(IRepository<Sale> saleRepository, IRepository<Product> productRepotory)
         {
             _saleRepository = saleRepository;
-            _album = album;
+            _productRepotory = productRepotory;
         }
         // GET: Admin/Sale
         public ActionResult Index()
@@ -34,6 +34,7 @@ namespace Shop.Web.Areas.Admin.Controllers
         }
         public ActionResult Add()
         {
+            ViewBag.Products = _productRepotory.GetQueryable().ToList();
             return View(new Sale());
         }
         [HttpPost]

@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace Shop.EntityFramework.Entities
 {
@@ -19,6 +20,7 @@ namespace Shop.EntityFramework.Entities
         public string Image { get; set; }
         public bool IsGlobal { get; set; } // Tin quốc tế
         [Required]
+        [AllowHtml]
         public string Description { get; set; }
     }
 }

@@ -1,8 +1,10 @@
 ﻿
+@using Shop.EntityFramework.Entities
+@using Shop.Web.Common.ObjectRequests
+@model Sale
 @{
     ViewBag.Title = "Index";
 }
-
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="@Url.Action("Index","")">Admin</a></li>
@@ -15,7 +17,7 @@
         <input type="hidden" name="pageIndex" value="" />
         <div class="row">
             <div class="col-md-3 form-group">
-                <input class="form-control" name="searchKey" placeholder="Search key..." value="" />
+                <input class="form-control" name="searchKey" placeholder="Search key..." />
             </div>
             <div class="col-md-2 form-group">
                 <select class="form-control" name="allowDownloadFree">

@@ -12,6 +12,7 @@ using Shop.EntityFramework.Infrastructures.Permissions;
 using System.Security.Policy;
 using System.Web.Helpers;
 using System.Xml.Linq;
+using Shop.Web.Authentications;
 
 namespace Shop.Web.Areas.Admin.Controllers
 {
@@ -29,6 +30,7 @@ namespace Shop.Web.Areas.Admin.Controllers
         }
 
         // GET: Admin/User
+        [ShopAuthorize(Proxy = PermissionName.User)]
         public ActionResult Index(UserAdminFilter filter)
         {
             var query = _userRepository.GetQueryable().Include(x => x.Roles.Select(r => r.Role))
@@ -52,6 +54,7 @@ namespace Shop.Web.Areas.Admin.Controllers
         }
 
         // GET: Admin/User/Add
+        [ShopAuthorize(Proxy = PermissionName.UserAdd)]
         public ActionResult Add()
         {
             ViewBag.Roles = _roleRepository.GetQueryable().ToList();
@@ -60,6 +63,7 @@ namespace Shop.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ShopAuthorize(Proxy = PermissionName.UserAdd)]
         public ActionResult Add(UserCoUObject userObj)
         {
             ViewBag.Roles = _roleRepository.GetQueryable().ToList();
@@ -73,7 +77,7 @@ namespace Shop.Web.Areas.Admin.Controllers
             }
             if (!string.IsNullOrEmpty(userObj.Phone) && !userObj.Phone.ValidatePhoneNumber())
             {
-                ModelState.AddModelError(nameof(UserCoUObject.Email), "Phone number is not correct");
+                ModelState.AddModelError(nameof(UserCoUObject.Phone), "Phone number is not correct");
                 return View(userObj);
             }
             var user = new User()
@@ -106,6 +110,7 @@ namespace Shop.Web.Areas.Admin.Controllers
         }
 
         // GET: Admin/User/Edit
+        [ShopAuthorize(Proxy = PermissionName.UserEdit)]
         public ActionResult Edit(Guid id)
         {
             var user = _userRepository.GetQueryable().Include(x => x.Roles).FirstOrDefault(x => x.Id == id);
@@ -129,6 +134,7 @@ namespace Shop.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ShopAuthorize(Proxy = PermissionName.UserEdit)]
         public ActionResult Edit(Guid id, UserCoUObject userObj)
         {
             ViewBag.Roles = _roleRepository.GetQueryable().ToList();

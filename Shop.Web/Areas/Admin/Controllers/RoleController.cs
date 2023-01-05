@@ -1,6 +1,7 @@
 ﻿using Shop.EntityFramework.Entities;
 using Shop.EntityFramework.Infrastructures.Permissions;
 using Shop.EntityFramework.Infrastructures.Repository;
+using Shop.Web.Authentications;
 using Shop.Web.Common;
 using Shop.Web.Common.ObjectRequests;
 using System;
@@ -23,6 +24,7 @@ namespace Shop.Web.Areas.Admin.Controllers
         }
 
         // GET: Admin/Role
+        [ShopAuthorize(Proxy = PermissionName.Role)]
         public ActionResult Index(CommonFilter filter)
         {
             var query = _roleRepository.GetQueryable()
@@ -38,6 +40,7 @@ namespace Shop.Web.Areas.Admin.Controllers
             return View(model);
         }
 
+        [ShopAuthorize(Proxy = PermissionName.RoleAdd)]
         public ActionResult Add()
         {
             return View(new RoleObject());
@@ -45,6 +48,7 @@ namespace Shop.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ShopAuthorize(Proxy = PermissionName.RoleAdd)]
         public ActionResult Add(RoleObject roleDto)
         {
             if(!ModelState.IsValid)
@@ -67,6 +71,7 @@ namespace Shop.Web.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+        [ShopAuthorize(Proxy = PermissionName.RoleEdit)]
         public ActionResult Edit(Guid id)
         {
             var role = _roleRepository.Get(id);
@@ -84,6 +89,7 @@ namespace Shop.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ShopAuthorize(Proxy = PermissionName.RoleEdit)]
         public ActionResult Edit(Guid id, RoleObject roleDto)
         {
             if (!ModelState.IsValid)

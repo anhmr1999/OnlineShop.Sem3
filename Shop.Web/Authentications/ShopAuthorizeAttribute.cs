@@ -11,19 +11,31 @@ namespace Shop.Web.Authentications
     {
         protected UserPrincipal CurrentUser => HttpContext.Current.User as UserPrincipal;
 
-        public string Proxy { get; set; }
+        private string _proxy;
+
+        public string Proxy
+        {
+            get
+            {
+                return _proxy ?? string.Empty;
+            }
+            set
+            {
+                _proxy = value;
+            }
+        }
 
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
             if (CurrentUser == null)
                 return false;
 
-            if (!string.IsNullOrEmpty(Roles) && !string.IsNullOrEmpty(Proxy))
-                return CurrentUser.IsInRole(Roles) && CurrentUser.IsHasPermission(Proxy);
+            if (!string.IsNullOrEmpty(Roles) && !string.IsNullOrEmpty(_proxy))
+                return CurrentUser.IsInRole(Roles) && CurrentUser.IsHasPermission(_proxy);
             else if (!string.IsNullOrEmpty(Roles))
                 return CurrentUser.IsInRole(Roles);
-            else if (!string.IsNullOrEmpty(Proxy))
-                return CurrentUser.IsHasPermission(Proxy);
+            else if (!string.IsNullOrEmpty(_proxy))
+                return CurrentUser.IsHasPermission(_proxy);
             else
                 return true;
         }
@@ -34,11 +46,11 @@ namespace Shop.Web.Authentications
 
             if (CurrentUser == null)
             {
-                routeData = new RedirectToRouteResult(new System.Web.Routing.RouteValueDictionary(new{ controller = "Account", action = "Login",}));
+                routeData = new RedirectToRouteResult(new System.Web.Routing.RouteValueDictionary(new{ controller = "Account", action = "Login", Area = string.Empty}));
             }
             else
             {
-                routeData = new RedirectToRouteResult(new System.Web.Routing.RouteValueDictionary(new { controller = "Error", action = "AccessDenied" }));
+                routeData = new RedirectToRouteResult(new System.Web.Routing.RouteValueDictionary(new { controller = "Error", action = "AccessDenied", Area = string.Empty }));
             }
 
             filterContext.Result = routeData;

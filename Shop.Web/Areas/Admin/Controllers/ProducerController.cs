@@ -1,5 +1,7 @@
 ﻿using Shop.EntityFramework.Entities;
+using Shop.EntityFramework.Infrastructures.Permissions;
 using Shop.EntityFramework.Infrastructures.Repository;
+using Shop.Web.Authentications;
 using Shop.Web.Common;
 using System;
 using System.Collections.Generic;
@@ -19,6 +21,7 @@ namespace Shop.Web.Areas.Admin.Controllers
         }
 
         // GET: Admin/Producer
+        [ShopAuthorize(Proxy = PermissionName.Producer)]
         public ActionResult Index(CommonFilter filter)
         {
             var query = _producerRepository.GetQueryable()
@@ -34,6 +37,7 @@ namespace Shop.Web.Areas.Admin.Controllers
             return View(model);
         }
 
+        [ShopAuthorize(Proxy = PermissionName.ProducerAdd)]
         public ActionResult Add()
         {
             return View(new Producer() { FoundingDate = DateTime.Now});
@@ -41,6 +45,7 @@ namespace Shop.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ShopAuthorize(Proxy = PermissionName.ProducerAdd)]
         public ActionResult Add(Producer producer)
         {
             if(!ModelState.IsValid)
@@ -51,6 +56,7 @@ namespace Shop.Web.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+        [ShopAuthorize(Proxy = PermissionName.ProducerEdit)]
         public ActionResult Edit(Guid id)
         {
             var producer = _producerRepository.Get(id);
@@ -62,6 +68,7 @@ namespace Shop.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ShopAuthorize(Proxy = PermissionName.ProducerEdit)]
         public ActionResult Edit(Guid id, Producer producerDto)
         {
             if (!ModelState.IsValid)

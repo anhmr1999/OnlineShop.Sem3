@@ -1,5 +1,7 @@
 ﻿using Shop.EntityFramework.Entities;
+using Shop.EntityFramework.Infrastructures.Permissions;
 using Shop.EntityFramework.Infrastructures.Repository;
+using Shop.Web.Authentications;
 using Shop.Web.Common;
 using System;
 using System.Collections.Generic;
@@ -20,6 +22,7 @@ namespace Shop.Web.Areas.Admin.Controllers
         }
 
         // GET: Admin/Category
+        [ShopAuthorize(Proxy = PermissionName.Category)]
         public ActionResult Index(CategoryAdminFilter filter)
         {
             var query = _categoryRepository.GetQueryable()
@@ -34,6 +37,7 @@ namespace Shop.Web.Areas.Admin.Controllers
             return View(model);
         }
         // GET: Admin/Category/Add
+        [ShopAuthorize(Proxy = PermissionName.CategoryAdd)]
         public ActionResult Add()
         {
             return View(new Category());
@@ -41,6 +45,7 @@ namespace Shop.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ShopAuthorize(Proxy = PermissionName.CategoryAdd)]
         public ActionResult Add(Category category)
         {
             if(!ModelState.IsValid)
@@ -58,6 +63,7 @@ namespace Shop.Web.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+        [ShopAuthorize(Proxy = PermissionName.CategoryDelete)]
         public ActionResult Delete(Guid id)
         {
             var cate = _categoryRepository.Get(id);
@@ -71,6 +77,7 @@ namespace Shop.Web.Areas.Admin.Controllers
 
 
         // GET: Admin/Category/Edit
+        [ShopAuthorize(Proxy = PermissionName.CategoryEdit)]
         public ActionResult Edit(Guid id)
         {
             var category = _categoryRepository.Get(id);
@@ -81,6 +88,7 @@ namespace Shop.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ShopAuthorize(Proxy = PermissionName.CategoryEdit)]
         public ActionResult Edit(Guid id, Category category)
         {
             if (!ModelState.IsValid)
@@ -105,6 +113,7 @@ namespace Shop.Web.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+        [ShopAuthorize(Proxy = PermissionName.Category)]
         public ActionResult View(Guid id)
         {
            

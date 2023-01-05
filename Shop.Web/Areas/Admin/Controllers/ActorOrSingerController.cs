@@ -1,5 +1,7 @@
 ﻿using Shop.EntityFramework.Entities;
+using Shop.EntityFramework.Infrastructures.Permissions;
 using Shop.EntityFramework.Infrastructures.Repository;
+using Shop.Web.Authentications;
 using Shop.Web.Common;
 using System;
 using System.Collections.Generic;
@@ -18,6 +20,7 @@ namespace Shop.Web.Areas.Admin.Controllers
             _actorRepository = actorRepository;
         }
 
+        [ShopAuthorize(Proxy = PermissionName.ActorOrSinger)]
         // GET: Admin/ActorAndSinger
         public ActionResult Index(CommonFilter filter)
         {
@@ -31,6 +34,7 @@ namespace Shop.Web.Areas.Admin.Controllers
             return View(model);
         }
 
+        [ShopAuthorize(Proxy = PermissionName.ActorOrSingerDelete)]
         public ActionResult Delete(Guid id)
         {
             var actor = _actorRepository.Get(id);
@@ -42,6 +46,7 @@ namespace Shop.Web.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+        [ShopAuthorize(Proxy = PermissionName.ActorOrSingerEdit)]
         // GET: Admin/ActorAndSinger/Edit
         public ActionResult Edit(Guid id)
         {
@@ -54,6 +59,7 @@ namespace Shop.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ShopAuthorize(Proxy = PermissionName.ActorOrSingerEdit)]
         public ActionResult Edit(Guid id, ActorOrSinger actor)
         {
             if (!ModelState.IsValid)
@@ -80,6 +86,7 @@ namespace Shop.Web.Areas.Admin.Controllers
         }
 
         // GET: Admin/ActorAndSinger/Add
+        [ShopAuthorize(Proxy = PermissionName.ActorOrSingerAdd)]
         public ActionResult Add()
         {
             return View(new ActorOrSinger());
@@ -87,6 +94,7 @@ namespace Shop.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ShopAuthorize(Proxy = PermissionName.ActorOrSingerAdd)]
         public ActionResult Add(ActorOrSinger actor)
         {
             if (!ModelState.IsValid)

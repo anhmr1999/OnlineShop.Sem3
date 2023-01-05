@@ -1,5 +1,7 @@
 ﻿using Shop.EntityFramework.Entities;
+using Shop.EntityFramework.Infrastructures.Permissions;
 using Shop.EntityFramework.Infrastructures.Repository;
+using Shop.Web.Authentications;
 using Shop.Web.Common;
 using System;
 using System.Collections.Generic;
@@ -24,6 +26,7 @@ namespace Shop.Web.Areas.Admin.Controllers
         }
 
         // GET: Admin/Product
+        [ShopAuthorize(Proxy = PermissionName.Product)]
         public ActionResult Index(ProductAdminFilter filter)
         {
             var query = _productRepository.GetQueryable()
@@ -41,6 +44,7 @@ namespace Shop.Web.Areas.Admin.Controllers
             return View(model);
         }
 
+        [ShopAuthorize(Proxy = PermissionName.ProductAdd)]
         public ActionResult Add()
         {
             ViewBag.Suppliers = _supplierRepository.GetQueryable().ToList();
@@ -51,6 +55,7 @@ namespace Shop.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ShopAuthorize(Proxy = PermissionName.ProductAdd)]
         public ActionResult Add(Product product)
         {
             ViewBag.Suppliers = _supplierRepository.GetQueryable().ToList();
@@ -70,6 +75,7 @@ namespace Shop.Web.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+        [ShopAuthorize(Proxy = PermissionName.ProductEdit)]
         public ActionResult Edit(Guid id)
         {
             var product = _productRepository.Get(id);
@@ -85,6 +91,7 @@ namespace Shop.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ShopAuthorize(Proxy = PermissionName.ProductEdit)]
         public ActionResult Edit(Guid id, Product productDto)
         {
             ViewBag.Suppliers = _supplierRepository.GetQueryable().ToList();

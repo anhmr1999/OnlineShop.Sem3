@@ -1,6 +1,8 @@
 ﻿using Shop.EntityFramework.Entities;
 using Shop.EntityFramework.Infrastructures.Enums;
+using Shop.EntityFramework.Infrastructures.Permissions;
 using Shop.EntityFramework.Infrastructures.Repository;
+using Shop.Web.Authentications;
 using Shop.Web.Common;
 using Shop.Web.Common.ObjectRequests;
 using System;
@@ -34,6 +36,7 @@ namespace Shop.Web.Areas.Admin.Controllers
         }
 
         // GET: Admin/Song
+        [ShopAuthorize(Proxy = PermissionName.SongTrainerGame)]
         public ActionResult Index(SongTrailerGameAdminFilter filter)
         {
             var query = _songRepository.GetQueryable()
@@ -56,6 +59,7 @@ namespace Shop.Web.Areas.Admin.Controllers
             return View(model);
         }
 
+        [ShopAuthorize(Proxy = PermissionName.SongTrainerGameAdd)]
         public ActionResult Add()
         {
             ViewBag.Producers = _producerRepository.GetQueryable().ToList();
@@ -66,6 +70,7 @@ namespace Shop.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ShopAuthorize(Proxy = PermissionName.SongTrainerGameAdd)]
         public ActionResult Add(SongTrailerGameObject songDto)
         {
             ViewBag.Producers = _producerRepository.GetQueryable().ToList();
@@ -114,6 +119,7 @@ namespace Shop.Web.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+        [ShopAuthorize(Proxy = PermissionName.SongTrainerGameEdit)]
         public ActionResult Edit(Guid id)
         {
             var song = _songRepository.GetQueryable()
@@ -142,6 +148,7 @@ namespace Shop.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ShopAuthorize(Proxy = PermissionName.SongTrainerGameEdit)]
         public ActionResult Edit(Guid id, SongTrailerGameObject songDto)
         {
             ViewBag.Producers = _producerRepository.GetQueryable().ToList();

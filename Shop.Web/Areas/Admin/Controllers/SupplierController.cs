@@ -1,5 +1,7 @@
 ﻿using Shop.EntityFramework.Entities;
+using Shop.EntityFramework.Infrastructures.Permissions;
 using Shop.EntityFramework.Infrastructures.Repository;
+using Shop.Web.Authentications;
 using Shop.Web.Common;
 using System;
 using System.Collections.Generic;
@@ -19,6 +21,7 @@ namespace Shop.Web.Areas.Admin.Controllers
         }
 
         // GET: Admin/Supplier
+        [ShopAuthorize(Proxy = PermissionName.Supplier)]
         public ActionResult Index(CommonFilter filter)
         {
             var query = _supplierRepository.GetQueryable()
@@ -35,6 +38,7 @@ namespace Shop.Web.Areas.Admin.Controllers
         }
 
         // GET: Admin/Add
+        [ShopAuthorize(Proxy = PermissionName.SupplierAdd)]
         public ActionResult Add()
         {
             return View(new Supplier());
@@ -42,6 +46,7 @@ namespace Shop.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ShopAuthorize(Proxy = PermissionName.SupplierAdd)]
         public ActionResult Add(Supplier supplier)
         {
             if(!ModelState.IsValid)
@@ -52,6 +57,7 @@ namespace Shop.Web.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+        [ShopAuthorize(Proxy = PermissionName.SupplierEdit)]
         public ActionResult Edit(Guid id)
         {
             var supplier = _supplierRepository.Get(id);
@@ -63,6 +69,7 @@ namespace Shop.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ShopAuthorize(Proxy = PermissionName.SupplierEdit)]
         public ActionResult Edit(Guid id, Supplier supplierDto)
         {
             if (!ModelState.IsValid)

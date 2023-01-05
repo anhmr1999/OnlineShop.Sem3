@@ -73,67 +73,67 @@ namespace Shop.EntityFramework.Infrastructures.Permissions
 
     public static class PermissionName
     {
-        public static string Category = "Category";
-        public static string CategoryAdd = "Category.Add";
-        public static string CategoryEdit = "Category.Edit";
-        public static string CategoryDelete = "Category.Delete";
+        public const string Category = "Category";
+        public const string CategoryAdd = "Category.Add";
+        public const string CategoryEdit = "Category.Edit";
+        public const string CategoryDelete = "Category.Delete";
 
-        public static string ActorOrSinger = "ActorOrSinger";
-        public static string ActorOrSingerAdd = "ActorOrSinger.Add";
-        public static string ActorOrSingerEdit = "ActorOrSinger.Edit";
-        public static string ActorOrSingerDelete = "ActorOrSinger.Delete";
+        public const string ActorOrSinger = "ActorOrSinger";
+        public const string ActorOrSingerAdd = "ActorOrSinger.Add";
+        public const string ActorOrSingerEdit = "ActorOrSinger.Edit";
+        public const string ActorOrSingerDelete = "ActorOrSinger.Delete";
 
-        public static string Album = "Album";
-        public static string AlbumAdd = "Album.Add";
-        public static string AlbumEdit = "Album.Edit";
-        public static string AlbumDelete = "Album.Delete";
+        public const string Album = "Album";
+        public const string AlbumAdd = "Album.Add";
+        public const string AlbumEdit = "Album.Edit";
+        public const string AlbumDelete = "Album.Delete";
 
-        public static string SongTrainerGame = "SongTrainerGame";
-        public static string SongTrainerGameAdd = "SongTrainerGame.Add";
-        public static string SongTrainerGameEdit = "SongTrainerGame.Edit";
-        public static string SongTrainerGameDelete = "SongTrainerGame.Delete";
+        public const string SongTrainerGame = "SongTrainerGame";
+        public const string SongTrainerGameAdd = "SongTrainerGame.Add";
+        public const string SongTrainerGameEdit = "SongTrainerGame.Edit";
+        public const string SongTrainerGameDelete = "SongTrainerGame.Delete";
 
-        public static string User = "User";
-        public static string UserAdd = "User.Add";
-        public static string UserEdit = "User.Edit";
-        public static string UserDelete = "User.Delete";
-        public static string UserRestore = "User.Restore";
+        public const string User = "User";
+        public const string UserAdd = "User.Add";
+        public const string UserEdit = "User.Edit";
+        public const string UserDelete = "User.Delete";
+        public const string UserRestore = "User.Restore";
 
-        public static string Producer = "Producer";
-        public static string ProducerAdd = "Producer.Add";
-        public static string ProducerEdit = "Producer.Edit";
-        public static string ProducerDelete = "Producer.Delete";
+        public const string Producer = "Producer";
+        public const string ProducerAdd = "Producer.Add";
+        public const string ProducerEdit = "Producer.Edit";
+        public const string ProducerDelete = "Producer.Delete";
 
-        public static string Supplier = "Supplier";
-        public static string SupplierAdd = "Supplier.Add";
-        public static string SupplierEdit = "Supplier.Edit";
-        public static string SupplierDelete = "Supplier.Delete";
+        public const string Supplier = "Supplier";
+        public const string SupplierAdd = "Supplier.Add";
+        public const string SupplierEdit = "Supplier.Edit";
+        public const string SupplierDelete = "Supplier.Delete";
 
-        public static string Role = "Role";
-        public static string RoleAdd = "Role.Add";
-        public static string RoleEdit = "Role.Edit";
-        public static string RoleDelete = "Role.Delete";
+        public const string Role = "Role";
+        public const string RoleAdd = "Role.Add";
+        public const string RoleEdit = "Role.Edit";
+        public const string RoleDelete = "Role.Delete";
 
-        public static string Product = "Product";
-        public static string ProductAdd = "Product.Add";
-        public static string ProductEdit = "Product.Edit";
-        public static string ProductDelete = "Product.Delete";
+        public const string Product = "Product";
+        public const string ProductAdd = "Product.Add";
+        public const string ProductEdit = "Product.Edit";
+        public const string ProductDelete = "Product.Delete";
 
-        public static string Bill = "Bill";
-        public static string BillAdd = "Bill.Add";
-        public static string BillEdit = "Bill.Edit";
-        public static string BillDelete = "Bill.Delete";
+        public const string Bill = "Bill";
+        public const string BillAdd = "Bill.Add";
+        public const string BillEdit = "Bill.Edit";
+        public const string BillDelete = "Bill.Delete";
 
-        public static string News = "News";
-        public static string NewsAdd = "News.Add";
-        public static string NewsEdit = "News.Edit";
-        public static string NewsDelete = "News.Delete";
+        public const string News = "News";
+        public const string NewsAdd = "News.Add";
+        public const string NewsEdit = "News.Edit";
+        public const string NewsDelete = "News.Delete";
 
-        public static string Sale = "Sale";
-        public static string SaleAdd = "Sale.Add";
-        public static string SaleEdit = "Sale.Edit";
-        public static string SaleDelete = "Sale.Delete";
+        public const string Sale = "Sale";
+        public const string SaleAdd = "Sale.Add";
+        public const string SaleEdit = "Sale.Edit";
+        public const string SaleDelete = "Sale.Delete";
 
-        public static string Admin = "admin";
+        public const string Admin = "admin";
     }
 }

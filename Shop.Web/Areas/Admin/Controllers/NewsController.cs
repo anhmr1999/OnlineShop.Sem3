@@ -1,5 +1,7 @@
 ﻿using Shop.EntityFramework.Entities;
+using Shop.EntityFramework.Infrastructures.Permissions;
 using Shop.EntityFramework.Infrastructures.Repository;
+using Shop.Web.Authentications;
 using Shop.Web.Common;
 using System;
 using System.Collections.Generic;
@@ -18,6 +20,7 @@ namespace Shop.Web.Areas.Admin.Controllers
             _newsRepository = newsRepository;
         }
         // GET: Admin/News
+        [ShopAuthorize(Proxy = PermissionName.News)]
         public ActionResult Index(CommonFilter filter)
         {
             var query = _newsRepository.GetQueryable()
@@ -31,12 +34,14 @@ namespace Shop.Web.Areas.Admin.Controllers
         }
 
         // GET: Admin/Category/Add
+        [ShopAuthorize(Proxy = PermissionName.NewsAdd)]
         public ActionResult Add()
         {
             return View(new News());
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ShopAuthorize(Proxy = PermissionName.NewsAdd)]
         public ActionResult Add(News newsDto)
         {
             if (!ModelState.IsValid)
@@ -56,8 +61,9 @@ namespace Shop.Web.Areas.Admin.Controllers
             _newsRepository.Insert(news);
             _newsRepository.SaveChange();
             return RedirectToAction("Index");
-        } 
+        }
         // POST: Admin/Edit
+        [ShopAuthorize(Proxy = PermissionName.NewsEdit)]
         public ActionResult Edit(Guid id)
         {
             var sale = _newsRepository.Get(id);
@@ -67,6 +73,7 @@ namespace Shop.Web.Areas.Admin.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ShopAuthorize(Proxy = PermissionName.NewsEdit)]
         public ActionResult Edit(Guid id, News newsDto)
         {
             if (!ModelState.IsValid)

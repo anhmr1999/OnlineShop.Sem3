@@ -9,6 +9,8 @@ using System.Web.Mvc;
 using Shop.EntityFramework.Infrastructures.Enums;
 using Shop.Web.Common;
 using System.Data.Entity;
+using Shop.EntityFramework.Infrastructures.Permissions;
+using Shop.Web.Authentications;
 
 namespace Shop.Web.Areas.Admin.Controllers
 {
@@ -24,6 +26,7 @@ namespace Shop.Web.Areas.Admin.Controllers
             _productRepotory = productRepotory;
         }
         // GET: Admin/Sale
+        [ShopAuthorize(Proxy = PermissionName.Sale)]
         public ActionResult Index(CommonFilter filter)
         {
             var query = _saleRepository.GetQueryable()
@@ -35,7 +38,8 @@ namespace Shop.Web.Areas.Admin.Controllers
             model.List = query.OrderByDescending(x => x.CreationTime).PagedBy(filter).ToList();
             return View(model);
         }
-       // Edit
+        // Edit
+        [ShopAuthorize(Proxy = PermissionName.SaleEdit)]
         public ActionResult Edit(Guid id)
         {
             ViewBag.Products = _productRepotory.GetQueryable().ToList();
@@ -46,6 +50,7 @@ namespace Shop.Web.Areas.Admin.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ShopAuthorize(Proxy = PermissionName.SaleEdit)]
         public ActionResult Edit(Guid id, Sale saleDto)
         {
             if (!ModelState.IsValid)
@@ -63,6 +68,7 @@ namespace Shop.Web.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
         //POST:Add Sale
+        [ShopAuthorize(Proxy = PermissionName.SaleAdd)]
         public ActionResult Add()
         {
             ViewBag.Products = _productRepotory.GetQueryable().ToList();
@@ -70,6 +76,7 @@ namespace Shop.Web.Areas.Admin.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ShopAuthorize(Proxy = PermissionName.SaleAdd)]
         public ActionResult Add(Sale saleDto)
         {
             if (!ModelState.IsValid)
@@ -79,6 +86,7 @@ namespace Shop.Web.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
         //DELETE: 
+        [ShopAuthorize(Proxy = PermissionName.SaleDelete)]
         public ActionResult Delete(Guid id)
         {
             var sale = _saleRepository.Get(id);

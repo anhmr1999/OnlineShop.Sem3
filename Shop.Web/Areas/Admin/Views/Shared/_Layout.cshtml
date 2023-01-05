@@ -1,4 +1,14 @@
-﻿<!DOCTYPE html>
+﻿@using Shop.EntityFramework.Infrastructures
+@using Shop.EntityFramework.Infrastructures.Permissions
+@{
+    if (!User.Identity.IsAuthenticated)
+    {
+        HttpContext.Current.Response.Redirect(Url.Action("Login", "Account", new { Area = string.Empty }));
+    }
+    var user = HttpContext.Current.User as UserPrincipal;
+}
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -170,7 +180,7 @@
                         <img src="~/assets/manager/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block">Alexander Pierce</a>
+                        <a href="#" class="d-block">@(!string.IsNullOrEmpty(user.SurName) ? $"{user.SurName} {user.Name}" : user.Name)</a>
                     </div>
                 </div>
 
@@ -199,131 +209,163 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="@Url.Action("Index", "category")" class="nav-link">
-                                <i class="nav-icon fas fa-copy"></i>
-                                <p>
-                                    Category
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="@Url.Action("Index", "actorOrSinger")" class="nav-link">
-                                <i class="nav-icon fas fa-chart-pie"></i>
-                                <p>
-                                    Actor or Singer
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-edit"></i>
-                                <p>
-                                    Product
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="@Url.Action("Index", "song")" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Song</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="@Url.Action("Index", "trailer")" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Trailer</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="@Url.Action("Index", "game")" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Game review</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="@Url.Action("Index", "album")" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>
-                                            Music albums
-                                        </p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="@Url.Action("Index", "product")" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>
-                                            Sale Product
-                                        </p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon far fa-image"></i>
-                                <p>
-                                    Partner
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="@Url.Action("Index", "supplier")" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Supplier</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="@Url.Action("Index", "producer")" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Producer</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a href="@Url.Action("Index", "user")" class="nav-link">
-                                <i class="nav-icon fas fa-table"></i>
-                                <p>
-                                    Account
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="@Url.Action("Index", "role")" class="nav-link">
-                                <i class="nav-icon fas fa-columns"></i>
-                                <p>
-                                    Role
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="@Url.Action("Index", "bill")" class="nav-link">
-                                <i class="nav-icon fas fa-book"></i>
-                                <p>
-                                    Bill
-                                </p>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="@Url.Action("Index", "news")" class="nav-link">
-                                <i class="nav-icon far fa-plus-square"></i>
-                                <p>
-                                    News
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="@Url.Action("Index", "sale")" class="nav-link">
-                                <i class="nav-icon fas fa-ellipsis-h"></i>
-                                <p>
-                                    Sale
-                                </p>
-                            </a>
-                        </li>
+                        @if (user.IsHasPermission(PermissionName.Category))
+                        {
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index", "category")" class="nav-link">
+                                    <i class="nav-icon fas fa-copy"></i>
+                                    <p>
+                                        Category
+                                    </p>
+                                </a>
+                            </li>
+                        }
+                        @if (user.IsHasPermission(PermissionName.ActorOrSinger))
+                        {
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index", "actorOrSinger")" class="nav-link">
+                                    <i class="nav-icon fas fa-chart-pie"></i>
+                                    <p>
+                                        Actor or Singer
+                                    </p>
+                                </a>
+                            </li>
+                        }
+                        @if (user.IsHasPermission(PermissionName.SongTrainerGame))
+                        {
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fas fa-edit"></i>
+                                    <p>
+                                        Product
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="@Url.Action("Index", "song")" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Song</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="@Url.Action("Index", "trailer")" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Trailer</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="@Url.Action("Index", "game")" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Game review</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="@Url.Action("Index", "album")" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>
+                                                Music albums
+                                            </p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="@Url.Action("Index", "product")" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>
+                                                Sale Product
+                                            </p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+                        @if (user.IsHasPermission(PermissionName.Producer) || user.IsHasPermission(PermissionName.Supplier))
+                        {
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon far fa-image"></i>
+                                    <p>
+                                        Partner
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    @if (user.IsHasPermission(PermissionName.Supplier))
+                                    {
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("Index", "supplier")" class="nav-link">
+                                                <i class="far fa-circle nav-icon"></i>
+                                                <p>Supplier</p>
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (user.IsHasPermission(PermissionName.Producer))
+                                    {
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("Index", "producer")" class="nav-link">
+                                                <i class="far fa-circle nav-icon"></i>
+                                                <p>Producer</p>
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+                        }
+                        @if (user.IsHasPermission(PermissionName.User))
+                        {
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index", "user")" class="nav-link">
+                                    <i class="nav-icon fas fa-table"></i>
+                                    <p>
+                                        Account
+                                    </p>
+                                </a>
+                            </li>
+                        }
+                        @if (user.IsHasPermission(PermissionName.Role))
+                        {
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index", "role")" class="nav-link">
+                                    <i class="nav-icon fas fa-columns"></i>
+                                    <p>
+                                        Role
+                                    </p>
+                                </a>
+                            </li>
+                        }
+                        @if (user.IsHasPermission(PermissionName.Bill))
+                        {
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index", "bill")" class="nav-link">
+                                    <i class="nav-icon fas fa-book"></i>
+                                    <p>
+                                        Bill
+                                    </p>
+                                </a>
+                            </li>
+                        }
+                        @if (user.IsHasPermission(PermissionName.News))
+                        {
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index", "news")" class="nav-link">
+                                    <i class="nav-icon far fa-plus-square"></i>
+                                    <p>
+                                        News
+                                    </p>
+                                </a>
+                            </li>
+                        }
+                        @if (user.IsHasPermission(PermissionName.Sale))
+                        {
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index", "sale")" class="nav-link">
+                                    <i class="nav-icon fas fa-ellipsis-h"></i>
+                                    <p>
+                                        Sale
+                                    </p>
+                                </a>
+                            </li>
+                        }
                         <li class="nav-item">
                             <a href="@Url.Action("Logout", "Account", new {Area = string.Empty})" class="nav-link">
                                 <i class="nav-icon fas fa-th"></i>

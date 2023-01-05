@@ -1,4 +1,5 @@
-﻿@model Shop.EntityFramework.Entities.News
+﻿@using Shop.EntityFramework.Entities
+@model News
 @{
     ViewBag.Title = "Add";
 }
@@ -47,7 +48,8 @@
                             <!-- textarea -->
                             <div class="form-group">
                                 <label>Description</label>
-                                <textarea class="form-control" rows="3" placeholder="Enter ..." name="description" value="true" @(Model.IsGlobal ? "checked" : "")></textarea>
+                                <textarea class="form-control" id="summernote" rows="3" placeholder="Enter ..." name="description" value="true">@(Model.Description)</textarea>
+                                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="col-sm-6">
@@ -63,6 +65,7 @@
                             <label for="file">Choose Image</label>
                         </div>
                         <input id="file" type="file" value="@Model.Image" />
+                        @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
                     </div>
 
                     <div>
@@ -93,7 +96,8 @@
     <script src="/assets/manager/plugins/moment/moment.min.js"></script>
     <script src="/assets/manager/plugins/inputmask/jquery.inputmask.min.js"></script>
     <!-- Summernote -->
- 
+    <script src="/assets/manager/plugins/summernote/summernote-bs4.min.js"></script>
+
     <script>
         $(function () {
             //Initialize Select2 Elements

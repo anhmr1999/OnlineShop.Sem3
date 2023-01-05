@@ -1,6 +1,9 @@
-﻿
+﻿@using Shop.Web.Common
+@using Shop.EntityFramework.Entities
+@model CommonListResult<News>
 @{
     ViewBag.Title = "Index";
+    var index = (Model.Filter.PageIndex - 1) * 10 + 1;
 }
 
 <nav aria-label="breadcrumb">
@@ -29,24 +32,36 @@
         <thead>
             <tr>
                 <th scope="col">STT</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
+                <th scope="col">Code</th>
+                <th scope="col">Name</th>
+                <th scope="col">Short Description</th>
+                <th scope="col">Description</th>
+                <th scope="col">Image</th>
+                <th scope="col">Is Global</th>
                 <th style="width:220px" class="text-center">Action</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>twitter</td>
-                <td class="text-center ">
-                    <a href="@Url.Action("View", "Producer")" class="btn btn-outline-success " data-toggle="modal" data-target="#exampleModalCenter">View</a>
-                    <a href="@Url.Action("Edit", "Producer")" class="btn btn-outline-primary">Edit</a>
-                    <a href="@Url.Action("Delete", "Producer")" class="btn btn-outline-danger">Delete</a>
-                </td>
-            </tr>
+
+            @foreach (var item in Model.List)
+            {
+                <tr>
+                    <th scope="row">1</th>
+                    <td>@item.Code</td>
+                    <td>@item.Name</td>
+                    <td>@item.ShortDesciption</td>
+                    <td>@item.Description</td>
+                    <td>@item.Image</td>
+                    <td>@item.IsGlobal</td>
+                    <td class="text-center">
+                        <a href="@Url.Action("View", "News",new {id=@item.Id})" class="btn btn-outline-success">View</a>
+                        <a href="@Url.Action("Edit", "News",new {id=@item.Id})" class="btn btn-outline-primary">Edit</a>
+                        <a href="@Url.Action("Delete", "News",new {id=@item.Id})" class="btn btn-outline-danger">Delete</a>
+                    </td>
+                </tr>
+                index++;
+            }
+          
         </tbody>
     </table>
     <nav aria-label="Page navigation example right ">

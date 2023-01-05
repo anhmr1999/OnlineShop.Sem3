@@ -24,14 +24,45 @@ namespace Shop.Web.Areas.Admin.Controllers
             _productRepotory = productRepotory;
         }
         // GET: Admin/Sale
-        public ActionResult Index()
+        public ActionResult Index(CommonFilter filter)
         {
-            return View();
+            var query = _saleRepository.GetQueryable()
+               .WhereIf(!string.IsNullOrEmpty(filter.SearchKey), x => x.Content.ToLower().Contains(filter.SearchKey));
+            var model = new CommonListResult<Sale>();
+            model.Filter = filter;
+            model.TotalCount = query.Count();
+            model.TotalPage = Math.Ceiling((decimal)query.Count() / 10);
+            model.List = query.OrderByDescending(x => x.CreationTime).PagedBy(filter).ToList();
+            return View(model);
         }
-        public ActionResult Edit()
+       // Edit
+        public ActionResult Edit(Guid id)
         {
-            return View();
+            ViewBag.Products = _productRepotory.GetQueryable().ToList();
+            var sale = _saleRepository.Get(id);
+            if (sale == null)
+                return RedirectToAction("Index");
+            return View(sale);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(Guid id, Sale saleDto)
+        {
+            if (!ModelState.IsValid)
+                return View(saleDto);
+            var sale = _saleRepository.Get(id);
+            sale.StartDate = saleDto.StartDate;
+            sale.EndDate = saleDto.EndDate;
+            sale.Content = saleDto.Content;
+            sale.Quantity = saleDto.Quantity;
+            sale.Percent = saleDto.Percent;
+            sale.Price = saleDto.Price;
+            sale.Products = saleDto.Products;
+            _saleRepository.Update(sale);
+            _saleRepository.SaveChange();
+            return RedirectToAction("Index");
+        }
+        //POST:Add Sale
         public ActionResult Add()
         {
             ViewBag.Products = _productRepotory.GetQueryable().ToList();
@@ -44,6 +75,17 @@ namespace Shop.Web.Areas.Admin.Controllers
             if (!ModelState.IsValid)
                 return View(saleDto);
             _saleRepository.Insert(saleDto);
+            _saleRepository.SaveChange();
+            return RedirectToAction("Index");
+        }
+        //DELETE: 
+        public ActionResult Delete(Guid id)
+        {
+            var sale = _saleRepository.Get(id);
+            if (sale == null)
+                return RedirectToAction("Index");
+
+            _saleRepository.Delete(sale);
             _saleRepository.SaveChange();
             return RedirectToAction("Index");
         }

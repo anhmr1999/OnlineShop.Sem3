@@ -15,7 +15,7 @@ namespace Shop.Web.Controllers
         }
 
         // GET: Music Detail
-        public ActionResult View(string name)
+        public ActionResult Views(string name)
         {
             return View();
         }

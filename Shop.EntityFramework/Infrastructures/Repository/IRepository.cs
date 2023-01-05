@@ -1,4 +1,5 @@
-﻿using Shop.EntityFramework.Infrastructures.Entities.Auditing;
+﻿using Shop.EntityFramework.Entities;
+using Shop.EntityFramework.Infrastructures.Entities.Auditing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,5 +24,6 @@ namespace Shop.EntityFramework.Infrastructures.Repository
         bool DeleteMany(Func<T, Boolean> predicate);
 
         void SaveChange();
+        void Update(Category sale);
     }
 }

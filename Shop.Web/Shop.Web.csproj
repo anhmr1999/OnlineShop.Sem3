@@ -2438,6 +2438,9 @@
     <Content Include="Areas\Admin\Views\Role\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Role\Add.cshtml" />
     <Content Include="Areas\Admin\Views\Role\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\News\Add.cshtml" />
+    <Content Include="Areas\Admin\Views\News\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\News\Index.cshtml" />
     <None Include="packages.config" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Registration.cshtml" />

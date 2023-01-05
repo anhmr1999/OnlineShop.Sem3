@@ -1,8 +1,10 @@
-﻿
+﻿@using Shop.Web.Common
+@using Shop.EntityFramework.Entities
+@model CommonListResult<Sale>
 @{
     ViewBag.Title = "Index";
+    var index = (Model.Filter.PageIndex - 1) * 10 + 1;
 }
-
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="@Url.Action("Index","")">Admin</a></li>
@@ -15,7 +17,7 @@
         <input type="hidden" name="pageIndex" value="" />
         <div class="row">
             <div class="col-md-3 form-group">
-                <input class="form-control" name="searchKey" placeholder="Search key..." value="" />
+                <input class="form-control" name="searchKey" placeholder="Search key..." />
             </div>
             <div class="col-md-2 form-group">
                 <select class="form-control" name="allowDownloadFree">
@@ -52,6 +54,7 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Percent</th>
+                <th scope="col">Price</th>
                 <th scope="col">Quantity</th>
                 <th scope="col">Start Date</th>
                 <th scope="col">End Date</th>
@@ -62,20 +65,26 @@
         </thead>
         <tbody>
 
-            <tr>
-                <th scope="row">1</th>
-                <td>code</td>
-                <td>Name</td>
-                <td>Category.Name</td>
-                <td>1/1/2011</td>
-                <td>contents</td>
-                <td>product</td>
-                <td class="text-center">
-                    <a href="@Url.Action("View", "Sale")" class="btn btn-outline-success">View</a>
-                    <a href="@Url.Action("Edit", "Sale")" class="btn btn-outline-primary">Edit</a>
-                    <a href="@Url.Action("Delete", "Sale")" class="btn btn-outline-danger">Delete</a>
-                </td>
-            </tr>
+            @foreach (var item in Model.List)
+            {
+                <tr>
+                    <th scope="row">1</th>
+                    <td>@item.Percent</td>
+                    <td>@item.Price</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.StartDate</td>
+                    <td>@item.EndDate</td>
+                    <td>@item.Content</td>
+                    <td>@item.Products</td>
+                    <td class="text-center">
+                        <a href="@Url.Action("View", "Sale",new {id=@item.Id})" class="btn btn-outline-success">View</a>
+                        <a href="@Url.Action("Edit", "Sale",new {id=@item.Id})" class="btn btn-outline-primary">Edit</a>
+                        <a href="@Url.Action("Delete", "Sale",new {id=@item.Id})" class="btn btn-outline-danger">Delete</a>
+                    </td>
+                </tr>
+                index++;
+            }
+
         </tbody>
     </table>
 </section>

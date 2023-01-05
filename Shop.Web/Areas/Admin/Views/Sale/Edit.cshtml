@@ -1,6 +1,8 @@
 ﻿
+@model Shop.EntityFramework.Entities.Sale
 @{
     ViewBag.Title = "Edit";
+    var products = (List<Shop.EntityFramework.Entities.Product>)ViewBag.Products;
 }
 
 <nav aria-label="breadcrumb">
@@ -17,45 +19,62 @@
         <div class="row">
             <div class="col-md-6">
                 <form method="post">
+                    @Html.AntiForgeryToken()
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <label>Code <span style="color: red">*</span></label>
-                                <input type="text" class="form-control" placeholder="Enter Percent" name="percent" required value="">
+                                <label>Percent </label>
+                                <input type="text" class="form-control" placeholder="Enter Percent" name="percent" required value="@Model.Percent">
+                                @Html.ValidationMessageFor(model => model.Percent, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Name <span style="color: red">*</span></label>
-                                <input type="text" class="form-control" placeholder="Enter Quantity" name="quantity" required value="">
+                                <input type="text" class="form-control" placeholder="Enter Quantity" name="quantity" required value="@Model.Quantity">
+                                @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <label>Price <span style="color: red">*</span></label>
-                                <input type="text" class="form-control" placeholder="Enter Price" name="price" required value="">
+                                <label>Price </label>
+                                <input type="text" class="form-control" placeholder="Enter Price" name="price" required value="@Model.Price">
+                                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label>Start Date <span style="color: red">*</span></label>
-                                <input class="form-control datemask" name="startDate" placeholder="Enter Start Date" value="">
+                                <input class="form-control datemask" type="date" placeholder="Enter End Date" name="startDate" value="@(Model.StartDate.ToString("yyyy-MM-dd"))">
+                                @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label>End Date <span style="color: red">*</span></label>
-                                <input class="form-control datemask" name="endDate" placeholder="Enter End Date" value="">
+                                <input class="form-control datemask" type="date" placeholder="Enter End Date" name="endDate" value="@(Model.EndDate.ToString("yyyy-MM-dd"))">
+                                @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="col-sm-12">
                             <!-- textarea -->
                             <div class="form-group">
                                 <label>Content</label>
-                                <textarea class="form-control" rows="3" placeholder="Enter Content" name="content"></textarea>
+                                <textarea class="form-control" rows="3" placeholder="Enter Content" name="content" value="@Model.Content">@Model.Content</textarea>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>Product</label>
+                                <select class="form-control select2" multiple="multiple" name="products[]" required>
+                                    @foreach (var item in products)
+                                    {
+                                        <option value="@item.Id" @(!string.IsNullOrEmpty(Model.Products) && Model.Products.Contains(item.Id.ToString()) ? "selected" : "")>-- @item.Name --</option>
+                                    }
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -72,3 +91,21 @@
     <!-- /.card-body -->
 </div>
 
+
+@section Styles{
+    <!-- Select2 -->
+    <link rel="stylesheet" href="/assets/manager/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="/assets/manager/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+}
+
+@section Scripts{
+    <!-- Select2 -->
+    <script src="/assets/manager/plugins/select2/js/select2.full.min.js"></script>
+
+    <script>
+        $(function () {
+            //Initialize Select2 Elements
+            $('.select2').select2();
+        })
+    </script>
+}

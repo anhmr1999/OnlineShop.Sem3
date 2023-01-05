@@ -1,4 +1,5 @@
-﻿using Shop.EntityFramework.Infrastructures.Entities.Auditing;
+﻿using Shop.EntityFramework.Entities;
+using Shop.EntityFramework.Infrastructures.Entities.Auditing;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -96,6 +97,11 @@ namespace Shop.EntityFramework.Infrastructures.Repository
             }
             _context.Entry(entity).State = EntityState.Modified;
             return true;
+        }
+
+        public void Update(Category sale)
+        {
+            throw new NotImplementedException();
         }
 
         public bool UpdateMany(IEnumerable<T> entities)

@@ -37,11 +37,11 @@
                     </div>
                     <div class="form-group">
                         <label>Manufacture Date</label>
-                        <input class="form-control datemask" name="manufactureDate" value="@Model.ManufactureDate" placeholder="Enter manufacture date" />
+                        <input type="date" class="form-control" name="manufactureDate" value="@Model.ManufactureDate" placeholder="Enter manufacture date" />
                     </div>
                     <div class="form-group">
                         <label>Premiere Date</label>
-                        <input class="form-control datemask" name="premiereDate" value="@Model.PremiereDate" placeholder="Enter manufacture date" />
+                        <input type="date" class="form-control" name="premiereDate" value="@Model.PremiereDate" placeholder="Enter manufacture date" />
                     </div>
                     <div class="form-group">
                         <label>Category <span style="color: red">*</span></label>
@@ -79,9 +79,9 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Producer</label>
+                        <label>Singer</label>
                         <select class="form-control select2" name="actorOrSingers[]" multiple="multiple">
-                            <option value="">-- Choose Producer --</option>
+                            <option value="">-- Choose Singer --</option>
                             @foreach (var item in singers)
                             {
                                 <option value="@item.Id" @(Model.ActorOrSingers != null && Model.ActorOrSingers.Contains(item.Id) ? "selected" : "")>@item.Name</option>
@@ -126,7 +126,7 @@
     <script>
         $(function () {
             //Initialize Select2 Elements
-            $('.select2').select2();
+            $('.select2').select2({ minimumResultsForSearch: -1 });
 
             //Datemask dd/mm/yyyy
             $('.datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' });

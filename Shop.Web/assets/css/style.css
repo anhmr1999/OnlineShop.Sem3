@@ -1171,10 +1171,13 @@ label {
     box-shadow: none;
 }
 .movie-poster img {
-    max-width: 100%;
+    height:100%;
+    object-fit:cover;
+    width: 100%;
     border-radius: 5px;
 }
 .movie-poster {
+    height:200px;
     margin-bottom: 23px;
     position: relative;
 }

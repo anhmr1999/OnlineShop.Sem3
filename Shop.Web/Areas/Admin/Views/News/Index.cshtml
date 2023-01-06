@@ -35,8 +35,6 @@
                 <th scope="col">Code</th>
                 <th scope="col">Name</th>
                 <th scope="col">Short Description</th>
-                <th scope="col">Description</th>
-                <th scope="col">Image</th>
                 <th scope="col">Is Global</th>
                 <th style="width:220px" class="text-center">Action</th>
             </tr>
@@ -50,18 +48,17 @@
                     <td>@item.Code</td>
                     <td>@item.Name</td>
                     <td>@item.ShortDesciption</td>
-                    <td>@item.Description</td>
-                    <td>@item.Image</td>
+                   
                     <td>@item.IsGlobal</td>
                     <td class="text-center">
-                        <a href="@Url.Action("View", "News",new {id=@item.Id})" class="btn btn-outline-success">View</a>
+                        <a href="@Url.Action("View", "News",new {id=@item.Id})" class="btn btn-outline-success" data-toggle="modal" data-target="#exampleModalCenter">View</a>
                         <a href="@Url.Action("Edit", "News",new {id=@item.Id})" class="btn btn-outline-primary">Edit</a>
                         <a href="@Url.Action("Delete", "News",new {id=@item.Id})" class="btn btn-outline-danger">Delete</a>
                     </td>
                 </tr>
                 index++;
             }
-          
+
         </tbody>
     </table>
     <nav aria-label="Page navigation example right ">
@@ -77,3 +74,75 @@
     </nav>
 </section>
 
+@section Scripts{
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-3 form-group">
+                            Code
+                        </div>
+                        <div class="col-md-9 form-group">
+                            <label class="form-label news-code"></label>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            Name
+                        </div>
+                        <div class="col-md-9 form-group">
+                            <label class="form-label news-name"></label>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            Short Description
+                        </div>
+                        <div class="col-md-9 form-group">
+                            <label class="form-label news-shortDesc"></label>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            Description
+                        </div>
+                        <div class="col-md-9 form-group">
+                            <label class="form-label news-desc"></label>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            Is Global
+                        </div>
+                        <div class="col-md-9 form-group">
+                            <label class="form-label news-isGlobal"></label>
+                        </div>
+                        <div class="col-md-3 form-group">
+                           Image
+                        </div>
+                        <div class="col-md-9 form-group">
+                            <label class="form-label news-image"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).on("click", "a[data-toggle=modal]", function (e) {
+            e.preventDefault();
+            var url = $(this).attr("href");
+            $.ajax({ url }).done((res) => {
+                $(".news-code").html(res.Code)
+                $(".news-name").html(res.Name)
+                $(".news-shortDesc").html(res.ShortDesciption)
+                $(".news-desc").html(res.Description)
+                $(".news-isGlobal").html(res.IsGlobal?"TRUE":"FALSE")
+                $(".news-image").html(res.Image)
+            })
+        })
+
+    </script>
+}

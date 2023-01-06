@@ -217,6 +217,8 @@ namespace Shop.Web.Areas.Admin.Controllers
             _songRepository.Update(song);
             _songRepository.SaveChange();
             return RedirectToAction("Index");
+
         }
+        
     }
 }

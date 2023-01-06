@@ -97,5 +97,13 @@ namespace Shop.Web.Areas.Admin.Controllers
             _saleRepository.SaveChange();
             return RedirectToAction("Index");
         }
+        // VIEW 
+        public ActionResult View(Guid id)
+        {
+            var sale = _saleRepository.Get(id);
+            if (sale == null)
+                return RedirectToAction("Index");
+            return Json(sale, JsonRequestBehavior.AllowGet);
+        }
     }
 }

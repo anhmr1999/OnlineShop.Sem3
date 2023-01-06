@@ -99,5 +99,14 @@ namespace Shop.Web.Areas.Admin.Controllers
             _newsRepository.SaveChange();
             return RedirectToAction("Index");
         }
+        // VIEW 
+        public ActionResult View(Guid id)
+        {
+            var news = _newsRepository.Get(id);
+            if (news == null)
+                return RedirectToAction("Index");
+            return Json(news, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

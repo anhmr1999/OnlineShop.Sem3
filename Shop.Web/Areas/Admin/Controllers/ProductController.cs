@@ -121,5 +121,12 @@ namespace Shop.Web.Areas.Admin.Controllers
 
             return RedirectToAction("Index");
         }
+        public ActionResult GetAll()
+        {
+            var product = _productRepository.GetQueryable().ToList();
+            if (product == null)
+                return RedirectToAction("Index");
+            return Json(product, JsonRequestBehavior.AllowGet);
+        }
     }
 }

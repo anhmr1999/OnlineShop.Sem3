@@ -61,7 +61,7 @@
                                         <li><a href="@Url.Action("Index", "Music")">Music</a></li>
                                         <li><a href="@Url.Action("Index", "Game")">Game</a></li>
                                         <li><a href="@Url.Action("Index", "TrailerFilm")">Trainer Film</a></li>
-                                        <li><a href="@Url.Action("Index", "Album")">Album</a></li>
+                                        <li><a href="@Url.Action("Index", "Album")">Products</a></li>
                                         <li><a href="@Url.Action("Index", "Home")">contacts</a></li>
                                     </ul>
                                 </div>
@@ -70,7 +70,7 @@
                                         @if (User.Identity.IsAuthenticated)
                                         {
                                             <li class="header-btn">
-                                                <a href="#" class="btn" style="padding: 10px 15px;">
+                                                <a href="@Url.Action("Index", "Cart")" class="btn" style="padding: 10px 15px;">
                                                     <i class="fa fa-shopping-cart" aria-hidden="true" style="margin: 0 !important"></i>
                                                 </a>
                                             </li>

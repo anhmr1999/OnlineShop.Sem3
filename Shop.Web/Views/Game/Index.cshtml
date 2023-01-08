@@ -14,7 +14,7 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Music</li>
+                            <li class="breadcrumb-item active" aria-current="page">Game</li>
                         </ol>
                     </nav>
                 </div>
@@ -56,7 +56,7 @@
                 <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer cat-one cat-three">
                     <div class="movie-item mb-60">
                         <div class="movie-poster">
-                            <a href="@Url.Action("View", "Music", new {code = item.Code})"><img src="@item.Image" alt=""></a>
+                            <a href="@Url.Action("View", "Game", new {code = item.Code})"><img src="@item.Image" alt=""></a>
                         </div>
                         <div class="movie-content">
                             <div class="top">
@@ -64,8 +64,11 @@
                             </div>
                             <div class="bottom">
                                 <ul>
-                                    <li><span class="date" style="color: #e4d804; font-size: 14px; ">
-                                        <i class="far fa-clock"></i>@(item.ManufactureDate?.ToString("dd/MM/yyyy"))</span></li>
+                                    <li>
+                                        <span class="date" style="color: #e4d804; font-size: 14px; ">
+                                            <i class="far fa-clock"></i>@(item.ManufactureDate?.ToString("dd/MM/yyyy"))
+                                        </span>
+                                    </li>
                                     <li>
                                         <span class="duration">@(item.Category?.Name)</span>
                                     </li>

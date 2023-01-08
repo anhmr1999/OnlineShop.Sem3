@@ -178,8 +178,11 @@
     <Compile Include="Common\ObjectRequests\RoleObject.cs" />
     <Compile Include="Common\ObjectRequests\SongTrailerGameObject.cs" />
     <Compile Include="Common\ObjectRequests\UserCoUObject.cs" />
+    <Compile Include="Common\PageFilter\CommonPageFilter.cs" />
+    <Compile Include="Common\PageFilter\ViewDetailt.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\AlbumController.cs" />
+    <Compile Include="Controllers\GameController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MusicController.cs" />
@@ -211,6 +214,10 @@
     <Content Include="assets\fonts\fa-regular-400.svg" />
     <Content Include="assets\fonts\fa-solid-900.svg" />
     <Content Include="assets\fonts\Flaticon.svg" />
+    <Content Include="assets\img\1-7517759673.jpg" />
+    <Content Include="assets\img\220px-Black_or_White.jpg" />
+    <Content Include="assets\img\220px-League_of_Legends_2019_vector.svg.png" />
+    <Content Include="assets\img\220px-Remember_The_Time.jpg" />
     <Content Include="assets\img\banner\banner_bg01.jpg" />
     <Content Include="assets\img\banner\slider_img01.jpg" />
     <Content Include="assets\img\banner\slider_img02.jpg" />
@@ -248,6 +255,7 @@
     <Content Include="assets\img\blog\rc_post_thumb01.jpg" />
     <Content Include="assets\img\blog\rc_post_thumb02.jpg" />
     <Content Include="assets\img\blog\rc_post_thumb03.jpg" />
+    <Content Include="assets\img\cam-am-am-tham-ben-em-son-tung.jpg" />
     <Content Include="assets\img\favicon.png" />
     <Content Include="assets\img\images\card_img.png" />
     <Content Include="assets\img\images\episode_img.jpg" />
@@ -263,6 +271,7 @@
     <Content Include="assets\img\images\title_shape.png" />
     <Content Include="assets\img\logo\logo.png" />
     <Content Include="assets\img\no-image.jpg" />
+    <Content Include="assets\img\Nơi_này_có_anh_-_Single_Cover.jpg" />
     <Content Include="assets\img\poster\movie_details_img.jpg" />
     <Content Include="assets\img\poster\s_ucm_poster01.jpg" />
     <Content Include="assets\img\poster\s_ucm_poster02.jpg" />
@@ -285,6 +294,8 @@
     <Content Include="assets\img\poster\ucm_poster09.jpg" />
     <Content Include="assets\img\poster\ucm_poster10.jpg" />
     <Content Include="assets\img\preloader.svg" />
+    <Content Include="assets\img\spm1.jpg" />
+    <Content Include="assets\img\why_you_wanna_trip_on_me_by_butterfliesformj_d5opss9-fullview.jpg" />
     <Content Include="assets\js\ajax-form.js" />
     <Content Include="assets\js\aos.js" />
     <Content Include="assets\js\bootstrap.min.js" />
@@ -2447,8 +2458,11 @@
     <Content Include="Views\Music\Index.cshtml" />
     <Content Include="Views\TrailerFilm\Index.cshtml" />
     <Content Include="Views\Music\View.cshtml" />
-    <Content Include="Views\Album\Index.cshtml" />
+    <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Cart\Index.cshtml" />
+    <Content Include="Views\Game\Index.cshtml" />
+    <Content Include="Views\TrailerFilm\View.cshtml" />
+    <Content Include="Views\Game\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Shop.EntityFramework\Shop.EntityFramework.csproj">

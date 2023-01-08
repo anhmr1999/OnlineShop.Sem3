@@ -55,14 +55,13 @@
                                 </div>
                                 <div class="navbar-wrap main-menu d-none d-lg-flex">
                                     <ul class="navigation">
-                                        <li class="active">
+                                        <li class="@(Request.Path == Url.Action("Index", "Home") ? "active" : "")">
                                             <a href="@Url.Action("Index", "Home")">Home</a>
                                         </li>
-                                        <li><a href="@Url.Action("Index", "Music")">Music</a></li>
-                                        <li><a href="@Url.Action("Index", "Game")">Game</a></li>
-                                        <li><a href="@Url.Action("Index", "TrailerFilm")">Trainer Film</a></li>
-                                        <li><a href="@Url.Action("Index", "Album")">Products</a></li>
-                                        <li><a href="@Url.Action("Index", "Home")">contacts</a></li>
+                                        <li class="@(Request.Path == Url.Action("Index", "Music") ? "active" : "")"><a href="@Url.Action("Index", "Music")">Music</a></li>
+                                        <li class="@(Request.Path == Url.Action("Index", "Game") ? "active" : "")"><a href="@Url.Action("Index", "Game")">Game</a></li>
+                                        <li class="@(Request.Path == Url.Action("Index", "TrailerFilm") ? "active" : "")"><a href="@Url.Action("Index", "TrailerFilm")">Trainer Film</a></li>
+                                        <li class="@(Request.Path == Url.Action("Index", "Product") ? "active" : "")"><a href="@Url.Action("Index", "Product")">Products</a></li>
                                     </ul>
                                 </div>
                                 <div class="header-action d-none d-md-block">

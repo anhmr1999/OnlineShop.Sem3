@@ -1,4 +1,7 @@
-﻿
+﻿@using Shop.EntityFramework.Entities
+@using Shop.Web.Common
+@using Shop.Web.Common.PageFilter
+@model CommonPageResult<SongOrTrailerOrGame>
 @{
     ViewBag.Title = "Index";
 }
@@ -25,198 +28,73 @@
             <div class="col-lg-8">
                 <div class="section-title text-center mb-50">
                     <span class="sub-title">ONLINE STREAMING</span>
-                    <h2 class="title">Top Trailer Movies</h2>
+                    <h2 class="title">Top Rated Movies</h2>
                 </div>
+            </div>
+            <div class="col-md-8 footer-search">
+                <form class="mb-50">
+                    <input type="hidden" name="pageIndex" value="@Model.Filter.PageIndex" />
+                    <div class="row">
+                        <div class="col-md-4">
+                            <select class="form-control select2" name="order">
+                                <option value="">-- No-Order --</option>
+                                <option value="desc" @(Model.Filter.Order == "desc" ? "selected" : "")>-- new to old --</option>
+                                <option value="asc" @(Model.Filter.Order != "desc" ? "selected" : "")>-- Old to new --</option>
+                            </select>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" name="searchKey" placeholder="Find Favorite Movie" value="@Model.Filter.SearchKey">
+                            <button><i class="fas fa-search"></i></button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
-        <div class="row tr-movie-active">
-            <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer cat-two">
-                <div class="movie-item mb-60">
-                    <div class="movie-poster">
-                        <a href="movie-details.html"><img src="~/assets/img/poster/ucm_poster01.jpg" alt=""></a>
-                    </div>
-                    <div class="movie-content">
-                        <div class="top">
-                            <h5 class="title"><a href="movie-details.html">Women's Day</a></h5>
-                            <span class="date">2021</span>
+        <div class="row renderSong" style="height:auto">
+            @foreach (var item in Model.Data)
+            {
+                <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer cat-one cat-three">
+                    <div class="movie-item mb-60">
+                        <div class="movie-poster">
+                            <a href="@Url.Action("View", "TrailerFilm", new {code = item.Code})"><img src="@item.Image" alt=""></a>
                         </div>
-                        <div class="bottom">
-                            <ul>
-                                <li><span class="quality">hd</span></li>
-                                <li>
-                                    <span class="duration"><i class="far fa-clock"></i> 128 min</span>
-                                    <span class="rating"><i class="fas fa-thumbs-up"></i> 3.5</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer cat-one cat-three">
-                <div class="movie-item mb-60">
-                    <div class="movie-poster">
-                        <a href="movie-details.html"><img src="~/assets/img/poster/ucm_poster02.jpg" alt=""></a>
-                    </div>
-                    <div class="movie-content">
-                        <div class="top">
-                            <h5 class="title"><a href="movie-details.html">The Perfect Match</a></h5>
-                            <span class="date">2021</span>
-                        </div>
-                        <div class="bottom">
-                            <ul>
-                                <li><span class="quality">4k</span></li>
-                                <li>
-                                    <span class="duration"><i class="far fa-clock"></i> 128 min</span>
-                                    <span class="rating"><i class="fas fa-thumbs-up"></i> 3.5</span>
-                                </li>
-                            </ul>
+                        <div class="movie-content">
+                            <div class="top">
+                                <h5 class="title"><a href="movie-details.html">@item.Name</a></h5>
+                            </div>
+                            <div class="bottom">
+                                <ul>
+                                    <li>
+                                        <span class="date" style="color: #e4d804; font-size: 14px; ">
+                                            <i class="far fa-clock"></i>@(item.ManufactureDate?.ToString("dd/MM/yyyy"))
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="duration">@(item.Category?.Name)</span>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer cat-two">
-                <div class="movie-item mb-60">
-                    <div class="movie-poster">
-                        <a href="movie-details.html"><img src="~/assets/img/poster/ucm_poster03.jpg" alt=""></a>
-                    </div>
-                    <div class="movie-content">
-                        <div class="top">
-                            <h5 class="title"><a href="movie-details.html">The Dog Woof</a></h5>
-                            <span class="date">2021</span>
-                        </div>
-                        <div class="bottom">
-                            <ul>
-                                <li><span class="quality">hd</span></li>
-                                <li>
-                                    <span class="duration"><i class="far fa-clock"></i> 128 min</span>
-                                    <span class="rating"><i class="fas fa-thumbs-up"></i> 3.5</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer cat-one cat-three">
-                <div class="movie-item mb-60">
-                    <div class="movie-poster">
-                        <a href="movie-details.html"><img src="~/assets/img/poster/ucm_poster04.jpg" alt=""></a>
-                    </div>
-                    <div class="movie-content">
-                        <div class="top">
-                            <h5 class="title"><a href="movie-details.html">The Easy Reach</a></h5>
-                            <span class="date">2021</span>
-                        </div>
-                        <div class="bottom">
-                            <ul>
-                                <li><span class="quality">8K</span></li>
-                                <li>
-                                    <span class="duration"><i class="far fa-clock"></i> 128 min</span>
-                                    <span class="rating"><i class="fas fa-thumbs-up"></i> 3.5</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer cat-two">
-                <div class="movie-item mb-60">
-                    <div class="movie-poster">
-                        <a href="movie-details.html"><img src="~/assets/img/poster/ucm_poster05.jpg" alt=""></a>
-                    </div>
-                    <div class="movie-content">
-                        <div class="top">
-                            <h5 class="title"><a href="movie-details.html">The Cooking</a></h5>
-                            <span class="date">2021</span>
-                        </div>
-                        <div class="bottom">
-                            <ul>
-                                <li><span class="quality">3D</span></li>
-                                <li>
-                                    <span class="duration"><i class="far fa-clock"></i> 128 min</span>
-                                    <span class="rating"><i class="fas fa-thumbs-up"></i> 3.5</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer cat-one cat-three">
-                <div class="movie-item mb-60">
-                    <div class="movie-poster">
-                        <a href="movie-details.html"><img src="~/assets/img/poster/ucm_poster06.jpg" alt=""></a>
-                    </div>
-                    <div class="movie-content">
-                        <div class="top">
-                            <h5 class="title"><a href="movie-details.html">The Hikaru</a></h5>
-                            <span class="date">2021</span>
-                        </div>
-                        <div class="bottom">
-                            <ul>
-                                <li><span class="quality">hd</span></li>
-                                <li>
-                                    <span class="duration"><i class="far fa-clock"></i> 128 min</span>
-                                    <span class="rating"><i class="fas fa-thumbs-up"></i> 3.9</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer cat-two">
-                <div class="movie-item mb-60">
-                    <div class="movie-poster">
-                        <a href="movie-details.html"><img src="~/assets/img/poster/ucm_poster07.jpg" alt=""></a>
-                    </div>
-                    <div class="movie-content">
-                        <div class="top">
-                            <h5 class="title"><a href="movie-details.html">Life Quotes</a></h5>
-                            <span class="date">2021</span>
-                        </div>
-                        <div class="bottom">
-                            <ul>
-                                <li><span class="quality">4K</span></li>
-                                <li>
-                                    <span class="duration"><i class="far fa-clock"></i> 128 min</span>
-                                    <span class="rating"><i class="fas fa-thumbs-up"></i> 3.9</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer cat-one cat-three">
-                <div class="movie-item mb-60">
-                    <div class="movie-poster">
-                        <a href="movie-details.html"><img src="~/assets/img/poster/ucm_poster08.jpg" alt=""></a>
-                    </div>
-                    <div class="movie-content">
-                        <div class="top">
-                            <h5 class="title"><a href="movie-details.html">The Beachball</a></h5>
-                            <span class="date">2021</span>
-                        </div>
-                        <div class="bottom">
-                            <ul>
-                                <li><span class="quality">4K</span></li>
-                                <li>
-                                    <span class="duration"><i class="far fa-clock"></i> 128 min</span>
-                                    <span class="rating"><i class="fas fa-thumbs-up"></i> 3.9</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            }
         </div>
         <div class="row">
             <div class="col-12">
                 <div class="pagination-wrap mt-30">
                     <nav>
                         <ul>
-                            <li class="active"><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">Next</a></li>
+                            @for (int i = 1; i <= Model.TotalPage; i++)
+                            {
+                                if (i == Model.Filter.PageIndex)
+                                {
+                                    <li class="active"><a href="#">@i</a></li>
+                                }
+                                else
+                                {
+                                    <li><a href="#">@i</a></li>
+                                }
+                            }
                         </ul>
                     </nav>
                 </div>
@@ -224,5 +102,3 @@
         </div>
     </div>
 </section>
-
-

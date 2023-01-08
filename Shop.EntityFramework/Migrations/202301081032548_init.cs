@@ -48,6 +48,7 @@
                         Code = c.String(nullable: false),
                         Name = c.String(nullable: false),
                         Image = c.String(nullable: false),
+                        Link = c.String(),
                         Type = c.Int(nullable: false),
                         ProducerId = c.Guid(),
                         CategoryId = c.Guid(nullable: false),

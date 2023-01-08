@@ -19,6 +19,7 @@ namespace Shop.EntityFramework.Entities
         public string Name { get; set; }
         [Required]
         public string Image { get; set; }
+        public string Link { get; set; }
         public SongTrailerGameTypeEnum Type  { get; set; }
         public Guid? ProducerId { get; set; }
         public Guid CategoryId { get; set; }

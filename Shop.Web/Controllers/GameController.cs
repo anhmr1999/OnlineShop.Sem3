@@ -12,19 +12,21 @@ using System.Web.Mvc;
 
 namespace Shop.Web.Controllers
 {
-    public class TrailerFilmController : Controller
+    public class GameController : Controller
     {
         private readonly IRepository<SongOrTrailerOrGame> _songRepository;
 
-        public TrailerFilmController(IRepository<SongOrTrailerOrGame> songRepository)
+        public GameController(IRepository<SongOrTrailerOrGame> songRepository)
         {
             _songRepository = songRepository;
         }
 
+
+        // GET: Music
         public ActionResult Index(CommonPageFilter filter)
         {
             var query = _songRepository.GetQueryable().Include(x => x.Category)
-                .Where(x => x.Type == SongTrailerGameTypeEnum.TrailerFilm)
+                .Where(x => x.Type == SongTrailerGameTypeEnum.Game)
                 .WhereIf(!string.IsNullOrEmpty(filter.SearchKey), x => x.Name.ToLower().Contains(filter.SearchKey.ToLower()));
             if (string.IsNullOrEmpty(filter.Order))
                 query = query.OrderBy(x => x.Code);
@@ -53,7 +55,7 @@ namespace Shop.Web.Controllers
                 return RedirectToAction("Index");
 
             var likeSong = _songRepository.GetQueryable().Include(x => x.Category)
-                .Where(x => x.Type == SongTrailerGameTypeEnum.TrailerFilm)
+                .Where(x => x.Type == SongTrailerGameTypeEnum.Game)
                 .Where(x => x.Id != song.Id).OrderByDescending(x => x.CreationTime).Take(4).ToList();
             var model = new ViewDetailt<SongOrTrailerOrGame>()
             {

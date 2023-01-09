@@ -55,22 +55,64 @@
         <div class="row renderProduct">
             @foreach (var item in Model.Data)
             {
+                var songs = item.Album.Songs.Take(4).ToArray();
                 <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer cat-one cat-three">
                     <div class="movie-item mb-60">
                         <div class="movie-poster">
                             <a href="@Url.Action("View", "Product", new {code = item.Code})">
-                                @foreach (var song in item.Album.Songs.Take(4))
+                                @if (songs.Length == 1)
                                 {
-                                    <img src="@song.Song.Image" alt="">
+                                    <img src="@songs[0].Song.Image" alt="">
+                                }
+                                else if (songs.Length == 2)
+                                {
+                                    <img src="@songs[0].Song.Image" style="height: 50%" alt="">
+                                    <img src="@songs[1].Song.Image" style="height: 50%" alt="">
+                                }
+                                else if (songs.Length == 3)
+                                {
+
+                                    <div class="row">
+                                        <div class="col-6 pr-0" style="height:200px">
+                                            <img src="@songs[0].Song.Image" style="height: 50%;" alt="">
+                                            <img src="@songs[1].Song.Image" style="height: 50%;" alt="">
+                                        </div>
+                                        <div class="col-6 pl-0" style="height:200px">
+                                            <img src="@songs[2].Song.Image" style="height: 100%;" alt="">
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="row">
+                                        <div class="col-6 pr-0" style="height:200px">
+                                            <img src="@songs[0].Song.Image" style="height: 50%;" alt="">
+                                            <img src="@songs[1].Song.Image" style="height: 50%;" alt="">
+                                        </div>
+                                        <div class="col-6 pl-0" style="height:200px">
+                                            <img src="@songs[2].Song.Image" style="height: 50%;" alt="">
+                                            <img src="@songs[3].Song.Image" style="height: 50%;" alt="">
+                                        </div>
+                                    </div>
                                 }
                             </a>
                         </div>
                         <div class="movie-content">
                             <div class="top">
-                                <h5 class="title"><a href="movie-details.html">@item.Name</a></h5>
+                                <h5 class="title"><a href="#">@item.Name</a></h5>
                             </div>
                             <div class="bottom">
                                 <ul>
+                                    <li>
+                                        <span 
+                                              data-id="@item.Code"
+                                              data-name="@item.Name"
+                                              data-price="@item.Price"
+                                              data-images="@foreach (var song in songs) { @song.Song.Image.ToString();}"
+                                              class="quality AddToCart">
+                                            Add to cart
+                                        </span>
+                                    </li>
                                     <li><span class="date">@(item.Album.ReleaseDate?.ToString("dd/MM/yyyy"))</span></li>
                                 </ul>
                             </div>
@@ -102,3 +144,36 @@
         </div>
     </div>
 </section>
+
+@section Scripts{
+    <script>
+        const saveStorage = (name, obj) => {
+            if (!obj) return;
+            localStorage.setItem(name, JSON.stringify(obj))
+        }
+        const getStorage = (name) => {
+            if (!name) return [];
+            return JSON.parse(localStorage.getItem(name))
+        }
+        $(".AddToCart").click((e) => {
+            var id = e.target.dataset.id
+            var name = e.target.dataset.name    
+            var price = e.target.dataset.price    
+            var  [, ...images] = e.target.dataset.images.split("/assets/img/")
+            console.log(images)
+            const cartList = getStorage("cart")
+            if (!cartList || cartList.length === 0) {
+                saveStorage("cart", [{ id, name, quantity: 1, price, images: images.join(",") }])
+                return;
+            }
+            const index = cartList.findIndex(cart => cart.id === id)
+            if (index === -1) {
+                saveStorage("cart", [...cartList, { id, name, quantity: 1, price,  images: images.join(",") }])
+                return;
+            }
+            cartList[index].quantity = cartList[index].quantity + 1
+            saveStorage("cart", [...cartList])
+        })
+    </script>
+}
+

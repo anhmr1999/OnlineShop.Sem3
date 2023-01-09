@@ -2463,6 +2463,7 @@
     <Content Include="Views\Game\Index.cshtml" />
     <Content Include="Views\TrailerFilm\View.cshtml" />
     <Content Include="Views\Game\View.cshtml" />
+    <Content Include="Views\Account\Profile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Shop.EntityFramework\Shop.EntityFramework.csproj">

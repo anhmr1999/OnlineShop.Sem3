@@ -1,0 +1,105 @@
+﻿@model Shop.EntityFramework.Entities.User
+@{
+    ViewBag.Title = "Profile";
+}
+
+<section class="breadcrumb-area breadcrumb-bg" data-background="/assets/img/bg/breadcrumb_bg.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb-content">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Profile</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- contact-area -->
+<section class="contact-area contact-bg pt-0" data-background="/assets/img/bg/contact_bg.jpg">
+    <div class="container wrap_profile">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="profile_image">
+                    <img class="profile_image-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRxrfYRcQAUlt812xbcJ0bd9L9eaobxk-0eg&usqp=CAU" />
+                    <div>
+                        <p><span>Name: </span> @Model.Name</p>
+                        <p><span>Email: </span>@Model.Email</p>
+                        <p><span>Phone Number: </span>@Model.Phone</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6"></div>
+        </div>
+        <div class="container my-4"><h2>Order infomation </h2></div>
+        <div id="exTab3" class="container">
+            <ul class="nav nav-pills row mx-0">
+                <li class="active col-lg-3 profile_tabs-item">
+                    <a href="#1b" data-toggle="tab">All</a>
+                </li>
+                <li class=" col-lg-3 profile_tabs-item">
+                    <a href="#2b" data-toggle="tab">Wait for pay</a>
+                </li>
+                <li class="col-lg-3 profile_tabs-item">
+                    <a href="#3b" data-toggle="tab">Delivery</a>
+                </li>
+                <li class="col-lg-3 profile_tabs-item">
+                    <a href="#4a" data-toggle="tab">Success</a>
+                </li>
+            </ul>
+
+            <div class="tab-content clearfix">
+                <div class="tab-pane active" id="1b">
+                    <div class="col-sm-12 mb-3">
+                        <div class="border p-3 ">
+                            <div class=" d-flex align-items-center gap-24">
+                                <div class="">
+                                    <img class="profile-tabs-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRxrfYRcQAUlt812xbcJ0bd9L9eaobxk-0eg&usqp=CAU" alt="cart" />
+                                </div>
+                                <p class="flex-grow-1 pl-4">
+                                    The Joker And The Queen - Ed Sheeran, Taylor Swift
+                                </p>
+                                <p>x1</p>
+                                <p>100$</p>
+                            </div>
+                           
+                        </div>
+                    </div>
+                    <div class="col-sm-12 mb-3">
+                        <div class="border p-3 ">
+                            <div class=" d-flex align-items-center gap-24">
+                                <div class="">
+                                    <img class="profile-tabs-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRxrfYRcQAUlt812xbcJ0bd9L9eaobxk-0eg&usqp=CAU" alt="cart" />
+                                </div>
+                                <p class="flex-grow-1 pl-4">
+                                    The Joker And The Queen - Ed Sheeran, Taylor Swift
+                                </p>
+                                <p>x1</p>
+                                <p>100$</p>
+                            </div>
+                          
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="2b">
+                    <p>We use the class nav-pills instead of nav-tabs which automatically creates a background color for the tab</p>
+                </div>
+                <div class="tab-pane" id="3b">
+                    <p>We applied clearfix to the tab-content to rid of the gap between the tab and the content</p>
+                </div>
+                <div class="tab-pane" id="4b">
+                    <p>We use css to change the background color of the content to be equal to the tab</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+@section Scripts{
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+}

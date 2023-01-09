@@ -12,17 +12,39 @@ using System.Web.Mvc;
 using System.Web.Security;
 using System.Web.UI.WebControls;
 using System.Xml.Linq;
+using Shop.EntityFramework.Infrastructures.Repository;
+using Shop.EntityFramework.Infrastructures;
 
 namespace Shop.Web.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly IRepository<User> _userRepository;
+        private readonly ICurrentPrincipal _currentUser;
+
+        public AccountController(IRepository<User> userRepository, ICurrentPrincipal currentUser)
+        {
+            _userRepository = userRepository;
+            _currentUser = currentUser;
+        }
+
         // GET: Account
         public ActionResult Index()
         {
+
             return View();
         }
+        public new ActionResult Profile()
+        {
+         if(User.Identity.IsAuthenticated)
+            {
+                var uid = _currentUser.CurrentUserId.Value;
+                var user = _userRepository.Get(uid);
+                return View(user);
+            }
 
+            return View();
+        }
         public ActionResult Login(string returnUrl)
         {
             ViewBag.returnUrl = returnUrl;

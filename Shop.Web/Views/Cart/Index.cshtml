@@ -50,6 +50,10 @@
         const cartList = getStorage("cart")
 
         const renderCart = (cartList) => {
+            if (!cartList || cartList.length ===0 ) {
+                $(".renderCart").html('<h5 class="col-sm-12">Không có sản phẩm trong giỏ hàng</h2>')
+                return;
+            }
             const listCartHtml = cartList.map(cart => {
                 const images = cart.images.split(",")
                 return `
@@ -82,10 +86,7 @@
               
             })
          
-            if (listCartHtml.length === 0 || !listCartHtml) {
-                $(".renderCart").html('<h2>Không có sản phẩm trong giỏ hàng</h2>')
-                return;
-            }
+            
             $(".cart_totalPrice").html("10020");
             $(".renderCart").html(listCartHtml.join(""))
             $(".cart_inputQuantity").change(function (e) {
@@ -115,8 +116,15 @@
             })
             $.ajax({ url: '@Url.Action("SaveBill")', type: "POST", data: { bills: arr } }).done((data) => {
                 console.log(data)
+                if (data.success) {
+                    localStorage.removeItem("cart");
+                    renderCart([])
+                }
+                confirm(data.message)
+            }).fail((err) => {
+                confirm("can't order products.")
             })
-            console.log(arr)
+         
         })
 
 

@@ -116,7 +116,6 @@ namespace Shop.Web.Areas.Admin.Controllers
         [ShopAuthorize(Proxy = PermissionName.Category)]
         public ActionResult View(Guid id)
         {
-           
             var cate = _categoryRepository.Get(id);
             if (cate == null)
                 return RedirectToAction("Index");

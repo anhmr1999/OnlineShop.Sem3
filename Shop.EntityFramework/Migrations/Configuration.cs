@@ -28,6 +28,7 @@
                 Phone = "0123456789",
                 Password = "1q2w3E*".ToMd5(),
                 IsActive = true,
+                Address="gi cuing dc",
                 CreationTime = DateTime.Now
             };
             var role = new Role()

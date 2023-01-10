@@ -46,5 +46,12 @@ namespace Shop.Web.Controllers
 
             return View(model);
         }
+        public ActionResult View(string code)
+        {
+            var prod = _productRepository.GetQueryable().Include(x => x.Album.Songs.Select(s => s.Song)).FirstOrDefault(x=>x.Code==code);
+            if (prod==null)
+                return RedirectToAction("Index");
+            return View(prod);
+        }
     }
 }

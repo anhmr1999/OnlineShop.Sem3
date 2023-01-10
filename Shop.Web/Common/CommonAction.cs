@@ -54,10 +54,10 @@ namespace Shop.Web.Common
             return query;
         }
 
-        public static IEnumerable<T> PagedBy<T>(this IEnumerable<T> query, CommonFilter filter)
+        public static IEnumerable<T> PagedBy<T>(this IEnumerable<T> query, CommonFilter filter,int pageSize=10)
         {
-            var skip = (filter.PageIndex - 1) * 10;
-            return query.Skip(skip).Take(10);
+            var skip = (filter.PageIndex - 1) * pageSize;
+            return query.Skip(skip).Take(pageSize);
         }
     }
 }

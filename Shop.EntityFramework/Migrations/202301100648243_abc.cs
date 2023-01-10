@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class init : DbMigration
+    public partial class abc : DbMigration
     {
         public override void Up()
         {
@@ -293,6 +293,7 @@
                         Email = c.String(nullable: false),
                         Phone = c.String(),
                         Password = c.String(nullable: false),
+                        Address = c.String(),
                         IsActive = c.Boolean(nullable: false),
                         CreationTime = c.DateTime(nullable: false),
                         CreationUser = c.Guid(),

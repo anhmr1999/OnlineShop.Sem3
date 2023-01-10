@@ -1,6 +1,12 @@
-﻿
+﻿@using Shop.Web.Common
+@using Shop.EntityFramework.Infrastructures.Enums
+@using Shop.EntityFramework.Entities
+@model CommonListResult<Bill>
+
 @{
     ViewBag.Title = "Index";
+    var index = 0;
+    var filter = (BillFilter)Model.Filter;
 }
 
 <nav aria-label="breadcrumb">
@@ -11,31 +17,20 @@
 </nav>
 
 <section>
-    <form method="get">
-        <input type="hidden" name="pageIndex" value="" />
+    <form method="get" class="searchForm">
+        <input type="hidden" name="pageIndex" value="@filter.PageIndex" />
         <div class="row">
             <div class="col-md-3 form-group">
-                <input class="form-control" name="searchKey" placeholder="Search key..." value="" />
+                <input class="form-control" name="searchKey" placeholder="Search key..." value="@filter.SearchKey" />
             </div>
             <div class="col-md-2 form-group">
-                <select class="form-control" name="allowDownloadFree">
+                <select class="form-control" name="Status">
                     <option value="">-- All --</option>
-                    <option value="true" >Allow download free </option>
-                    <option value="false" >Download is not allowed</option>
-                </select>
-            </div>
-            <div class="col-md-2 form-group">
-                <select class="form-control" name="categoryId">
-                    <option value="">-- All --</option>
-                 
-                        <option >item</option>
-                </select>
-            </div>
-            <div class="col-md-3 form-group">
-                <select class="form-control" name="producerId">
-                    <option value="">-- All --</option>
-                  
-                        <option value="">Name</option>
+                    <option value="0" @(filter.Status == BillStatusEnum.Created? "selected":"")>Created</option>
+                    <option value="1" @(filter.Status == BillStatusEnum.Processing? "selected":"")> Processing </option>
+                    <option value="2" @(filter.Status == BillStatusEnum.Shipping? "selected":"")>Shipping</option>
+                    <option value="3" @(filter.Status == BillStatusEnum.Done? "selected":"")>Done</option>
+                    <option value="4" @(filter.Status == BillStatusEnum.Cancel? "selected":"")>Cancel</option>
                 </select>
             </div>
             <div class="col-md-2 text-right">
@@ -59,20 +54,123 @@
             </tr>
         </thead>
         <tbody>
-          
+
+            @foreach (var item in Model.List)
+            {
                 <tr>
-                    <th scope="row">1</th>
-                    <td>code</td>
-                    <td>Name</td>
-                    <td>Category.Name</td>
-                    <td>1/1/2011</td>
-                    <td></td>
+                    <th scope="row">@(index+1)</th>
+                    <td>@item.CustomerName</td>
+                    <td>@item.CustomerPhone</td>
+                    <td>@item.  </td>
+                    <td>@item.CustomerAddress</td>
+                    <th scope="col">
+
+                        <select class="form-control statusBill" style="width:140px" value="@item.Status" data-id="@item.Id" name="allowDownloadFree">
+                            <option value="0" @(item.Status == BillStatusEnum.Created ? "selected" : "")>Created</option>
+                            <option value="1" @(item.Status == BillStatusEnum.Processing ? "selected" : "")> Processing </option>
+                            <option value="2" @(item.Status == BillStatusEnum.Shipping ? "selected" : "")>Shipping</option>
+                            <option value="3" @(item.Status == BillStatusEnum.Done ? "selected" : "")>Done</option>
+                            <option value="4" @(item.Status == BillStatusEnum.Cancel ? "selected" : "")>Cancel</option>
+                        </select>
+                    </th>
                     <td class="text-center">
-                        <a href="@Url.Action("View", "Bill")" class="btn btn-outline-success">View</a>
-                        <a href="@Url.Action("Edit", "Bill")" class="btn btn-outline-primary">Edit</a>
+                        <a href="@Url.Action("View", "Bill", new {id=@item.Id})" data-toggle="modal" data-target="#exampleModalCenter" class="btn btn-outline-success">View</a>
                     </td>
                 </tr>
+                index++;
+            }
         </tbody>
     </table>
+    <nav aria-label="Page navigation example right ">
+        <ul class="pagination justify-content-end">
+            @for (int i = 1; i <= Model.TotalPage; i++)
+            {
+                <li class="page-item @(Model.Filter.PageIndex == i ? "active" : "")"><a class="page-link" href="#" data-page="@i">@i</a></li>
+            }
+        </ul>
+    </nav>
 </section>
 
+@section Scripts{
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-3 form-group">
+                            Customer Name
+                        </div>
+                        <div class="col-md-9 form-group">
+                            <label class="form-label customer-name"></label>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            Customer Phone
+                        </div>
+                        <div class="col-md-9 form-group">
+                            <label class="form-label customer-phone"></label>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            Customer Email
+                        </div>
+                        <div class="col-md-9 form-group">
+                            <label class="form-label customer-email"></label>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            Customer Address
+                        </div>
+                        <div class="col-md-9 form-group">
+                            <label class="form-label customer-address"></label>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            Status
+                        </div>
+                        <div class="col-md-9 form-group">
+                            <label class="form-label bill-status"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).on("click", "a[data-toggle=modal]", function (e) {
+            e.preventDefault();
+            var url = $(this).attr("href");
+            $.ajax({ url }).done((res) => {
+                console.log(res)
+                $(".customer-name").html(res.CustomerName);
+                $(".customer-phone").html(res.CustomerPhone);
+                $(".customer-address").html(res.CustomerAddress);
+                $(".customer-email").html(res.CustomerEmail);
+                $(".bill-status").html(res.Status);
+            })
+        })
+        $(".statusBill").change(function (e) {
+            const id = e.target.dataset.id
+            const val = $(this).val()
+            $.ajax({ url: `https://localhost:44351/admin/bill/UpdateStatus/${id}`, type: "POST", data: { status: val } }).done((data) => {
+                console.log(data)
+                confirm(data.message)
+            }).fail(() => {
+                confirm("Cập nhật thất bại")
+            })
+            console.log(val)
+        })
+        $(".page-link").click(function () {
+            var page = $(this).attr("data-page");
+            console.log(page)
+            $("input[pageIndex]").val(page);
+            $(".searchForm").submit();
+        })
+    </script>
+}

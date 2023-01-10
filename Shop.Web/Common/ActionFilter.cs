@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shop.EntityFramework.Infrastructures.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -25,5 +26,9 @@ namespace Shop.Web.Common
     public class ProductAdminFilter : CommonFilter
     {
         public Guid? SupplierId { get; set; }
+    }
+    public class BillFilter : CommonFilter
+    {
+        public BillStatusEnum? Status { get; set; }
     }
 }

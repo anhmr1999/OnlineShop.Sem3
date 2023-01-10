@@ -90,6 +90,7 @@ namespace Shop.Web.Areas.Admin.Controllers
                 Phone = userObj.Phone,
                 IsActive = userObj.IsActive,
                 Password = userObj.Password.ToMd5(),
+                Address = userObj.Address,
                 Roles = new List<UserRole>()
             };
             if (userObj.RoleId.HasValue)
@@ -125,6 +126,7 @@ namespace Shop.Web.Areas.Admin.Controllers
                 Phone = user.Phone,
                 Email = user.Email,
                 IsActive = user.IsActive,
+                Address = user.Address,
                 RoleId = user.Roles.FirstOrDefault()?.RoleId,
                 Password = "●●●●●●●●●●"
             };
@@ -162,6 +164,7 @@ namespace Shop.Web.Areas.Admin.Controllers
             user.Username = userObj.Email;
             user.Phone = userObj.Phone;
             user.IsActive = userObj.IsActive;
+            user.Address = userObj.Address;
 
             if (user.Roles != null)
             {

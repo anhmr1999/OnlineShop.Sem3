@@ -19,6 +19,7 @@ namespace Shop.Web.Common.ObjectRequests
         [Required(ErrorMessage = "Password cannot be empty!")]
         public string Password { get; set; }
         public bool IsActive { get; set; }
+        public string Address { get; set; }
         public Guid? RoleId { get; set; }
     }
 }

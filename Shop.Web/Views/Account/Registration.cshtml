@@ -33,31 +33,37 @@
                         <form action="@Url.Action("Login", "Account", new {returnUrl=ViewBag.returnUrl})" method="post">
                             <div class="row">
                                 <div class="col-6">
-                                    <input type="text" placeholder="Username" value="@Model.Username">
-                                    @Html.ValidationMessageFor(model => model.Username, "")
-                                </div>
-                                <div class="col-6">
-                                    <input type="email" placeholder="Email" value="@Model.Email">
+                                    <input type="email" placeholder="Email" name="Email" value="@Model.Email">
                                     @Html.ValidationMessageFor(model => model.Email, "")
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-6">
-                                    <input type="text" placeholder="Surname" value="@Model.SurName">
+                                    <input type="text" placeholder="Surname" name="SurName" value="@Model.SurName">
                                     @Html.ValidationMessageFor(model => model.SurName, "")
                                 </div>
                                 <div class="col-6">
-                                    <input type="text" placeholder="Name" value="@Model.Name">
+                                    <input type="text" placeholder="Name" name="Name" value="@Model.Name">
                                     @Html.ValidationMessageFor(model => model.Name, "")
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-6">
-                                    <input type="password" placeholder="Password">
+                                    <input type="text" placeholder="Phone" name="Phone" value="@Model.Phone">
+                                    @Html.ValidationMessageFor(model => model.Phone, "")
+                                </div>
+                                <div class="col-6">
+                                    <input type="text" placeholder="Address" name="Address" value="@Model.Address">
+                                    @Html.ValidationMessageFor(model => model.Address, "")
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <input type="password" name="Password" placeholder="Password">
                                     @Html.ValidationMessageFor(model => model.Password, "")
                                 </div>
                                 <div class="col-6">
-                                    <input type="password" placeholder="ConfirmPassword">
+                                    <input type="password" name="ConfirmPassword" placeholder="ConfirmPassword">
                                     @Html.ValidationMessageFor(model => model.ConfirmPassword, "")
                                 </div>
                             </div>

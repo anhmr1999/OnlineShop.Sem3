@@ -20,6 +20,7 @@ namespace Shop.EntityFramework.Entities
         public string Phone { get; set; }
         [Required]
         public string Password { get; set; }
+        public string Address { get; set; }
         public bool IsActive { get; set; }
         public ICollection<UserRole> Roles { get; set; }
     }

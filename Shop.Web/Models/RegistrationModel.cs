@@ -9,13 +9,13 @@ namespace Shop.Web.Models
 {
     public class RegistrationModel
     {
-        [Required(ErrorMessage = "User Name required")]
-        public string Username { get; set; }
-
         [Required(ErrorMessage = "Email required")]
         [DataType(DataType.EmailAddress)]
         [Display(Name = "Email")]
         public string Email { get; set; }
+
+        public string Phone { get; set; }
+        public string Address { get; set; }
 
         public string SurName { get; set; }
 

@@ -34,6 +34,7 @@ namespace Shop.Web.Controllers
 
             return View();
         }
+
         [Authorize]
         public ActionResult Profile()
         {
@@ -109,10 +110,10 @@ namespace Shop.Web.Controllers
             if (ModelState.IsValid)
             {
                 // Email Verification
-                string userName = Membership.GetUserNameByEmail(registrationModel.Username);
+                string userName = Membership.GetUserNameByEmail(registrationModel.Email);
                 if (!string.IsNullOrEmpty(userName))
                 {
-                    ModelState.AddModelError(nameof(RegistrationModel.Username), "Sorry: Email already exists");
+                    ModelState.AddModelError(nameof(RegistrationModel.Email), "Sorry: Email already exists");
                     return View(registrationModel);
                 }
 
@@ -120,8 +121,10 @@ namespace Shop.Web.Controllers
                 {
                     var user = new User()
                     {
-                        Username = registrationModel.Username,
+                        Username = registrationModel.Email,
                         SurName = registrationModel.SurName,
+                        Address = registrationModel.Address,
+                        Phone = registrationModel.Phone,
                         Name = registrationModel.Name,
                         Email = registrationModel.Email,
                         Password = registrationModel.Password.ToMd5(),

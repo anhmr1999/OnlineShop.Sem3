@@ -81,7 +81,7 @@
                     <td>@(item.PremiereDate.HasValue ? item.PremiereDate.Value.ToString("dd/MM/yyyy") : "")</td>
                     <td>@(item.AllowDownloadFree ? "Allow" : "Not Allowed")</td>
                     <td class="text-center">
-                        <a href="@Url.Action("View", "Game", new {id=@item.Id})" class="btn btn-outline-success">View</a>
+                        <a href="@Url.Action("View", "Game", new { code = @item.Code, area = string.Empty }))" class="btn btn-outline-success">View</a>
                         <a href="@Url.Action("Edit", "Game", new {id=@item.Id})" class="btn btn-outline-primary">Edit</a>
                         <a href="@Url.Action("Delete", "Game", new {id=@item.Id})" class="btn btn-outline-danger">Delete</a>
                     </td>

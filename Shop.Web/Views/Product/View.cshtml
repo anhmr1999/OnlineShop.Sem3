@@ -55,34 +55,31 @@
                 </div>
             </div>
             <div class="col-xl-5 col-lg-5">
-                    <div class="movie-details-content">
-                        <h5>new song</h5>
-                        <h3>@Model.Name</h3>
-                        <div class="banner-meta">
-                            <ul>
-                                <li class="quality">
-                                    <span>pg 18</span>
-                                    <span>hd</span>
-                                </li>
-                                <li class="category">
-                                    <a href="#">Model.Name</a>
-                                </li>
-                                <li class="release-time">
-                                    @*<span><i class="far fa-clock"></i> @(Model.CreationTime.tostring("dd/mm/yyyy"))</span>*@
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="banner-meta">
-                            <ul>
-                                <li class="category">
-                                  
-                                </li>
-                            </ul>
-                        </div>
+                <div class="movie-details-content">
+                    <h5>new song</h5>
+                    <h3>@Model.Name</h3>
+                    <div class="banner-meta">
+                        <ul>
+                            <li class="quality">
+                                <span>pg 18</span>
+                                <span>hd</span>
+                            </li>
+                            <li class="category">
+                                <a href="#">Model.Name</a>
+                            </li>
+                            <li class="release-time">
+                                @*<span><i class="far fa-clock"></i> @(Model.CreationTime.tostring("dd/mm/yyyy"))</span>*@
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="banner-meta">
+                        <ul>
+                            <li class="category">
+
+                            </li>
+                        </ul>
                     </div>
                 </div>
-            <div class="movie-details-btn">
-                <a href="img/poster/movie_details_img.jpg" class="download-btn" download="">Download <img src="fonts/download.svg" alt=""></a>
             </div>
         </div>
     </div>
@@ -93,57 +90,26 @@
         <div class="row">
             <div class="col-lg-8">
                 <div class="movie-episode-wrap">
-                    <div class="episode-top-wrap">
-                        <div class="section-title">
-                            <span class="sub-title">ONLINE STREAMING</span>
-                            <h2 class="title">Watch Full Episode</h2>
-                        </div>
-                        <div class="total-views-count">
-                            <p>2.7 million <i class="far fa-eye"></i></p>
-                        </div>
-                    </div>
                     <div class="episode-watch-wrap">
                         <div class="accordion" id="accordionExample">
                             <div class="card">
                                 <div class="card-header" id="headingOne">
                                     <button class="btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                        <span class="season">Season 2</span>
-                                        <span class="video-count">5 Full Episodes</span>
+                                        <span class="season">List music</span>
+                                        <span class="video-count">Total @Model.Album.Songs.Count Song</span>
                                     </button>
                                 </div>
                                 <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
                                     <div class="card-body">
                                         <ul>
-                                            <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E" class="popup-video"><i class="fas fa-play"></i> Episode 1 - The World Is Purple</a> <span class="duration"><i class="far fa-clock"></i> 28 Min</span></li>
-                                            <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E" class="popup-video"><i class="fas fa-play"></i> Episode 2 - Meaner Than Evil</a> <span class="duration"><i class="far fa-clock"></i> 28 Min</span></li>
-                                            <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E" class="popup-video"><i class="fas fa-play"></i> Episode 3 - I Killed a Man Today</a> <span class="duration"><i class="far fa-clock"></i> 28 Min</span></li>
-                                            <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E" class="popup-video"><i class="fas fa-play"></i> Episode 4 - Cowboys and Dreamers</a> <span class="duration"><i class="far fa-clock"></i> 28 Min</span></li>
-                                            <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E" class="popup-video"><i class="fas fa-play"></i> Episode 5 - Freight Trains and Monsters</a> <span class="duration"><i class="far fa-clock"></i> 28 Min</span></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-header" id="headingTwo">
-                                    <button class="btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                        <span class="season">Season 1</span>
-                                        <span class="video-count">5 Full Episodes</span>
-                                    </button>
-                                </div>
-                                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                                    <div class="card-body">
-                                        <ul>
-                                            <li>
-                                                <a href="https://www.youtube.com/watch?v=R2gbPxeNk2E" class="popup-video"><i class="fas fa-play"></i> Episode 1 - The World Is Purple</a> <span class="duration"><i class="far fa-clock"></i> 28 Min</span>
-                                            </li>
-                                            <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E" class="popup-video"><i class="fas fa-play"></i> Episode 2 - Meaner Than Evil</a> <span class="duration"><i class="far fa-clock"></i> 28 Min</span></li>
-                                            <li>
-                                                <a href="https://www.youtube.com/watch?v=R2gbPxeNk2E" class="popup-video"><i class="fas fa-play"></i> Episode 3 - I Killed a Man Today</a> <span class="duration"><i class="far fa-clock"></i> 28 Min</span>
-                                            </li>
-                                            <li>
-                                                <a href="https://www.youtube.com/watch?v=R2gbPxeNk2E" class="popup-video"><i class="fas fa-play"></i> Episode 4 - Cowboys and Dreamers</a> <span class="duration"><i class="far fa-clock"></i> 28 Min</span>
-                                            </li>
-                                            <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E" class="popup-video"><i class="fas fa-play"></i> Episode 5 - Freight Trains and Monsters</a> <span class="duration"><i class="far fa-clock"></i> 28 Min</span></li>
+                                            @foreach (var item in Model.Album.Songs.Select(x => x.Song))
+                                            {
+                                                <li>
+                                                    <a href="@Url.Action("View", "Music", new {code = item.Code})">
+                                                        <i class="fas fa-play"></i> @item.Name
+                                                    </a>
+                                                </li>
+                                            }
                                         </ul>
                                     </div>
                                 </div>
@@ -154,23 +120,7 @@
             </div>
             <div class="col-lg-4">
                 <div class="episode-img">
-                    <img src="~/assets/img/images/episode_img.jpg" alt="">
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <div class="movie-history-wrap">
-                    <h3 class="title">About <span>History</span></h3>
-                    <p>
-                        Lorem ipsum dolor sit amet, consecetur adipiscing elseddo eiusmod tempor.There are many variations of passages of lorem
-                        Ipsum available, but the majority have suffered alteration in some injected humour.There are many variations of passages
-                        of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised
-                        words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure
-                        there isn't anything errassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to
-                        repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of
-                        over 200 Latin words, combined with a handful
-                    </p>
+                    <img src="@Model.Album.Songs.FirstOrDefault().Song.Image" alt="">
                 </div>
             </div>
         </div>

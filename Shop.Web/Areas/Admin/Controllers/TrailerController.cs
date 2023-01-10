@@ -102,6 +102,7 @@ namespace Shop.Web.Areas.Admin.Controllers
             file.SaveAs(Path.Combine(Server.MapPath("~/assets/img"), fileName));
 
             var trailer = new SongOrTrailerOrGame();
+            trailer.Link = trailerDto.Link;
             trailer.ManufactureDate = trailerDto.ManufactureDate;
             trailer.PremiereDate = trailerDto.PremiereDate;
             trailer.Code = trailerDto.Code;
@@ -186,6 +187,7 @@ namespace Shop.Web.Areas.Admin.Controllers
                 trailer.Image = "/assets/img/" + fileName;
             }
 
+            trailer.Link = trailerDto.Link;
             trailer.ManufactureDate = trailerDto.ManufactureDate;
             trailer.PremiereDate = trailerDto.PremiereDate;
             trailer.Code = trailerDto.Code;
@@ -216,6 +218,18 @@ namespace Shop.Web.Areas.Admin.Controllers
                 trailer.ActorOrSingers = trailerDto.ActorOrSingers.Select(x => new SongAndSinger() { SingerId = x, SongId = trailer.Id }).ToList();
 
             _trailerRepository.Update(trailer);
+            _trailerRepository.SaveChange();
+            return RedirectToAction("Index");
+        }
+
+        [ShopAuthorize(Proxy = PermissionName.SongTrainerGameDelete)]
+        public ActionResult Delete(Guid id)
+        {
+            var trailer = _trailerRepository.Get(id);
+            if (trailer == null)
+                return RedirectToAction("Index");
+
+            _trailerRepository.Delete(trailer);
             _trailerRepository.SaveChange();
             return RedirectToAction("Index");
         }

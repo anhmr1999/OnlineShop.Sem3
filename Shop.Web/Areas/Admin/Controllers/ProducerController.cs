@@ -89,5 +89,17 @@ namespace Shop.Web.Areas.Admin.Controllers
             _producerRepository.SaveChange();
             return RedirectToAction("Index");
         }
+
+        [ShopAuthorize(Proxy = PermissionName.ProducerDelete)]
+        public ActionResult Delete(Guid id)
+        {
+            var producer = _producerRepository.Get(id);
+            if (producer == null)
+                return RedirectToAction("Index");
+
+            _producerRepository.Delete(producer);
+            _producerRepository.SaveChange();
+            return RedirectToAction("Index");
+        }
     }
 }

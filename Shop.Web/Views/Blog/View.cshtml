@@ -1,0 +1,56 @@
+﻿@using Shop.EntityFramework.Entities
+@using Shop.EntityFramework.Infrastructures.Enums
+@model Shop.Web.Common.PageFilter.ViewDetailt<News, SongOrTrailerOrGame>
+@{
+    ViewBag.Title = "Index";
+}
+
+<!-- blog-area -->
+<section class="blog-area blog-bg" data-background="/assets/img/bg/blog_bg.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="blog-post-item">
+                    <div class="blog-post-thumb">
+                        <img src="@Model.Data.Image" alt="">
+                    </div>
+                    <div class="blog-post-content">
+                        <span class="date"><i class="far fa-clock"></i> @Model.Data.CreationTime.ToString("HH:mm dd/mm/yyyy")</span>
+                        <h2 class="title">@Model.Data.Name</h2>
+                        <p>
+                            @Html.Raw(Model.Data.Description)
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <aside class="blog-sidebar">
+                    <div class="widget blog-widget">
+                        <div class="widget-title mb-30">
+                            <h5 class="title">New</h5>
+                        </div>
+                        <div class="rc-post">
+                            <ul>
+                                @foreach (var item in Model.LikeData)
+                                {
+                                    var controllerName = item.Type == SongTrailerGameTypeEnum.Song ? "Mucsic" : item.Type == SongTrailerGameTypeEnum.TrailerFilm ? "TrailerFilm" : "Game";
+                                    <li class="rc-post-item">
+                                        <div class="thumb" style="height: 100px;">
+                                            <a href="@Url.Action("View", controllerName, new {code = item.Code})">
+                                                <img src="@item.Image" alt="" style="width: 100%;height: 100%; object-fit: cover">
+                                            </a>
+                                        </div>
+                                        <div class="content">
+                                            <h5 class="title"><a href="blog-details.html">@item.Name</a></h5>
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- blog-area-end -->

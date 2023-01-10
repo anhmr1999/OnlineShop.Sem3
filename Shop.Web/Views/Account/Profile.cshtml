@@ -1,6 +1,9 @@
-﻿@model Shop.EntityFramework.Entities.User
+﻿@using Shop.EntityFramework.Entities
+@using Shop.EntityFramework.Infrastructures.Enums
+@model User
 @{
     ViewBag.Title = "Profile";
+    var bills = (List<Bill>)ViewBag.Bills;
 }
 
 <section class="breadcrumb-area breadcrumb-bg" data-background="/assets/img/bg/breadcrumb_bg.jpg">
@@ -39,60 +42,259 @@
         <div id="exTab3" class="container">
             <ul class="nav nav-pills row mx-0">
                 <li class="active col-lg-3 profile_tabs-item">
-                    <a href="#1b" data-toggle="tab">All</a>
+                    <a href="#1b" data-toggle="tab">Created and Processing</a>
                 </li>
                 <li class=" col-lg-3 profile_tabs-item">
-                    <a href="#2b" data-toggle="tab">Wait for pay</a>
+                    <a href="#2b" data-toggle="tab">Shipping</a>
                 </li>
                 <li class="col-lg-3 profile_tabs-item">
-                    <a href="#3b" data-toggle="tab">Delivery</a>
+                    <a href="#3b" data-toggle="tab">Done</a>
                 </li>
                 <li class="col-lg-3 profile_tabs-item">
-                    <a href="#4a" data-toggle="tab">Success</a>
+                    <a href="#4a" data-toggle="tab">Cancel</a>
                 </li>
             </ul>
 
             <div class="tab-content clearfix">
                 <div class="tab-pane active" id="1b">
-                    <div class="col-sm-12 mb-3">
-                        <div class="border p-3 ">
-                            <div class=" d-flex align-items-center gap-24">
-                                <div class="">
-                                    <img class="profile-tabs-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRxrfYRcQAUlt812xbcJ0bd9L9eaobxk-0eg&usqp=CAU" alt="cart" />
+                    @foreach (var item in bills.Where(x => x.Status == BillStatusEnum.Created || x.Status == BillStatusEnum.Processing))
+                    {
+                        var product = item.Details.FirstOrDefault().Product;
+                        var songs = product.Album.Songs.Take(4).ToArray();
+                        <div class="col-sm-12 mb-3">
+                            <div class="border p-3 ">
+                                <div class=" d-flex align-items-center gap-24">
+                                    <div class="movie-poster">
+                                        <a href="@Url.Action("View", "Product", new {code = product.Code})">
+                                            @if (songs.Length == 1)
+                                            {
+                                                <img src="@songs[0].Song.Image" alt="">
+                                            }
+                                            else if (songs.Length == 2)
+                                            {
+                                                <img src="@songs[0].Song.Image" style="height: 50%" alt="">
+                                                <img src="@songs[1].Song.Image" style="height: 50%" alt="">
+                                            }
+                                            else if (songs.Length == 3)
+                                            {
+
+                                                <div class="row">
+                                                    <div class="col-6 pr-0" style="height:200px">
+                                                        <img src="@songs[0].Song.Image" style="height: 50%;" alt="">
+                                                        <img src="@songs[1].Song.Image" style="height: 50%;" alt="">
+                                                    </div>
+                                                    <div class="col-6 pl-0" style="height:200px">
+                                                        <img src="@songs[2].Song.Image" style="height: 100%;" alt="">
+                                                    </div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="row">
+                                                    <div class="col-6 pr-0" style="height:200px">
+                                                        <img src="@songs[0].Song.Image" style="height: 50%;" alt="">
+                                                        <img src="@songs[1].Song.Image" style="height: 50%;" alt="">
+                                                    </div>
+                                                    <div class="col-6 pl-0" style="height:200px">
+                                                        <img src="@songs[2].Song.Image" style="height: 50%;" alt="">
+                                                        <img src="@songs[3].Song.Image" style="height: 50%;" alt="">
+                                                    </div>
+                                                </div>
+                                            }
+                                        </a>
+                                    </div>
+                                    <a class="flex-grow-1 pl-4" href="@Url.Action("View", "Product", new {code = product.Code})">
+                                        <h4>@product.Name</h4>
+                                    </a>
+                                    <h5>@item.Details.FirstOrDefault().Quantity</h5>
+                                    <h5>@(item.Details.FirstOrDefault().Quantity * item.Details.FirstOrDefault().Price)</h5>
+                                    <h5>@item.Status.ToString()</h5>
+                                    <div>
+                                        <button data-id="@item.Id" class="btn cart_deleteBtn">Cancel Bill</button>
+                                    </div>
                                 </div>
-                                <p class="flex-grow-1 pl-4">
-                                    The Joker And The Queen - Ed Sheeran, Taylor Swift
-                                </p>
-                                <p>x1</p>
-                                <p>100$</p>
+
                             </div>
-                           
                         </div>
-                    </div>
-                    <div class="col-sm-12 mb-3">
-                        <div class="border p-3 ">
-                            <div class=" d-flex align-items-center gap-24">
-                                <div class="">
-                                    <img class="profile-tabs-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRxrfYRcQAUlt812xbcJ0bd9L9eaobxk-0eg&usqp=CAU" alt="cart" />
-                                </div>
-                                <p class="flex-grow-1 pl-4">
-                                    The Joker And The Queen - Ed Sheeran, Taylor Swift
-                                </p>
-                                <p>x1</p>
-                                <p>100$</p>
-                            </div>
-                          
-                        </div>
-                    </div>
+                    }
                 </div>
                 <div class="tab-pane" id="2b">
-                    <p>We use the class nav-pills instead of nav-tabs which automatically creates a background color for the tab</p>
+                    @foreach (var item in bills.Where(x => x.Status == BillStatusEnum.Shipping))
+                    {
+                        var product = item.Details.FirstOrDefault().Product;
+                        var songs = product.Album.Songs.Take(4).ToArray();
+                        <div class="col-sm-12 mb-3">
+                            <div class="border p-3 ">
+                                <div class=" d-flex align-items-center gap-24">
+                                    <div class="movie-poster">
+                                        <a href="@Url.Action("View", "Product", new {code = product.Code})">
+                                            @if (songs.Length == 1)
+                                            {
+                                                <img src="@songs[0].Song.Image" alt="">
+                                            }
+                                            else if (songs.Length == 2)
+                                            {
+                                                <img src="@songs[0].Song.Image" style="height: 50%" alt="">
+                                                <img src="@songs[1].Song.Image" style="height: 50%" alt="">
+                                            }
+                                            else if (songs.Length == 3)
+                                            {
+
+                                                <div class="row">
+                                                    <div class="col-6 pr-0" style="height:200px">
+                                                        <img src="@songs[0].Song.Image" style="height: 50%;" alt="">
+                                                        <img src="@songs[1].Song.Image" style="height: 50%;" alt="">
+                                                    </div>
+                                                    <div class="col-6 pl-0" style="height:200px">
+                                                        <img src="@songs[2].Song.Image" style="height: 100%;" alt="">
+                                                    </div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="row">
+                                                    <div class="col-6 pr-0" style="height:200px">
+                                                        <img src="@songs[0].Song.Image" style="height: 50%;" alt="">
+                                                        <img src="@songs[1].Song.Image" style="height: 50%;" alt="">
+                                                    </div>
+                                                    <div class="col-6 pl-0" style="height:200px">
+                                                        <img src="@songs[2].Song.Image" style="height: 50%;" alt="">
+                                                        <img src="@songs[3].Song.Image" style="height: 50%;" alt="">
+                                                    </div>
+                                                </div>
+                                            }
+                                        </a>
+                                    </div>
+                                    <a class="flex-grow-1 pl-4" href="@Url.Action("View", "Product", new {code = product.Code})">
+                                        <h4>@product.Name</h4>
+                                    </a>
+                                    <h5>@item.Details.FirstOrDefault().Quantity</h5>
+                                    <h5>@(item.Details.FirstOrDefault().Quantity * item.Details.FirstOrDefault().Price)</h5>
+                                    <h5>@item.Status.ToString()</h5>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    }
                 </div>
                 <div class="tab-pane" id="3b">
-                    <p>We applied clearfix to the tab-content to rid of the gap between the tab and the content</p>
+                    @foreach (var item in bills.Where(x => x.Status == BillStatusEnum.Done))
+                    {
+                        var product = item.Details.FirstOrDefault().Product;
+                        var songs = product.Album.Songs.Take(4).ToArray();
+                        <div class="col-sm-12 mb-3">
+                            <div class="border p-3 ">
+                                <div class=" d-flex align-items-center gap-24">
+                                    <div class="movie-poster">
+                                        <a href="@Url.Action("View", "Product", new {code = product.Code})">
+                                            @if (songs.Length == 1)
+                                            {
+                                                <img src="@songs[0].Song.Image" alt="">
+                                            }
+                                            else if (songs.Length == 2)
+                                            {
+                                                <img src="@songs[0].Song.Image" style="height: 50%" alt="">
+                                                <img src="@songs[1].Song.Image" style="height: 50%" alt="">
+                                            }
+                                            else if (songs.Length == 3)
+                                            {
+
+                                                <div class="row">
+                                                    <div class="col-6 pr-0" style="height:200px">
+                                                        <img src="@songs[0].Song.Image" style="height: 50%;" alt="">
+                                                        <img src="@songs[1].Song.Image" style="height: 50%;" alt="">
+                                                    </div>
+                                                    <div class="col-6 pl-0" style="height:200px">
+                                                        <img src="@songs[2].Song.Image" style="height: 100%;" alt="">
+                                                    </div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="row">
+                                                    <div class="col-6 pr-0" style="height:200px">
+                                                        <img src="@songs[0].Song.Image" style="height: 50%;" alt="">
+                                                        <img src="@songs[1].Song.Image" style="height: 50%;" alt="">
+                                                    </div>
+                                                    <div class="col-6 pl-0" style="height:200px">
+                                                        <img src="@songs[2].Song.Image" style="height: 50%;" alt="">
+                                                        <img src="@songs[3].Song.Image" style="height: 50%;" alt="">
+                                                    </div>
+                                                </div>
+                                            }
+                                        </a>
+                                    </div>
+                                    <a class="flex-grow-1 pl-4" href="@Url.Action("View", "Product", new {code = product.Code})">
+                                        <h4>@product.Name</h4>
+                                    </a>
+                                    <h5>@item.Details.FirstOrDefault().Quantity</h5>
+                                    <h5>@(item.Details.FirstOrDefault().Quantity * item.Details.FirstOrDefault().Price)</h5>
+                                    <h5>@item.Status.ToString()</h5>
+                                </div>
+
+                            </div>
+                        </div>
+                    }
                 </div>
                 <div class="tab-pane" id="4b">
-                    <p>We use css to change the background color of the content to be equal to the tab</p>
+                    @foreach (var item in bills.Where(x => x.Status == BillStatusEnum.Cancel))
+                    {
+                        var product = item.Details.FirstOrDefault().Product;
+                        var songs = product.Album.Songs.Take(4).ToArray();
+                        <div class="col-sm-12 mb-3">
+                            <div class="border p-3 ">
+                                <div class=" d-flex align-items-center gap-24">
+                                    <div class="movie-poster">
+                                        <a href="@Url.Action("View", "Product", new {code = product.Code})">
+                                            @if (songs.Length == 1)
+                                            {
+                                                <img src="@songs[0].Song.Image" alt="">
+                                            }
+                                            else if (songs.Length == 2)
+                                            {
+                                                <img src="@songs[0].Song.Image" style="height: 50%" alt="">
+                                                <img src="@songs[1].Song.Image" style="height: 50%" alt="">
+                                            }
+                                            else if (songs.Length == 3)
+                                            {
+
+                                                <div class="row">
+                                                    <div class="col-6 pr-0" style="height:200px">
+                                                        <img src="@songs[0].Song.Image" style="height: 50%;" alt="">
+                                                        <img src="@songs[1].Song.Image" style="height: 50%;" alt="">
+                                                    </div>
+                                                    <div class="col-6 pl-0" style="height:200px">
+                                                        <img src="@songs[2].Song.Image" style="height: 100%;" alt="">
+                                                    </div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="row">
+                                                    <div class="col-6 pr-0" style="height:200px">
+                                                        <img src="@songs[0].Song.Image" style="height: 50%;" alt="">
+                                                        <img src="@songs[1].Song.Image" style="height: 50%;" alt="">
+                                                    </div>
+                                                    <div class="col-6 pl-0" style="height:200px">
+                                                        <img src="@songs[2].Song.Image" style="height: 50%;" alt="">
+                                                        <img src="@songs[3].Song.Image" style="height: 50%;" alt="">
+                                                    </div>
+                                                </div>
+                                            }
+                                        </a>
+                                    </div>
+                                    <a class="flex-grow-1 pl-4" href="@Url.Action("View", "Product", new {code = product.Code})">
+                                        <h4>@product.Name</h4>
+                                    </a>
+                                    <h5>@item.Details.FirstOrDefault().Quantity</h5>
+                                    <h5>@(item.Details.FirstOrDefault().Quantity * item.Details.FirstOrDefault().Price)</h5>
+                                    <h5>@item.Status.ToString()</h5>
+                                </div>
+
+                            </div>
+                        </div>
+                    }
                 </div>
             </div>
         </div>

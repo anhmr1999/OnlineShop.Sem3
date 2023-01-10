@@ -97,6 +97,27 @@ namespace Shop.Web.Areas.Admin.Controllers
             return View(model);
         }
 
+        [ShopAuthorize(Proxy = PermissionName.AlbumDelete)]
+        public ActionResult Delete (Guid id)
+        {
+            var album = _albumRepository.GetQueryable().Include(x => x.Songs).FirstOrDefault(x => x.Id == id);
+            if (album == null)
+                return RedirectToAction("Index");
+
+            _albumRepository.Delete(album);
+            _albumRepository.SaveChange();
+            return RedirectToAction("Index");
+        }
+
+        [ShopAuthorize(Proxy = PermissionName.Album)]
+        public ActionResult View(Guid id)
+        {
+            var album = _albumRepository.GetQueryable().Include(x => x.Songs.Select(s => s.Song)).FirstOrDefault(x => x.Id == id);
+            if (album == null)
+                return RedirectToAction("Index");
+            return View(album);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ShopAuthorize(Proxy = PermissionName.AlbumEdit)]

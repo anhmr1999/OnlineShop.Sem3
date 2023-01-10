@@ -42,18 +42,20 @@ namespace Shop.Web.Controllers
 
             var sales = _saleRepository.GetList(x => x.StartDate < DateTime.Now && DateTime.Now < x.EndDate);
             var user = _userRepository.Get(_currentPrincipal.CurrentUserId.Value);
-            var bill = new Bill()
-            {
-                UserId = user.Id,
-                CustomerName = user.Name,
-                CustomerEmail = user.Email,
-                CustomerPhone = user.Phone,
-                CustomerAddress = user.Address,
-                Status = BillStatusEnum.Created,
-                Details = new List<BillDetailt>()
-            };
+
+            var billInserts = new List<Bill>();
             foreach (var item in products)
             {
+                var bill = new Bill()
+                {
+                    UserId = user.Id,
+                    CustomerName = user.Name,
+                    CustomerEmail = user.Email,
+                    CustomerPhone = user.Phone,
+                    CustomerAddress = user.Address,
+                    Status = BillStatusEnum.Created,
+                    Details = new List<BillDetailt>()
+                };
                 var sale = sales.FirstOrDefault(x => x.Products.Contains(item.Id.ToString()));
                 var detail = new BillDetailt()
                 {
@@ -74,10 +76,11 @@ namespace Shop.Web.Controllers
                     detail.Price = price;
                 }
                 bill.Details.Add(detail);
+                billInserts.Add(bill);
             }
             try
             {
-                _billRepository.Insert(bill);
+                _billRepository.InsertMany(billInserts);
                 _billRepository.SaveChange();
                 return Json(new { success = true, message = "Lưu hóa đơn thành công" });
             }

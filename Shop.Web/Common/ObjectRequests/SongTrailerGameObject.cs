@@ -14,6 +14,8 @@ namespace Shop.Web.Common.ObjectRequests
     {
         [Required(ErrorMessage = "Code is not empty!")]
         public string Code { get; set; }
+        [Required(ErrorMessage = "Link is not empty!")]
+        public string Link { get; set; }
         [Required(ErrorMessage = "Name is not empty!")]
         public string Name { get; set; }
         public string Image { get; set; }

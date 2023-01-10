@@ -121,12 +121,17 @@ namespace Shop.Web.Areas.Admin.Controllers
 
             return RedirectToAction("Index");
         }
-        public ActionResult GetAll()
+
+        [ShopAuthorize(Proxy = PermissionName.ProductDelete)]
+        public ActionResult Delete(Guid id)
         {
-            var product = _productRepository.GetQueryable().ToList();
+            var product = _productRepository.Get(id);
             if (product == null)
                 return RedirectToAction("Index");
-            return Json(product, JsonRequestBehavior.AllowGet);
+
+            _productRepository.Delete(product);
+            _productRepository.SaveChange();
+            return RedirectToAction("Index");
         }
     }
 }

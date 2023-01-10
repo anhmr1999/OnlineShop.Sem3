@@ -115,5 +115,6 @@ namespace Shop.Web.Areas.Admin.Controllers
             _permissionGrantRepository.SaveChange();
             return RedirectToAction("Index");
         }
+
     }
 }

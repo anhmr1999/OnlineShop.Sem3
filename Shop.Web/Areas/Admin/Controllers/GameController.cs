@@ -70,48 +70,49 @@ namespace Shop.Web.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ShopAuthorize(Proxy = PermissionName.SongTrainerGameAdd)]
-        public ActionResult Add(SongTrailerGameObject trailerDto)
+        public ActionResult Add(SongTrailerGameObject gameDto)
         {
             ViewBag.Producers = _producerRepository.GetQueryable().ToList();
             ViewBag.Categories = _categoryRepository.GetList(x => x.CateFor == false);
             ViewBag.Singers = _actorRepository.GetQueryable().ToList();
             var file = Request.Files.Get("img");
             if (!ModelState.IsValid)
-                return View(trailerDto);
+                return View(gameDto);
 
             if (file == null || file.ContentLength == 0)
             {
                 ModelState.AddModelError(nameof(SongTrailerGameObject.Image), "Image is not empty");
-                return View(trailerDto);
+                return View(gameDto);
             }
 
-            if (trailerDto.ActorOrSingers.Length == 0)
+            if (gameDto.ActorOrSingers.Length == 0)
             {
                 ModelState.AddModelError(nameof(SongTrailerGameObject.ActorOrSingers), "Actor or Singer is not empty");
-                return View(trailerDto);
+                return View(gameDto);
             }
 
-            if (_gameRepository.Any(x => x.Code == trailerDto.Code.ToLower()))
+            if (_gameRepository.Any(x => x.Code == gameDto.Code.ToLower()))
             {
                 ModelState.AddModelError(nameof(SongTrailerGameObject.Code), "Code already used");
-                return View(trailerDto);
+                return View(gameDto);
             }
 
-            var fileName = trailerDto.Code + "_" + file.FileName;
+            var fileName = gameDto.Code + "_" + file.FileName;
             file.SaveAs(Path.Combine(Server.MapPath("~/assets/img"), fileName));
 
             var game = new SongOrTrailerOrGame();
-            game.ManufactureDate = trailerDto.ManufactureDate;
-            game.PremiereDate = trailerDto.PremiereDate;
-            game.Code = trailerDto.Code;
-            game.Name = trailerDto.Name;
+            game.Link = gameDto.Link;
+            game.ManufactureDate = gameDto.ManufactureDate;
+            game.PremiereDate = gameDto.PremiereDate;
+            game.Code = gameDto.Code;
+            game.Name = gameDto.Name;
             game.Type = SongTrailerGameTypeEnum.TrailerFilm;
-            game.Description = trailerDto.Description;
-            game.AllowDownloadFree = trailerDto.AllowDownloadFree;
-            game.ProducerId = trailerDto.ProducerId;
-            game.CategoryId = trailerDto.CategoryId;
+            game.Description = gameDto.Description;
+            game.AllowDownloadFree = gameDto.AllowDownloadFree;
+            game.ProducerId = gameDto.ProducerId;
+            game.CategoryId = gameDto.CategoryId;
             game.Image = "/assets/img/" + fileName;
-            game.ActorOrSingers = trailerDto.ActorOrSingers.Select(x => new SongAndSinger() { SingerId = x, SongId = game.Id }).ToList();
+            game.ActorOrSingers = gameDto.ActorOrSingers.Select(x => new SongAndSinger() { SingerId = x, SongId = game.Id }).ToList();
 
             game = _gameRepository.Insert(game);
             _gameRepository.SaveChange();
@@ -148,7 +149,7 @@ namespace Shop.Web.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ShopAuthorize(Proxy = PermissionName.SongTrainerGameEdit)]
-        public ActionResult Edit(Guid id, SongTrailerGameObject trailerDto)
+        public ActionResult Edit(Guid id, SongTrailerGameObject gameDto)
         {
             ViewBag.Producers = _producerRepository.GetQueryable().ToList();
             ViewBag.Categories = _categoryRepository.GetList(x => x.CateFor == false);
@@ -156,23 +157,23 @@ namespace Shop.Web.Areas.Admin.Controllers
 
             var file = Request.Files.Get("img");
             if (!ModelState.IsValid)
-                return View(trailerDto);
+                return View(gameDto);
 
             var game = _gameRepository.GetQueryable()
                 .Include(x => x.ActorOrSingers).FirstOrDefault(x => x.Id == id);
             if (game == null)
                 return RedirectToAction("Index");
 
-            if (trailerDto.ActorOrSingers.Length == 0)
+            if (gameDto.ActorOrSingers.Length == 0)
             {
                 ModelState.AddModelError(nameof(SongTrailerGameObject.ActorOrSingers), "Actor or Singer is not empty");
-                return View(trailerDto);
+                return View(gameDto);
             }
 
-            if (_gameRepository.Any(x => x.Code == trailerDto.Code.ToLower() && x.Id != id))
+            if (_gameRepository.Any(x => x.Code == gameDto.Code.ToLower() && x.Id != id))
             {
                 ModelState.AddModelError(nameof(SongTrailerGameObject.Code), "Code already used");
-                return View(trailerDto);
+                return View(gameDto);
             }
 
             if (file != null && file.ContentLength > 0)
@@ -180,19 +181,20 @@ namespace Shop.Web.Areas.Admin.Controllers
                 if (System.IO.File.Exists(game.Image))
                     System.IO.File.Delete(game.Image);
 
-                var fileName = trailerDto.Code + "_" + file.FileName;
+                var fileName = gameDto.Code + "_" + file.FileName;
                 file.SaveAs(Path.Combine(Server.MapPath("~/assets/img"), fileName));
                 game.Image = "/assets/img/" + fileName;
             }
 
-            game.ManufactureDate = trailerDto.ManufactureDate;
-            game.PremiereDate = trailerDto.PremiereDate;
-            game.Code = trailerDto.Code;
-            game.Name = trailerDto.Name;
-            game.Description = trailerDto.Description;
-            game.AllowDownloadFree = trailerDto.AllowDownloadFree;
-            game.ProducerId = trailerDto.ProducerId;
-            game.CategoryId = trailerDto.CategoryId;
+            game.Link = gameDto.Link;
+            game.ManufactureDate = gameDto.ManufactureDate;
+            game.PremiereDate = gameDto.PremiereDate;
+            game.Code = gameDto.Code;
+            game.Name = gameDto.Name;
+            game.Description = gameDto.Description;
+            game.AllowDownloadFree = gameDto.AllowDownloadFree;
+            game.ProducerId = gameDto.ProducerId;
+            game.CategoryId = gameDto.CategoryId;
 
             if (game.ActorOrSingers != null)
             {
@@ -200,21 +202,33 @@ namespace Shop.Web.Areas.Admin.Controllers
 
                 //remove
                 foreach (var item in game.ActorOrSingers)
-                    if (!trailerDto.ActorOrSingers.Contains(item.SingerId))
+                    if (!gameDto.ActorOrSingers.Contains(item.SingerId))
                         removeSingers.Add(item);
                 foreach (var item in removeSingers)
                     game.ActorOrSingers.Remove(item);
 
-                foreach (var item in trailerDto.ActorOrSingers)
+                foreach (var item in gameDto.ActorOrSingers)
                 {
                     if (!game.ActorOrSingers.Any(x => x.SingerId == item))
                         game.ActorOrSingers.Add(new SongAndSinger() { SingerId = item, SongId = game.Id });
                 }
             }
             else
-                game.ActorOrSingers = trailerDto.ActorOrSingers.Select(x => new SongAndSinger() { SingerId = x, SongId = game.Id }).ToList();
+                game.ActorOrSingers = gameDto.ActorOrSingers.Select(x => new SongAndSinger() { SingerId = x, SongId = game.Id }).ToList();
 
             _gameRepository.Update(game);
+            _gameRepository.SaveChange();
+            return RedirectToAction("Index");
+        }
+
+        [ShopAuthorize(Proxy = PermissionName.SongTrainerGameDelete)]
+        public ActionResult Delete(Guid id)
+        {
+            var game = _gameRepository.Get(id);
+            if (game == null)
+                return RedirectToAction("Index");
+
+            _gameRepository.Delete(game);
             _gameRepository.SaveChange();
             return RedirectToAction("Index");
         }

@@ -40,9 +40,10 @@
         <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Sur name</th>
                 <th scope="col">Name</th>
                 <th scope="col">Email</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Address</th>
                 <th scope="col">Roles</th>
                 <th scope="col">Status</th>
                 <th style="width:220px" class="text-center"></th>
@@ -53,15 +54,15 @@
             {
                 <tr>
                     <th scope="row">@index</th>
-                    <td>@item.SurName</td>
-                    <td>@item.Name</td>
+                    <td>@item.SurName @item.Name</td>
                     <td>@item.Email</td>
+                    <td>@item.Phone</td>
+                    <td>@item.Address</td>
                     <td>@string.Join(", ", item.Roles.Select(x => x.Role.RoleName))</td>
                     <td>
                         <a href="@Url.Action("ChangeStatus", "User", new { enable = !item.IsActive })" class="btn btn-danger">@(item.IsActive ? "Active" : "Non-Active")</a>
                     </td>
                     <td class="text-center">
-                        <a href="@Url.Action("View", "User", new { id = @item.Id })" class="btn btn-outline-success">View</a>
                         <a href="@Url.Action("Edit", "User", new {id=@item.Id})" class="btn btn-outline-primary">Edit</a>
                         <a href="@Url.Action("Delete", "User", new {id=@item.Id})" class="btn btn-outline-danger">Delete</a>
                     </td>

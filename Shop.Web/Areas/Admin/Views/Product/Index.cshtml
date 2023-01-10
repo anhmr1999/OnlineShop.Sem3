@@ -59,7 +59,7 @@
                     <td>@item.Price $</td>
                     <td>@item.Supplier.Name</td>
                     <td class="text-center">
-                        <a href="@Url.Action("View", "Product", new {id=@item.Id})" class="btn btn-outline-success">View</a>
+                        <a href="@Url.Action("View", "Product", new { code = @item.Code, area = string.Empty })" class="btn btn-outline-success">View</a>
                         <a href="@Url.Action("Edit", "Product", new {id=@item.Id})" class="btn btn-outline-primary">Edit</a>
                         <a href="@Url.Action("Delete", "Product", new {id=@item.Id})" class="btn btn-outline-danger">Delete</a>
                     </td>

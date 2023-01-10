@@ -182,6 +182,7 @@
     <Compile Include="Common\PageFilter\CommonPageFilter.cs" />
     <Compile Include="Common\PageFilter\ViewDetailt.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BlogController.cs" />
     <Compile Include="Controllers\GameController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\CartController.cs" />
@@ -2453,6 +2454,7 @@
     <Content Include="Areas\Admin\Views\News\Add.cshtml" />
     <Content Include="Areas\Admin\Views\News\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\News\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Album\View.cshtml" />
     <None Include="packages.config" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Registration.cshtml" />
@@ -2466,6 +2468,8 @@
     <Content Include="Views\Game\View.cshtml" />
     <Content Include="Views\Account\Profile.cshtml" />
     <Content Include="Views\Product\View.cshtml" />
+    <Content Include="Views\Blog\Index.cshtml" />
+    <Content Include="Views\Blog\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Shop.EntityFramework\Shop.EntityFramework.csproj">

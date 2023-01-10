@@ -10,6 +10,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using System.Data.Entity;
 using System.Web.UI.WebControls;
 using System.Xml.Linq;
 using Shop.EntityFramework.Infrastructures.Repository;
@@ -20,19 +21,14 @@ namespace Shop.Web.Controllers
     public class AccountController : Controller
     {
         private readonly IRepository<User> _userRepository;
+        private readonly IRepository<Bill> _billRepository;
         private readonly ICurrentPrincipal _currentUser;
 
-        public AccountController(IRepository<User> userRepository, ICurrentPrincipal currentUser)
+        public AccountController(IRepository<User> userRepository, IRepository<Bill> billRepository, ICurrentPrincipal currentUser)
         {
             _userRepository = userRepository;
+            _billRepository = billRepository;
             _currentUser = currentUser;
-        }
-
-        // GET: Account
-        public ActionResult Index()
-        {
-
-            return View();
         }
 
         [Authorize]
@@ -42,6 +38,7 @@ namespace Shop.Web.Controllers
             {
                 var uid = _currentUser.CurrentUserId.Value;
                 var user = _userRepository.Get(uid);
+                ViewBag.Bills = _billRepository.GetQueryable().Include(x => x.Details.Select(p => p.Product.Album.Songs.Select(s => s.Song))).Where(x => x.UserId == uid).ToList();
                 return View(user);
             }
 

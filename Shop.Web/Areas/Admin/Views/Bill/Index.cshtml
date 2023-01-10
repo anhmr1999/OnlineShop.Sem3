@@ -61,7 +61,7 @@
                     <th scope="row">@(index+1)</th>
                     <td>@item.CustomerName</td>
                     <td>@item.CustomerPhone</td>
-                    <td>@item.  </td>
+                    <td>@item.CustomerEmail</td>
                     <td>@item.CustomerAddress</td>
                     <th scope="col">
 
@@ -147,12 +147,21 @@
             e.preventDefault();
             var url = $(this).attr("href");
             $.ajax({ url }).done((res) => {
-                console.log(res)
                 $(".customer-name").html(res.CustomerName);
                 $(".customer-phone").html(res.CustomerPhone);
                 $(".customer-address").html(res.CustomerAddress);
                 $(".customer-email").html(res.CustomerEmail);
-                $(".bill-status").html(res.Status);
+                debugger;
+                var status = "Created";
+                if (res.Status == 1)
+                    status = "Processing";
+                else if (res.Status == 2)
+                    status = "Shipping";
+                else if (res.Status == 3)
+                    status = "Done";
+                else if (res.Status == 4)
+                    status = "Cancel";
+                $(".bill-status").html(status);
             })
         })
         $(".statusBill").change(function (e) {

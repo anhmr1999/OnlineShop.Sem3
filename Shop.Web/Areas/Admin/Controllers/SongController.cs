@@ -102,6 +102,7 @@ namespace Shop.Web.Areas.Admin.Controllers
             file.SaveAs(Path.Combine(Server.MapPath("~/assets/img"), fileName));
 
             var song = new SongOrTrailerOrGame();
+            song.Link = songDto.Link;
             song.ManufactureDate = songDto.ManufactureDate;
             song.PremiereDate = songDto.PremiereDate;
             song.Code = songDto.Code.ToLower();
@@ -186,6 +187,7 @@ namespace Shop.Web.Areas.Admin.Controllers
                 song.Image = "/assets/img/" + fileName;
             }
 
+            song.Link = songDto.Link;
             song.ManufactureDate = songDto.ManufactureDate;
             song.PremiereDate = songDto.PremiereDate;
             song.Code = songDto.Code.ToLower();
@@ -219,6 +221,18 @@ namespace Shop.Web.Areas.Admin.Controllers
             return RedirectToAction("Index");
 
         }
-        
+
+        [ShopAuthorize(Proxy = PermissionName.SongTrainerGameDelete)]
+        public ActionResult Delete(Guid id)
+        {
+            var song = _songRepository.Get(id);
+            if (song == null)
+                return RedirectToAction("Index");
+
+            _songRepository.Delete(song);
+            _songRepository.SaveChange();
+            return RedirectToAction("Index");
+        }
+
     }
 }

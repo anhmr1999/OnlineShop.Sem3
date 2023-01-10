@@ -15,10 +15,12 @@ namespace Shop.Web.Controllers
     public class ProductController : Controller
     {
         private readonly IRepository<Product> _productRepository;
+        private readonly IRepository<Sale> _saleRepository;
 
-        public ProductController(IRepository<Product> productRepository)
+        public ProductController(IRepository<Product> productRepository, IRepository<Sale> saleRepository)
         {
             _productRepository = productRepository;
+            _saleRepository = saleRepository;
         }
         // GET: Album
         public ActionResult Index(CommonPageFilter filter)
@@ -37,6 +39,17 @@ namespace Shop.Web.Controllers
                 query = query.OrderBy(x => x.Price);
 
             var paged = query.PagedBy(filter).ToList();
+            foreach (var item in paged)
+            {
+                var sale = _saleRepository.GetQueryable().Where(x => x.StartDate <= DateTime.Now && x.EndDate >= DateTime.Now && x.Products.Contains(item.Id.ToString())).FirstOrDefault();
+                if(sale != null)
+                {
+                    if (sale.Price.HasValue)
+                        item.Price = sale.Price.Value;
+                    if (sale.Percent.HasValue)
+                        item.Price = item.Price - (item.Price * sale.Percent.Value) / 100;
+                }
+            }
             var model = new CommonPageResult<Product>()
             {
                 Data = paged,
@@ -51,6 +64,14 @@ namespace Shop.Web.Controllers
             var prod = _productRepository.GetQueryable().Include(x => x.Album.Songs.Select(s => s.Song)).FirstOrDefault(x=>x.Code==code);
             if (prod==null)
                 return RedirectToAction("Index");
+            var sale = _saleRepository.GetQueryable().Where(x => x.StartDate <= DateTime.Now && x.EndDate >= DateTime.Now && x.Products.Contains(prod.Id.ToString())).FirstOrDefault();
+            if (sale != null)
+            {
+                if (sale.Price.HasValue)
+                    prod.Price = sale.Price.Value;
+                if (sale.Percent.HasValue)
+                    prod.Price = prod.Price - (prod.Price * sale.Percent.Value) / 100;
+            }
             return View(prod);
         }
     }

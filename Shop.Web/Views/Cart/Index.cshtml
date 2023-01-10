@@ -31,7 +31,7 @@
             <div class="col-sm-12 ">
                 <div class="border-top my-5"></div>
                 <p class="mb-5 f-500">Total Price: <span class="cart_totalPrice"></span>$</p>
-                <button class="btn button ">Check out</button>
+                <button class="btn button btn_checkOut">Check out</button>
             </div>
         </div>
     </div>
@@ -73,7 +73,7 @@
                          }
                         </div>
                             <h4>${cart.name}</h4>
-                            <input data-price="${cart.price}" value="${cart.quantity}" type="number" class="cart_inputQuantity" min="1"/>
+                            <input data-price="${cart.price}" data-id="${cart.id}"   value="${cart.quantity}" type="number" class="cart_inputQuantity" min="1"/>
                             <h5 class="price">${cart.quantity*cart.price}$</h5>
                            <button data-id="${cart.id}" class="btn cart_deleteBtn">Delete</button>
                         </div>
@@ -90,9 +90,14 @@
             $(".renderCart").html(listCartHtml.join(""))
             $(".cart_inputQuantity").change(function (e) {
                 //console.log($(this).val());
+                const cartList = getStorage("cart")
                 var price = $(this).data('price');
+                var id = $(this).data('id');
                 var newTotalPrice = Math.round($(this).val() * parseFloat(price) * 10)/10;
                 $(this).parent().find('.price').html(newTotalPrice + "$");
+                const index = cartList.findIndex(cart => cart.id === id)
+                cartList[index].quantity = $(this).val();
+                saveStorage("cart", [...cartList])
             })
         }
        
@@ -103,6 +108,17 @@
             saveStorage("cart", newCarts);
             renderCart(newCarts)
         })
+        $(".btn_checkOut").click((e) => {
+           var arr=[]
+            $.each($(".renderCart").find(".cart_inputQuantity"), function (i, item) {
+                arr.push({ code: $(item).data('id'), quantity: $(item).val() })
+            })
+            $.ajax({ url: '@Url.Action("SaveBill")', type: "POST", data: { bills: arr } }).done((data) => {
+                console.log(data)
+            })
+            console.log(arr)
+        })
+
 
     </script>
 } 

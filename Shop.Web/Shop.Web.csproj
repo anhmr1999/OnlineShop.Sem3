@@ -175,6 +175,7 @@
     <Compile Include="Common\CommonAction.cs" />
     <Compile Include="Common\CommonFilter.cs" />
     <Compile Include="Common\ObjectRequests\AlbumObject.cs" />
+    <Compile Include="Common\ObjectRequests\BillObject.cs" />
     <Compile Include="Common\ObjectRequests\RoleObject.cs" />
     <Compile Include="Common\ObjectRequests\SongTrailerGameObject.cs" />
     <Compile Include="Common\ObjectRequests\UserCoUObject.cs" />

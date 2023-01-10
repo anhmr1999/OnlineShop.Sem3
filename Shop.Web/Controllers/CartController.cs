@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shop.Web.Common.ObjectRequests;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,6 +12,12 @@ namespace Shop.Web.Controllers
         // GET: Cart
         public ActionResult Index()
         {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult SaveBill(BillObject[] bills)
+        {
+
             return View();
         }
     }

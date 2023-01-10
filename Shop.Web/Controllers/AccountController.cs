@@ -34,7 +34,8 @@ namespace Shop.Web.Controllers
 
             return View();
         }
-        public new ActionResult Profile()
+        [Authorize]
+        public ActionResult Profile()
         {
          if(User.Identity.IsAuthenticated)
             {
@@ -43,7 +44,7 @@ namespace Shop.Web.Controllers
                 return View(user);
             }
 
-            return View();
+            return RedirectToAction("Login");
         }
         public ActionResult Login(string returnUrl)
         {

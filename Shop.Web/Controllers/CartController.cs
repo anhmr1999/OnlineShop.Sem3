@@ -9,6 +9,8 @@ namespace Shop.Web.Controllers
 {
     public class CartController : Controller
     {
+
+
         // GET: Cart
         public ActionResult Index()
         {
@@ -18,7 +20,7 @@ namespace Shop.Web.Controllers
         public ActionResult SaveBill(BillObject[] bills)
         {
 
-            return View();
+            return Json(new { });
         }
     }
 }

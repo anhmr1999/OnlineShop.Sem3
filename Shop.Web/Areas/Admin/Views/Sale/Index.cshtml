@@ -87,5 +87,20 @@
 
         </tbody>
     </table>
+    <nav aria-label="Page navigation example right ">
+        <ul class="pagination justify-content-end">
+
+            @for (int i = 1; i <= Model.TotalPage; i++)
+            {
+                <li class="page-item @(Model.Filter.PageIndex == i ? "active" : "")">
+                    <a class="page-link" href="@Url.Action("index","sale",new {
+                                            SearchKey=Model.Filter.SearchKey,
+                                            PageIndex=i
+                                            })" data-page="@i">@i</a>
+                                        </li>
+                                    }
+
+        </ul>
+    </nav>
 </section>
 

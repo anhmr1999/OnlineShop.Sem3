@@ -92,16 +92,17 @@
     </table>
     <nav aria-label="Page navigation example right ">
         <ul class="pagination justify-content-end">
-            <li class="page-item @(Model.Filter.PageIndex - 1 == 0 ? "disabled" : "")">
-                <a class="page-link" href="#" tabindex="-1">Previous</a>
-            </li>
+          
             @for (int i = 1; i <= Model.TotalPage; i++)
             {
-                <li class="page-item @(Model.Filter.PageIndex == i ? "active" : "")"><a class="page-link" href="#" data-page="@i">@i</a></li>
+                <li class="page-item @(Model.Filter.PageIndex == i ? "active" : "")">
+                    <a class="page-link" href="@Url.Action("index","trailer",new {
+                                            SearchKey=Model.Filter.SearchKey,
+                                            PageIndex=i
+                                            })" data-page="@i">@i</a>
+                                        </li>
             }
-            <li class="page-item @(Model.Filter.PageIndex == Model.TotalPage ? "disabled" : "")">
-                <a class="page-link" href="#">Next</a>
-            </li>
+          
         </ul>
     </nav>
 </section>

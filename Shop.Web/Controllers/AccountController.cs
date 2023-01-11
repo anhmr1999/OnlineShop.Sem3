@@ -15,6 +15,7 @@ using System.Web.UI.WebControls;
 using System.Xml.Linq;
 using Shop.EntityFramework.Infrastructures.Repository;
 using Shop.EntityFramework.Infrastructures;
+using Shop.EntityFramework.Infrastructures.Permissions;
 
 namespace Shop.Web.Controllers
 {
@@ -36,6 +37,9 @@ namespace Shop.Web.Controllers
         {
          if(User.Identity.IsAuthenticated)
             {
+                if (_currentUser.CurrentUser.IsHasPermission(PermissionName.Admin))
+                    return RedirectToAction("Index", "Home", new { area = "admin" });
+
                 var uid = _currentUser.CurrentUserId.Value;
                 var user = _userRepository.Get(uid);
                 ViewBag.Bills = _billRepository.GetQueryable().Include(x => x.Details.Select(p => p.Product.Album.Songs.Select(s => s.Song))).Where(x => x.UserId == uid).ToList();

@@ -14,7 +14,9 @@ namespace Shop.Web.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
 
+        [Required(ErrorMessage = "Phone required")]
         public string Phone { get; set; }
+        [Required(ErrorMessage = "Address required")]
         public string Address { get; set; }
 
         public string SurName { get; set; }

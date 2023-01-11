@@ -41,7 +41,7 @@
                                             </a>
                                         </div>
                                         <div class="content">
-                                            <h5 class="title"><a href="blog-details.html">@item.Name</a></h5>
+                                            <h5 class="title"><a href="@Url.Action("View", controllerName, new {code = item.Code})">@item.Name</a></h5>
                                         </div>
                                     </li>
                                 }

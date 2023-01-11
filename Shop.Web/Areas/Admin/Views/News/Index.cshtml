@@ -35,7 +35,6 @@
                 <th scope="col">Code</th>
                 <th scope="col">Name</th>
                 <th scope="col">Short Description</th>
-                <th scope="col">Is Global</th>
                 <th style="width:220px" class="text-center">Action</th>
             </tr>
         </thead>
@@ -49,7 +48,6 @@
                     <td>@item.Name</td>
                     <td>@item.ShortDesciption</td>
                    
-                    <td>@item.IsGlobal</td>
                     <td class="text-center">
                         <a href="@Url.Action("View", "News",new {id=@item.Id})" class="btn btn-outline-success" data-toggle="modal" data-target="#exampleModalCenter">View</a>
                         <a href="@Url.Action("Edit", "News",new {id=@item.Id})" class="btn btn-outline-primary">Edit</a>
@@ -111,16 +109,12 @@
                             <label class="form-label news-desc"></label>
                         </div>
                         <div class="col-md-3 form-group">
-                            Is Global
-                        </div>
-                        <div class="col-md-9 form-group">
-                            <label class="form-label news-isGlobal"></label>
-                        </div>
-                        <div class="col-md-3 form-group">
                            Image
                         </div>
                         <div class="col-md-9 form-group">
-                            <label class="form-label news-image"></label>
+                            <label class="form-label">
+                                <img class="news-image" style="width: 100%; height: auto; object-fit: cover"/>
+                            </label>
                         </div>
                     </div>
                 </div>
@@ -139,8 +133,7 @@
                 $(".news-name").html(res.Name)
                 $(".news-shortDesc").html(res.ShortDesciption)
                 $(".news-desc").html(res.Description)
-                $(".news-isGlobal").html(res.IsGlobal?"TRUE":"FALSE")
-                $(".news-image").html(res.Image)
+                $(".news-image").attr('src',res.Image)
             })
         })
 

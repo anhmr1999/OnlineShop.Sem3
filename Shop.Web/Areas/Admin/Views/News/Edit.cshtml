@@ -64,7 +64,7 @@
                         <div>
                             <label for="file">Choose Image</label>
                         </div>
-                        <input id="file" type="file" value="@Model.Image" />
+                        <input id="file" name="image" type="file" value="@Model.Image" />
                         @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
                     </div>
 

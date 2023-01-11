@@ -16,7 +16,7 @@
     <div class="card-body">
         <div class="row">
             <div class="col-md-6">
-                <form method="post">
+                <form method="post" enctype="multipart/form-data">
                     @Html.AntiForgeryToken()
                     <div class="row">
                         <div class="col-sm-12">
@@ -64,7 +64,7 @@
                         <div>
                             <label for="file">Choose Image</label>
                         </div>
-                        <input id="file" type="file" value="@Model.Image" />
+                        <input id="file" name="image" type="file"/>
                         @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
                     </div>
 

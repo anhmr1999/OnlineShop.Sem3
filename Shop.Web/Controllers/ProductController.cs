@@ -38,7 +38,7 @@ namespace Shop.Web.Controllers
             else
                 query = query.OrderBy(x => x.Price);
 
-            var paged = query.PagedBy(filter).ToList();
+            var paged = query.PagedBy(filter,9).ToList();
             foreach (var item in paged)
             {
                 var sale = _saleRepository.GetQueryable().Where(x => x.StartDate <= DateTime.Now && x.EndDate >= DateTime.Now && x.Products.Contains(item.Id.ToString())).FirstOrDefault();
@@ -54,7 +54,7 @@ namespace Shop.Web.Controllers
             {
                 Data = paged,
                 Filter = filter,
-                TotalPage = (int)Math.Ceiling((decimal)query.Count() / 12)
+                TotalPage = (int)Math.Ceiling((decimal)query.Count() /9)
             };
 
             return View(model);

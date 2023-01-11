@@ -92,9 +92,14 @@
                                 }
                                 else
                                 {
-                                    <li><a href="#">@i</a></li>
+                                    <li>
+                                        <a href="@Url.Action("index","game",new CommonPageFilter{ Order=Model.Filter.Order,
+                                            SearchKey=Model.Filter.SearchKey,
+                                            PageIndex=i
+                                            })">@i</a>
+                                        </li>
+                                    }
                                 }
-                            }
                         </ul>
                     </nav>
                 </div>

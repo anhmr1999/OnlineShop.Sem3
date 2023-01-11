@@ -33,12 +33,12 @@ namespace Shop.Web.Controllers
             else
                 query = query.OrderBy(x => x.CreationTime);
 
-            var paged = query.PagedBy(filter).ToList();
+            var paged = query.PagedBy(filter, 9).ToList();
             var model = new CommonPageResult<SongOrTrailerOrGame>()
             {
                 Data = paged,
                 Filter = filter,
-                TotalPage = (int)Math.Ceiling((decimal)query.Count() / 12)
+                TotalPage = (int)Math.Ceiling((decimal)query.Count() / 9)
             };
 
             return View(model);

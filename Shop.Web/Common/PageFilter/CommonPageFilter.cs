@@ -16,5 +16,6 @@ namespace Shop.Web.Common.PageFilter
         public int TotalPage { get; set; }
         public ICollection<TSource> Data { get; set; }
         public CommonPageFilter Filter { get; set; }
+
     }
 }
